@@ -23,24 +23,9 @@ export const ShowPasswordStrength = keyframes({
 
 export const WeakPassword = styled(PasswordContainer, {
   display: 'flex',
-  backgroundColor: '#C4C4C4',
   overflow: 'hidden',
   position: 'relative',
-
-  '&::after': {
-    content: '',
-    display: 'block',
-    width: '100%',
-    height: '100%',
-    borderRadius: '10px',
-    position: 'absolute',
-
-    backgroundImage:
-      'linear-gradient(90deg,rgb(0, 189, 19) 0%, rgb(0, 189, 19) 100%);',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: '50%',
-    backgroundPosition: '0 0',
-  },
+  backgroundColor: '#ccc',
 
   variants: {
     strength: {
@@ -48,9 +33,7 @@ export const WeakPassword = styled(PasswordContainer, {
         backgroundColor: '#ccc',
       },
       weak: {
-        '&::after': {
-          animation: `${ShowPasswordStrength} 0.2s ease`,
-        },
+        backgroundColor: 'red',
       },
       medium: {
         backgroundColor: '#F4E133',
