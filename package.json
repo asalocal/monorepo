@@ -68,6 +68,10 @@
     "eslint-plugin-testing-library": "^3.9.0",
     "husky": "^7.0.0",
     "install-peerdeps": "^3.0.3",
+    "lint-staged": ">=10",
     "prettier": "^2.4.1"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }
