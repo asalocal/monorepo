@@ -36,7 +36,7 @@
       "applypatch-msg": "echo [Husky] applypatch-msg",
       "pre-applypatch": "echo [Husky] pre-applypatch",
       "post-applypatch": "echo [Husky] post-applypatch",
-      "pre-commit": "yarn format && git add .",
+      "pre-commit": "prettier --write . && git add .",
       "pre-push": "echo [Husky] pre-push"
     }
   },
