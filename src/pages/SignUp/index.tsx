@@ -17,7 +17,7 @@ function SignUp() {
           <Button>Sign Up</Button>
           <Checkbox>I accept the terms of use</Checkbox>
           <span>
-            Don't have an account? <a href="#signup">Sign up</a>
+            Have an account? <a href="#signup">Sign In</a>
           </span>
         </ContentWrapper>
       </Content>

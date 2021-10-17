@@ -9,7 +9,7 @@ export const PasswordContainer = styled('div', {
   width: '100px',
   transition: 'all .2s ease',
   borderRadius: '5px',
-
+  margin: '10px 0',
   '& + div': {
     marginLeft: '5px',
   },
@@ -116,5 +116,20 @@ export const StrongPassword = styled(PasswordContainer, {
 
 export const PasswordMessage = styled('span', {
   margin: '0 !important',
-  marginTop: '15px !important',
+});
+
+const MessageContainerHeightAnimation = keyframes({
+  from: {
+    height: '0px',
+  },
+  to: {
+    height: '20px',
+  },
+});
+
+export const MessageContainer = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  overflow: 'hidden',
+  animation: `${MessageContainerHeightAnimation} .5s ease`,
 });

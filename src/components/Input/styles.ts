@@ -10,6 +10,13 @@ export const InputContainer = styled('div', {
   '& + div': {
     marginTop: '15px',
   },
+
+  'svg:last-child': {
+    color: '$gray1',
+    margin: '0 10px',
+    width: 20,
+    height: 20,
+  },
 });
 
 export const InputWrapper = styled('input', {

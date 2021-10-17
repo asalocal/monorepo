@@ -1,4 +1,4 @@
-import { FiUser } from 'react-icons/fi';
+import { EyeClosedIcon, EyeOpenIcon } from '@modulz/radix-icons';
 import {
   ChangeEvent,
   InputHTMLAttributes,
@@ -8,11 +8,13 @@ import {
 } from 'react';
 import { InputContainer, InputWrapper, Label } from './styles';
 import StrenghtPassword from './StrenghtPassword';
+import Icon from 'components/Icon';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
 function Input({ type = 'text', placeholder, ...props }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
+  const [isShowingMessage, setIsShowingMessage] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
 
@@ -26,10 +28,16 @@ function Input({ type = 'text', placeholder, ...props }: InputProps) {
     setIsFocus(newState);
   }, [isFocus]);
 
+  const handleShowPassword = useCallback(() => {
+    setIsShowingMessage(!isShowingMessage);
+  }, [isShowingMessage]);
+
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     setIsFilled(!!e.target.value);
   }, []);
+
+  const passwordType = type === 'password' && isShowingMessage ? 'text' : type;
 
   return (
     <>
@@ -39,7 +47,6 @@ function Input({ type = 'text', placeholder, ...props }: InputProps) {
           isFocused={isFocus}
           isFilled={isFilled}
         >
-          <FiUser />
           {placeholder}
         </Label>
         <InputWrapper
@@ -47,9 +54,15 @@ function Input({ type = 'text', placeholder, ...props }: InputProps) {
           onFocus={handleInputFocus}
           onBlur={handleInputFocus}
           onChange={handleInputChange}
-          type={type}
+          type={passwordType}
           {...props}
         />
+        {type === 'password' && (
+          <Icon
+            onClick={handleShowPassword}
+            icon={isShowingMessage ? EyeOpenIcon : EyeClosedIcon}
+          />
+        )}
       </InputContainer>
       {type === 'password' && <StrenghtPassword password={value} />}
     </>

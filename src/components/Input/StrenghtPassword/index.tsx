@@ -7,6 +7,7 @@ import {
   WeakPassword,
   Container,
   PasswordMessage,
+  MessageContainer,
 } from './styles';
 
 interface IStrenghtPassword {
@@ -24,8 +25,6 @@ function StrenghtPassword({ password }: StrenghtPasswordProps) {
 
   useEffect(() => {
     const verifyStrength = verifyPasswordStrenght(password);
-    console.log(verifyStrength);
-    console.log(password);
     setStrength(verifyStrength);
   }, [password]);
 
@@ -37,9 +36,12 @@ function StrenghtPassword({ password }: StrenghtPasswordProps) {
         <HighPassword strength={strength.strength} />
         <StrongPassword strength={strength.strength} />
       </Container>
-
       {strength.strength !== 'none' && (
-        <PasswordMessage>Your password is {strength.strength}</PasswordMessage>
+        <MessageContainer>
+          <PasswordMessage>
+            Your password is {strength.strength}
+          </PasswordMessage>
+        </MessageContainer>
       )}
     </>
   );
