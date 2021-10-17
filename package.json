@@ -29,7 +29,8 @@
     "eject": "react-scripts eject",
     "check": "eslint --print-config path/to/main.js | eslint-config-prettier-check",
     "lint": "prettier --check .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
@@ -37,7 +38,8 @@
       "pre-applypatch": "echo [Husky] pre-applypatch",
       "post-applypatch": "echo [Husky] post-applypatch",
       "pre-commit": "prettier --write . && git add .",
-      "pre-push": "echo [Husky] pre-push"
+      "pre-push": "echo [Husky] pre-push",
+      "prepare-commit-msg": "prettier --write . && prettier --check ."
     }
   },
   "eslintConfig": {
