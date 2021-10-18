@@ -27,6 +27,10 @@ export const ContentWrapper = styled('div', {
   flexDirection: 'column',
   justifyContent: 'center',
 
+  form: {
+    width: '100%',
+  },
+
   button: {
     marginTop: 20,
   },

@@ -28,6 +28,7 @@ export const ContentWrapper = styled('div', {
 
   button: {
     marginTop: 20,
+    width: '100%',
   },
 
   img: {

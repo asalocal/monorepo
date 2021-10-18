@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import SignUp from './pages/SignUp';
+import SignIn from './pages/SignIn';
 import BYTGlobalCSS from './styles/BYT.global';
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      <SignUp />
+      <SignIn />
     </>
   );
 }

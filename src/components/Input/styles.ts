@@ -53,7 +53,6 @@ export const Label = styled('label', {
     isFilled: {
       true: {
         opacity: 1,
-
         transform: 'translateY(-20px) translateX(-10px) scale(0.8)',
       },
     },

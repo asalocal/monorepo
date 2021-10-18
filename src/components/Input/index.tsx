@@ -1,22 +1,37 @@
 import { EyeClosedIcon, EyeOpenIcon } from '@modulz/radix-icons';
+import { useField } from '@unform/core';
+import Icon from 'components/Icon';
 import {
   ChangeEvent,
   InputHTMLAttributes,
+  RefObject,
   useCallback,
+  useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
-import { InputContainer, InputWrapper, Label } from './styles';
 import StrenghtPassword from './StrenghtPassword';
-import Icon from 'components/Icon';
+import { InputContainer, InputWrapper, Label } from './styles';
 
-type InputProps = InputHTMLAttributes<HTMLInputElement>;
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  verifyPassword?: boolean;
+  name: string;
+};
 
-function Input({ type = 'text', placeholder, ...props }: InputProps) {
+function Input({
+  type = 'text',
+  placeholder,
+  verifyPassword = false,
+  name,
+  ...props
+}: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [isShowingMessage, setIsShowingMessage] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
+
+  const { fieldName, registerField } = useField(name);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -37,7 +52,25 @@ function Input({ type = 'text', placeholder, ...props }: InputProps) {
     setIsFilled(!!e.target.value);
   }, []);
 
-  const passwordType = type === 'password' && isShowingMessage ? 'text' : type;
+  const passwordType = useMemo(
+    () => (type === 'password' && isShowingMessage ? 'text' : type),
+    [isShowingMessage, type]
+  );
+
+  useEffect(() => {
+    if (inputRef.current) {
+      registerField({
+        name: fieldName,
+        ref: inputRef,
+        getValue: (ref: RefObject<HTMLInputElement>) =>
+          ref.current ? ref.current.value : '',
+        setValue: (ref: RefObject<HTMLInputElement>, value: string) =>
+          ref.current ? (ref.current.value = value) : value,
+        clearValue: (ref: RefObject<HTMLInputElement>) =>
+          ref.current ? (ref.current.value = '') : '',
+      });
+    }
+  }, [fieldName, registerField, value]);
 
   return (
     <>
@@ -64,7 +97,9 @@ function Input({ type = 'text', placeholder, ...props }: InputProps) {
           />
         )}
       </InputContainer>
-      {type === 'password' && <StrenghtPassword password={value} />}
+      {type === 'password' && verifyPassword && (
+        <StrenghtPassword password={value} />
+      )}
     </>
   );
 }
