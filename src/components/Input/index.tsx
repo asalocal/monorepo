@@ -12,7 +12,7 @@ import {
   useState,
 } from 'react';
 import StrenghtPassword from './StrenghtPassword';
-import { InputContainer, InputWrapper, Label } from './styles';
+import { ErrorMessage, InputContainer, InputWrapper, Label } from './styles';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   verifyPassword?: boolean;
@@ -24,6 +24,7 @@ function Input({
   placeholder,
   verifyPassword = false,
   name,
+  onChange,
   ...props
 }: InputProps) {
   const [isFocus, setIsFocus] = useState<boolean>(false);
@@ -31,7 +32,7 @@ function Input({
   const [value, setValue] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
 
-  const { fieldName, registerField } = useField(name);
+  const { fieldName, registerField, error } = useField(name);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -47,10 +48,14 @@ function Input({
     setIsShowingMessage(!isShowingMessage);
   }, [isShowingMessage]);
 
-  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    setIsFilled(!!e.target.value);
-  }, []);
+  const handleInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value);
+      setIsFilled(!!e.target.value);
+      onChange && onChange(e);
+    },
+    [onChange]
+  );
 
   const passwordType = useMemo(
     () => (type === 'password' && isShowingMessage ? 'text' : type),
@@ -74,7 +79,7 @@ function Input({
 
   return (
     <>
-      <InputContainer>
+      <InputContainer hasError={!!error}>
         <Label
           onClick={handleInputFocus}
           isFocused={isFocus}
@@ -97,6 +102,7 @@ function Input({
           />
         )}
       </InputContainer>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       {type === 'password' && verifyPassword && (
         <StrenghtPassword password={value} />
       )}

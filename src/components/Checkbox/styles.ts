@@ -11,8 +11,8 @@ export const CheckboxContainer = styled('button', {
 });
 
 export const CheckboxBox = styled('div', {
-  maxWidth: '25px !important',
-  maxHeight: '25px !important',
+  maxWidth: '20px !important',
+  maxHeight: '20px !important',
   width: '100%',
   height: '100%',
   border: '1px solid $colors$gray1',

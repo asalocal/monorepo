@@ -14,7 +14,7 @@ function Checkbox({ children, ...props }: CheckboxProps) {
 
   return (
     <>
-      <CheckboxContainer onClick={handleCheck}>
+      <CheckboxContainer type="button" onClick={handleCheck}>
         <CheckboxBox isChecked={isChecked}>
           {isChecked && <CheckIcon />}
         </CheckboxBox>

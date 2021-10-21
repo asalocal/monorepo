@@ -17,6 +17,14 @@ export const InputContainer = styled('div', {
     width: 20,
     height: 20,
   },
+
+  variants: {
+    hasError: {
+      true: {
+        borderBottom: '3px solid red',
+      },
+    },
+  },
 });
 
 export const InputWrapper = styled('input', {
@@ -57,4 +65,9 @@ export const Label = styled('label', {
       },
     },
   },
+});
+
+export const ErrorMessage = styled('span', {
+  color: '$gray4 !important',
+  fontSize: '0.6rem !important',
 });
