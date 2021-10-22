@@ -1,6 +1,4 @@
-type HomeProps = {};
-
-const Home = ({}: HomeProps): JSX.Element => {
+const Home = (): JSX.Element => {
   return <h1>Hello home</h1>;
 };
 

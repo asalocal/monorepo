@@ -8,8 +8,11 @@ import { Form } from '@unform/web';
 import { useCallback, useRef } from 'react';
 import { FormHandles } from '@unform/core';
 import { verifyPasswordStrenght } from 'utils/verifyPasswordStrenght';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
+import * as yup from 'yup';
+import getValidationErrors from 'utils/getValidationErrors';
+import api from 'api/api';
 interface SignUpFormData {
   fullname: string;
   email: string;
@@ -19,23 +22,59 @@ interface SignUpFormData {
 function SignUp() {
   const formRef = useRef<FormHandles>(null);
 
+  const { push } = useHistory();
+
   const handleSubmit = useCallback(
-    ({ fullname, email, password }: SignUpFormData) => {
-      formRef.current?.setErrors({});
+    async ({ fullname, email, password }: SignUpFormData) => {
+      try {
+        formRef.current?.setErrors({});
+        const { strength } = verifyPasswordStrenght(password);
 
-      const { strength } = verifyPasswordStrenght(password);
+        if (strength === 'weak') {
+          formRef.current?.setErrors({
+            password:
+              'Senha é considerada fraca, escolha uma senha de uma força regular para cima',
+          });
+          return;
+        }
 
-      if (password.length <= 6 || strength === 'weak') {
-        formRef.current?.setErrors({
-          password:
-            'Senha deve ter mais de 6 caracteres ou é considerada fraca',
+        const schema = yup.object().shape({
+          fullname: yup.string().required('Nome obrigatório'),
+          email: yup
+            .string()
+            .email('Digite um e-mail válido')
+            .required('E-mail obrigatório'),
+          password: yup
+            .string()
+            .required('Senha obrigatória')
+            .min(6, 'Senha muito curta'),
         });
-        return;
+
+        await schema.validate(
+          { fullname, email, password },
+          { abortEarly: false }
+        );
+
+        await api.post('/users/create', {
+          name: fullname,
+          email,
+          password,
+        });
+
+        push('/');
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current?.setErrors(errors);
+        }
       }
-      console.log({ fullname, email, password });
     },
-    []
+    [push]
   );
+
+  const handleChange = useCallback(() => {
+    formRef.current?.setErrors({});
+  }, []);
 
   return (
     <Container>
@@ -44,25 +83,19 @@ function SignUp() {
           <img src={logo} alt="Build your trip" />
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input
-              onChange={() => {
-                formRef.current?.setErrors({});
-              }}
+              onChange={handleChange}
               name="fullname"
               type="text"
               placeholder="Full Name"
             />
             <Input
-              onChange={() => {
-                formRef.current?.setErrors({});
-              }}
+              onChange={handleChange}
               name="email"
               type="email"
               placeholder="Email"
             />
             <Input
-              onChange={() => {
-                formRef.current?.setErrors({});
-              }}
+              onChange={handleChange}
               name="password"
               type="password"
               verifyPassword

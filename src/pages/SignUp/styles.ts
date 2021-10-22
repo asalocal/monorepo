@@ -1,7 +1,5 @@
 import { styled } from '../../styles/Theme.provider';
 
-import SignInBackground from '../../assets/signin-background.png';
-
 export const Container = styled('div', {
   height: '100vh',
   display: 'flex',
@@ -51,7 +49,7 @@ export const ContentWrapper = styled('div', {
 export const Background = styled('div', {
   flex: 1,
   height: '100%',
-  backgroundImage: `url(${SignInBackground})`,
+  backgroundImage: `url("https://source.unsplash.com/random")`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
 });

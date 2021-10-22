@@ -1,15 +1,23 @@
 import { Form } from '@unform/web';
 import Button from 'components/Button';
 import Input from 'components/Input';
+import { useAuth } from 'context/AuthContext';
 import { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { Background, Container, Content, ContentWrapper } from './styles';
 
 function SignIn() {
-  const handleSubmit = useCallback((data) => {
-    console.log(data);
-  }, []);
+  const { signIn } = useAuth();
+  const { push } = useHistory();
+
+  const handleSubmit = useCallback(
+    async (data) => {
+      await signIn(data);
+      push('/');
+    },
+    [signIn, push]
+  );
 
   return (
     <Container>
