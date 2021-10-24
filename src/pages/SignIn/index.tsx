@@ -5,7 +5,7 @@ import { useAuth } from 'context/AuthContext';
 import { useCallback, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
-import { Background, Container, Content, ContentWrapper } from './styles';
+import { Container, Content, ContentWrapper } from './styles';
 
 function SignIn() {
   const [loading, setLoading] = useState(false);

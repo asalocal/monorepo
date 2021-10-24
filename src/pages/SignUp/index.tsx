@@ -1,4 +1,4 @@
-import { Container, Content, Background, ContentWrapper } from './styles';
+import { Container, Content, ContentWrapper } from './styles';
 
 import logo from '../../assets/logo.svg';
 import Input from 'components/Input';
