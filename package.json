@@ -78,7 +78,7 @@
     "prettier": "^2.4.1"
   },
   "lint-staged": {
-    "*.ts": "yarn eslint --cache --fix",
+    "*.ts": "echo [pre-push] && yarn eslint --cache --fix",
     "*.tsx": "yarn eslint --cache --fix"
   }
 }
