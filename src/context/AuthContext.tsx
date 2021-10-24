@@ -20,6 +20,7 @@ interface IUserData {
 interface IAuthContext {
   user: User;
   signIn(credentials: ICredentials): Promise<void>;
+  signOut(): Promise<void>;
 }
 
 interface IAuthProvider {
@@ -52,9 +53,16 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     setData({ user, token });
   }, []);
 
+  const signOut = useCallback(async () => {
+    localStorage.removeItem('@BYT:token');
+    localStorage.removeItem('@BYT:user');
+
+    setData({} as IUserData);
+  }, []);
+
   return (
     <>
-      <AuthContext.Provider value={{ signIn, user: data.user }}>
+      <AuthContext.Provider value={{ signIn, signOut, user: data.user }}>
         {children}
       </AuthContext.Provider>
     </>

@@ -1,4 +1,6 @@
+import { useAuth } from 'context/AuthContext';
 import {
+  Redirect,
   Route as ReactDOMRoute,
   RouteProps as ReactRouteProps,
 } from 'react-router-dom';
@@ -13,7 +15,15 @@ function Route({
   component: Component,
   ...rest
 }: RouteProps) {
-  return <ReactDOMRoute {...rest} component={Component} />;
+  const { user } = useAuth();
+  return (
+    <ReactDOMRoute
+      {...rest}
+      render={({ location }) => {
+        return user ? <Redirect to="/" /> : <Component />;
+      }}
+    />
+  );
 }
 
 export default Route;

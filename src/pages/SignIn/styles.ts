@@ -12,7 +12,6 @@ export const Content = styled('div', {
   display: 'flex',
   height: '100%',
   backgroundColor: '$primary',
-  maxWidth: '800px',
   width: '100%',
   justifyContent: 'center',
   padding: 10,

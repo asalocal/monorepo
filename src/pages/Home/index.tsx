@@ -1,5 +1,12 @@
+import Navbar from 'components/Navbar';
+import { HomeContainer } from './styles';
+
 const Home = (): JSX.Element => {
-  return <h1>Hello home</h1>;
+  return (
+    <HomeContainer>
+      <Navbar />
+    </HomeContainer>
+  );
 };
 
 export default Home;

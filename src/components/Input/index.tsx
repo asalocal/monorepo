@@ -1,6 +1,5 @@
 import { EyeClosedIcon, EyeOpenIcon } from '@modulz/radix-icons';
 import { useField } from '@unform/core';
-import Icon from 'components/Icon';
 import {
   ChangeEvent,
   InputHTMLAttributes,
@@ -12,7 +11,13 @@ import {
   useState,
 } from 'react';
 import StrenghtPassword from './StrenghtPassword';
-import { ErrorMessage, InputContainer, InputWrapper, Label } from './styles';
+import {
+  ErrorMessage,
+  InputContainer,
+  InputWrapper,
+  Label,
+  ShowPasswordButton,
+} from './styles';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   verifyPassword?: boolean;
@@ -96,7 +101,7 @@ function Input({
           {...props}
         />
         {type === 'password' && (
-          <Icon
+          <ShowPasswordButton
             onClick={handleShowPassword}
             icon={isShowingMessage ? EyeOpenIcon : EyeClosedIcon}
           />

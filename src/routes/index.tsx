@@ -1,3 +1,4 @@
+import { NavbarProvider } from 'context/NavbarContext';
 import Home from 'pages/Home';
 import SignIn from 'pages/SignIn';
 import SignUp from 'pages/SignUp';
@@ -10,7 +11,9 @@ function Routes() {
     <Switch>
       <Route path="/signup" component={SignUp} />
       <Route path="/signIn" component={SignIn} />
-      <PrivateRoute path="/" component={Home} isPrivate exact />
+      <NavbarProvider>
+        <PrivateRoute path="/" component={Home} isPrivate exact />
+      </NavbarProvider>
     </Switch>
   );
 }

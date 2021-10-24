@@ -109,7 +109,6 @@ function SignUp() {
           </span>
         </ContentWrapper>
       </Content>
-      <Background />
     </Container>
   );
 }

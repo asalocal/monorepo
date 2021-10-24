@@ -2,19 +2,24 @@ import { Form } from '@unform/web';
 import Button from 'components/Button';
 import Input from 'components/Input';
 import { useAuth } from 'context/AuthContext';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { Background, Container, Content, ContentWrapper } from './styles';
 
 function SignIn() {
+  const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
   const { push } = useHistory();
 
   const handleSubmit = useCallback(
     async (data) => {
+      setLoading(true);
       await signIn(data);
-      push('/');
+      setTimeout(() => {
+        push('/');
+        setLoading(false);
+      }, 3000);
     },
     [signIn, push]
   );
@@ -32,14 +37,15 @@ function SignIn() {
               id="password"
               placeholder="Password"
             />
-            <Button type="submit">Sign In</Button>
+            <Button loading={loading} type="submit">
+              Sign In
+            </Button>
           </Form>
           <span>
             Don't have an account? <Link to="/signup">Sign up</Link>
           </span>
         </ContentWrapper>
       </Content>
-      <Background />
     </Container>
   );
 }

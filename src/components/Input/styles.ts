@@ -1,3 +1,4 @@
+import Icon from 'components/Icon';
 import { styled } from '../../styles/Theme.provider';
 
 export const InputContainer = styled('div', {
@@ -36,6 +37,10 @@ export const InputWrapper = styled('input', {
   padding: 10,
   color: 'white',
   outline: 'none',
+});
+
+export const ShowPasswordButton = styled(Icon, {
+  cursor: 'pointer',
 });
 
 export const Label = styled('label', {
