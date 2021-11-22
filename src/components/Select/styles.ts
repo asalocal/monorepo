@@ -26,11 +26,22 @@ export const SelectContainer = styled('div', {
 export const SelectWrapper = styled('button', {
   display: 'flex',
   backgroundColor: 'transparent',
-  border: 'none',
   padding: '10px',
   borderRadius: '5px',
+  transition: 'all 0.2s ease-in-out',
+  border: 'none',
+
   '&:hover': {
     backgroundColor: '$gray3',
+  },
+
+  variants: {
+    active: {
+      true: {
+        backgroundColor: '$gray3',
+      },
+      false: {},
+    },
   },
 });
 
@@ -38,7 +49,7 @@ export const OptionsContainer = styled('div', {
   boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.25)',
   position: 'absolute',
   backgroundColor: '$gray1',
-  marginTop: '30px',
+  marginTop: '40px',
   borderRadius: '5px',
   zIndex: '9999',
 
@@ -64,6 +75,7 @@ export const Option = styled('span', {
   padding: '10px',
   fontSize: '11px',
   borderRadius: '5px',
+  transition: 'all 0.2s ease',
 
   '&:hover': {
     cursor: 'pointer',

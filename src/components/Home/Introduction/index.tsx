@@ -1,6 +1,5 @@
 import Explorer from 'components/Explorer';
-import Navbar, { NavbarItems } from 'components/Navbar';
-import { useEffect, useState } from 'react';
+import Navbar from 'components/Navbar';
 
 import {
   IntroductionContainer,
@@ -8,48 +7,11 @@ import {
   IntroductionContent,
 } from './styles';
 
-const items: NavbarItems[] = [
-  {
-    to: '/',
-    label: 'Home',
-    type: 'link',
-  },
-  {
-    to: '/beaguide',
-    label: 'Be a guide',
-    type: 'link',
-  },
-  {
-    to: '/support',
-    label: 'Support',
-    type: 'link',
-  },
-  {
-    to: '/faq',
-    label: 'FAQ',
-    type: 'link',
-  },
-  {
-    to: '/signup',
-    label: 'Sign up',
-    type: 'button',
-  },
-];
-
 function Introduction() {
-  const [navItems, setNavItems] = useState<NavbarItems[]>(items);
-
-  useEffect(() => {
-    setNavItems(items);
-  }, []);
   return (
     <IntroductionContainer>
       <IntroductionContent>
-        <Navbar
-          orientation="horizontal"
-          backgroundColor="transparent"
-          items={navItems}
-        />
+        <Navbar orientation="horizontal" backgroundColor="transparent" />
         <TitleContainer>
           <h1>
             It’s your time to build <br />

@@ -1,12 +1,8 @@
-import {
-  RocketIcon,
-  MagnifyingGlassIcon,
-  WidthIcon,
-} from '@modulz/radix-icons';
+import { RocketIcon, MagnifyingGlassIcon } from '@modulz/radix-icons';
 
 import { Form } from '@unform/web';
+import ExploreForm from './ExploreForm';
 import Button from 'components/Button';
-import Input from 'components/Input';
 import Select from 'components/Select';
 import { useState } from 'react';
 import { BiBuildingHouse } from 'react-icons/bi';
@@ -66,34 +62,7 @@ function Explorer() {
               <Select name="haveKids" options={kidsOptions} />
             </TripOptionsContainer>
             <InputContainers>
-              <Input
-                type="text"
-                placeholder="Leaving from"
-                name="leavingFrom"
-                id="leavingFrom"
-              />
-              <WidthIcon width="120px" />
-              <Input
-                type="text"
-                placeholder="Going to"
-                name="goingTo"
-                id="goingTo"
-              />
-              <Input
-                type="text"
-                placeholder="Departure"
-                name="departure"
-                id="departure"
-              />
-
-              <WidthIcon width="120px" />
-
-              <Input
-                type="text"
-                placeholder="Return"
-                name="return"
-                id="return"
-              />
+              <ExploreForm />
               <Button variant="primary" type="submit">
                 <MagnifyingGlassIcon /> Search
               </Button>

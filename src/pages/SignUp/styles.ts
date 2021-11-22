@@ -1,3 +1,4 @@
+import { InputContainer } from 'components/Input/styles';
 import { styled } from '../../styles/Theme.provider';
 
 export const Container = styled('div', {
@@ -26,6 +27,12 @@ export const ContentWrapper = styled('div', {
   button: {
     marginTop: 20,
     width: '100%',
+  },
+
+  form: {
+    [`${InputContainer} + ${InputContainer}`]: {
+      margin: '20px 0',
+    },
   },
 
   img: {

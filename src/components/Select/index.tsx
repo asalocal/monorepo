@@ -27,6 +27,7 @@ interface SelectProps extends InputHTMLAttributes<HTMLInputElement> {
 function Select({ options, name, ...props }: SelectProps) {
   const [selected, setSelected] = useState(options[0].label);
   const [optionsItem, setOptionsItem] = useState<IOption[]>([]);
+  const [active, setActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -36,9 +37,15 @@ function Select({ options, name, ...props }: SelectProps) {
     setOptionsItem(options);
   }, [options]);
 
+  function handleOpen() {
+    setIsOpen(!isOpen);
+    setActive(!active);
+  }
+
   function handleSelect(label: string) {
     setSelected(label);
     setIsOpen(false);
+    setActive(!active);
   }
 
   useEffect(() => {
@@ -59,10 +66,7 @@ function Select({ options, name, ...props }: SelectProps) {
   return (
     <>
       <SelectContainer>
-        <SelectWrapper
-          type="button"
-          onClick={() => setIsOpen((prevState) => !prevState)}
-        >
+        <SelectWrapper type="button" active={active} onClick={handleOpen}>
           {selected} {isOpen ? <TriangleUpIcon /> : <TriangleDownIcon />}
         </SelectWrapper>
         <OptionsContainer isSelecting={isOpen}>

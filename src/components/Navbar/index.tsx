@@ -7,27 +7,20 @@ import NavItem from './NavItem';
 import { Container, LogoContainer, NavContainer } from './styles';
 
 import { useNavbar } from 'context/NavbarContext';
-import { IconProps } from '@modulz/radix-icons/dist/types';
+import { useAuth } from 'context/AuthContext';
+import UserDropdown from './UserDropdown';
 
-export interface NavbarItems {
-  to: string;
-  label: string;
-  type: 'link' | 'button';
-  icon?: (props: IconProps) => JSX.Element;
-}
 interface NavbarProps {
   orientation?: 'horizontal' | 'vertical';
-  items: NavbarItems[];
   backgroundColor?: 'primary' | 'transparent';
 }
 
 function Navbar({
   orientation = 'horizontal',
-  items,
   backgroundColor = 'primary',
 }: NavbarProps) {
   const { handleNavbarVisibility, navbarVisibility } = useNavbar();
-
+  const { user } = useAuth();
   const showNavbarVisibility = useMemo(
     () => (navbarVisibility ? ChevronRightIcon : ChevronLeftIcon),
     [navbarVisibility]
@@ -50,17 +43,22 @@ function Navbar({
       </LogoContainer>
 
       <NavContainer orientation="horizontal">
-        {items.map(({ to, label, icon, type = 'link' }) => (
-          <NavItem
-            orientation={orientation}
-            key={to}
-            type={type}
-            to={to}
-            icon={icon}
-          >
-            {label}
+        <NavItem orientation="horizontal" type="link" to="/beaguide">
+          Be a guide
+        </NavItem>
+        <NavItem orientation="horizontal" type="link" to="/support">
+          Support
+        </NavItem>
+        <NavItem orientation="horizontal" type="link" to="/faq">
+          FAQ
+        </NavItem>
+        {user ? (
+          <UserDropdown />
+        ) : (
+          <NavItem orientation="horizontal" type="button" to="/signin">
+            Sign Up
           </NavItem>
-        ))}
+        )}
       </NavContainer>
     </Container>
   );

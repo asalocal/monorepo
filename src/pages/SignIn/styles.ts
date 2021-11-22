@@ -1,6 +1,7 @@
 import { styled } from '../../styles/Theme.provider';
 
 import SignInBackground from '../../assets/signin-background.png';
+import { InputContainer } from 'components/Input/styles';
 
 export const Container = styled('div', {
   height: '100vh',
@@ -28,6 +29,10 @@ export const ContentWrapper = styled('div', {
 
   form: {
     width: '100%',
+
+    [`${InputContainer}`]: {
+      marginBottom: '20px',
+    },
   },
 
   button: {

@@ -34,6 +34,7 @@ export const ExplorerButton = styled('button', {
 
   '&:hover': {
     backgroundColor: '$gray6',
+    color: '$gray12',
   },
 
   svg: {

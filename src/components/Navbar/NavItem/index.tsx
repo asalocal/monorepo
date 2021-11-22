@@ -29,6 +29,7 @@ function NavItem({
   return (
     <>
       <NavLinkContainer
+        tabIndex={1}
         orientation={orientation}
         visible={navbarVisibility}
         to={to}

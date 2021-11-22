@@ -21,6 +21,7 @@ export const Container = styled('button', {
 
   svg: {
     marginRight: '10px',
+    marginLeft: '0',
   },
   '&:hover': {
     color: 'white',

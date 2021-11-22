@@ -11,6 +11,7 @@ export const NavLinkContainer = styled(NavLink, {
   borderRadius: '5px',
   transition: 'all 0.2s ease',
   fontWeight: 'regular',
+
   svg: {
     marginRight: '0.5rem',
     alignSelf: 'center',
