@@ -85,23 +85,28 @@ function SignUp() {
             <Input
               onChange={handleChange}
               name="fullname"
+              theme="light"
               type="text"
               placeholder="Full Name"
             />
             <Input
               onChange={handleChange}
               name="email"
+              theme="light"
               type="email"
               placeholder="Email"
             />
             <Input
               onChange={handleChange}
               name="password"
+              theme="light"
               type="password"
               verifyPassword
               placeholder="Senha"
             />
-            <Button type="submit">Sign Up</Button>
+            <Button variant="secondary" type="submit">
+              Sign Up
+            </Button>
             <Checkbox>I accept the terms of use</Checkbox>
           </Form>
           <span>

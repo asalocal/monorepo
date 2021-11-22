@@ -8,10 +8,6 @@ export const InputContainer = styled('div', {
   width: '100%',
   alignItems: 'center',
 
-  '& + div': {
-    marginTop: '15px',
-  },
-
   'svg:last-child': {
     color: '$gray1',
     margin: '0 10px',
@@ -23,6 +19,12 @@ export const InputContainer = styled('div', {
     hasError: {
       true: {
         borderBottom: '3px solid red',
+      },
+    },
+    theme: {
+      light: {},
+      primary: {
+        borderBottom: '1px solid $primary',
       },
     },
   },
@@ -37,6 +39,15 @@ export const InputWrapper = styled('input', {
   padding: 10,
   color: 'white',
   outline: 'none',
+
+  variants: {
+    theme: {
+      light: {},
+      primary: {
+        color: '$gray12',
+      },
+    },
+  },
 });
 
 export const ShowPasswordButton = styled(Icon, {
@@ -52,6 +63,7 @@ export const Label = styled('label', {
   transition: 'all 0.2s ease',
   opacity: 0.5,
   pointerEvents: 'auto',
+  cursor: 'text',
   svg: {
     marginRight: 10,
   },
@@ -67,6 +79,12 @@ export const Label = styled('label', {
       true: {
         opacity: 1,
         transform: 'translateY(-20px) translateX(-10px) scale(0.8)',
+      },
+    },
+    theme: {
+      light: {},
+      primary: {
+        color: '$gray12',
       },
     },
   },

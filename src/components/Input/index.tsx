@@ -10,7 +10,10 @@ import {
   useRef,
   useState,
 } from 'react';
+import { BYTCSS } from 'styles/Theme.provider';
+
 import StrenghtPassword from './StrenghtPassword';
+
 import {
   ErrorMessage,
   InputContainer,
@@ -22,6 +25,8 @@ import {
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   verifyPassword?: boolean;
   name: string;
+  theme?: 'light' | 'primary';
+  css?: BYTCSS;
 };
 
 function Input({
@@ -29,6 +34,8 @@ function Input({
   placeholder,
   verifyPassword = false,
   name,
+  css,
+  theme = 'primary',
   onChange,
   ...props
 }: InputProps) {
@@ -84,11 +91,12 @@ function Input({
 
   return (
     <>
-      <InputContainer hasError={!!error}>
+      <InputContainer hasError={!!error} css={css} theme={theme}>
         <Label
           onClick={handleInputFocus}
           isFocused={isFocus}
           isFilled={isFilled}
+          theme={theme}
         >
           {placeholder}
         </Label>
@@ -98,6 +106,7 @@ function Input({
           onBlur={handleInputFocus}
           onChange={handleInputChange}
           type={passwordType}
+          theme={theme}
           {...props}
         />
         {type === 'password' && (

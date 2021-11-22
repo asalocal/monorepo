@@ -6,6 +6,8 @@ const BYT = {
     secondary: '#125FB3',
     background: '#fff',
 
+    primaryHover: '#DD5000',
+
     textLight: '#fff',
     ...orange,
     ...blue,

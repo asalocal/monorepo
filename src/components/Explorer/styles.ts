@@ -3,16 +3,18 @@ import { styled } from '../../styles/Theme.provider';
 export const ExplorerContainer = styled('div', {
   marginBottom: '-50px',
   width: '100%',
-  height: '300px',
+  height: '100%',
+  maxHeight: '180px',
 });
 
 export const ExplorerWrapper = styled('div', {
   backgroundColor: '$gray1',
   display: 'flex',
+  alignItems: 'center',
   height: '100%',
   boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.25)',
   width: '100%',
-  borderRadius: '0 5px',
+  borderRadius: '0 5px 5px 5px',
   zIndex: '9',
   padding: '20px',
 });
@@ -87,6 +89,8 @@ export const ButtonContainer = styled('div', {
 });
 
 export const ContentContainer = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
   variants: {
     selected: {
       true: {
@@ -106,4 +110,20 @@ export const TripOptionsContainer = styled('div', {
   'div + div': {
     marginLeft: '20px',
   },
+});
+
+export const InputContainers = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+
+  'div:first-child': {
+    marginLeft: '0',
+  },
+
+  div: {
+    margin: '0 20px',
+  },
+
+  padding: '10px 0',
+  marginTop: '20px',
 });

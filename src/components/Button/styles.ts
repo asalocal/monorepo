@@ -1,6 +1,9 @@
 import { styled } from '../../styles/Theme.provider';
+
 export const Container = styled('button', {
-  display: 'inline-block',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   position: 'relative',
   width: '100%',
   height: '40px',
@@ -15,36 +18,14 @@ export const Container = styled('button', {
   zIndex: '3',
 
   overflow: 'hidden',
-  '&:after': {
-    content: '',
-    position: 'absolute',
-    borderRadius: '5px',
 
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#fff',
-    zIndex: '-2',
+  svg: {
+    marginRight: '10px',
   },
-
-  '&:before': {
-    content: '',
-    position: 'absolute',
-    borderRadius: '5px',
-
-    bottom: 0,
-    left: 0,
-    width: 0,
-    height: '100%',
-    background:
-      'linear-gradient(90deg, rgba(135,205,255,1) 0%, rgba(103,180,236,1) 100%)',
-    transition: 'all .2s ease',
-    zIndex: '-1',
-  },
-
   '&:hover': {
     color: 'white',
+
+    backgroundColor: '$primary',
     '&:before': {
       width: '100%',
     },
@@ -59,6 +40,24 @@ export const Container = styled('button', {
       true: {
         '&:after': {
           backgroundColor: '$gray5',
+        },
+      },
+    },
+    variant: {
+      primary: {
+        backgroundColor: '$primary !important',
+        color: '$gray1',
+
+        '&:hover': {
+          backgroundColor: '$primaryHover !important',
+        },
+      },
+      secondary: {
+        backgroundColor: 'white !important',
+        color: '$primary',
+
+        '&:hover': {
+          color: '$primaryHover !important',
         },
       },
     },

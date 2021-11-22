@@ -30,14 +30,21 @@ function SignIn() {
         <ContentWrapper>
           <img src={logo} alt="Build your trip" />
           <Form onSubmit={handleSubmit}>
-            <Input type="email" name="email" id="email" placeholder="Email" />
+            <Input
+              type="email"
+              name="email"
+              theme="light"
+              id="email"
+              placeholder="Email"
+            />
             <Input
               type="password"
+              theme="light"
               name="password"
               id="password"
               placeholder="Password"
             />
-            <Button loading={loading} type="submit">
+            <Button variant="secondary" loading={loading} type="submit">
               Sign In
             </Button>
           </Form>

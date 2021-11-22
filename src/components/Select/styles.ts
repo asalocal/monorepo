@@ -27,6 +27,11 @@ export const SelectWrapper = styled('button', {
   display: 'flex',
   backgroundColor: 'transparent',
   border: 'none',
+  padding: '10px',
+  borderRadius: '5px',
+  '&:hover': {
+    backgroundColor: '$gray3',
+  },
 });
 
 export const OptionsContainer = styled('div', {
@@ -35,6 +40,7 @@ export const OptionsContainer = styled('div', {
   backgroundColor: '$gray1',
   marginTop: '30px',
   borderRadius: '5px',
+  zIndex: '9999',
 
   variants: {
     isSelecting: {
