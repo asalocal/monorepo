@@ -10,7 +10,7 @@ export const NavLinkContainer = styled(NavLink, {
   padding: '10px',
   borderRadius: '5px',
   transition: 'all 0.2s ease',
-
+  fontWeight: 'regular',
   svg: {
     marginRight: '0.5rem',
     alignSelf: 'center',
@@ -34,6 +34,23 @@ export const NavLinkContainer = styled(NavLink, {
         svg: {
           margin: 0,
         },
+      },
+    },
+    orientation: {
+      horizontal: {
+        width: 'fit-content',
+        justifyContent: 'flex-end',
+        '& + a': {
+          marginTop: '0',
+          marginLeft: '20px',
+        },
+      },
+      vertical: {},
+    },
+    type: {
+      link: {},
+      button: {
+        backgroundColor: '$primary',
       },
     },
   },

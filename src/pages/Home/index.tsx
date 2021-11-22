@@ -1,10 +1,10 @@
-import Navbar from 'components/Navbar';
+import Introduction from 'components/Home/Introduction';
 import { HomeContainer } from './styles';
 
 const Home = (): JSX.Element => {
   return (
     <HomeContainer>
-      <Navbar />
+      <Introduction />
     </HomeContainer>
   );
 };

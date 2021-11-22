@@ -5,20 +5,39 @@ export const NavContainer = styled('nav', {
   flexDirection: 'column',
   marginTop: '50px',
   color: '$gray1',
+
+  variants: {
+    orientation: {
+      horizontal: {
+        margin: 0,
+        width: 'fit-content',
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+    },
+  },
 });
 
 export const LogoContainer = styled('div', {
   display: 'flex',
-  justifyContent: 'center',
   width: '100%',
   alignItems: 'center',
+
+  variants: {
+    orientation: {
+      horizontal: {
+        width: '30%',
+      },
+      vertical: {},
+    },
+  },
 });
 
 export const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '30px',
+  padding: '30px 0',
   height: '100vh',
   width: '300px',
   position: 'relative',
@@ -44,6 +63,23 @@ export const Container = styled('div', {
         img: {
           width: '20px',
         },
+      },
+    },
+    orientation: {
+      horizontal: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
+        height: 'fit-content',
+      },
+      vertical: {},
+    },
+    background: {
+      transparent: {
+        backgroundColor: 'transparent',
+      },
+      primary: {
+        backgroundColor: '$primary',
       },
     },
   },

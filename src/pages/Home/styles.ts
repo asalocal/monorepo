@@ -4,5 +4,5 @@ export const HomeContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  height: '100vh',
+  height: '600px',
 });

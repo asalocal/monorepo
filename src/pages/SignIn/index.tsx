@@ -15,11 +15,11 @@ function SignIn() {
   const handleSubmit = useCallback(
     async (data) => {
       setLoading(true);
+
       await signIn(data);
-      setTimeout(() => {
-        push('/');
-        setLoading(false);
-      }, 3000);
+
+      push('/');
+      setLoading(false);
     },
     [signIn, push]
   );

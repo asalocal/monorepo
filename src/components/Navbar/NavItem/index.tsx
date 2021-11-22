@@ -7,10 +7,18 @@ import { NavLinkContainer } from './styles';
 interface NavItemProps {
   children: React.ReactNode;
   to: string;
-  icon: (props: IconProps) => JSX.Element;
+  icon?: (props: IconProps) => JSX.Element;
+  orientation?: 'horizontal' | 'vertical';
+  type?: 'link' | 'button';
 }
 
-function NavItem({ children, to, icon }: NavItemProps) {
+function NavItem({
+  children,
+  to,
+  icon,
+  orientation,
+  type = 'button',
+}: NavItemProps) {
   const { navbarVisibility } = useNavbar();
 
   const handleChangeVisibility = useMemo(
@@ -20,7 +28,12 @@ function NavItem({ children, to, icon }: NavItemProps) {
 
   return (
     <>
-      <NavLinkContainer visible={navbarVisibility} to={to}>
+      <NavLinkContainer
+        orientation={orientation}
+        visible={navbarVisibility}
+        to={to}
+        type={type}
+      >
         {icon && <Icon icon={icon} />}
         {handleChangeVisibility}
       </NavLinkContainer>

@@ -47,6 +47,8 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
     const { user, token } = response.data as IUserData;
 
+    console.log(response.data);
+
     localStorage.setItem('@BYT:token', token);
     localStorage.setItem('@BYT:user', JSON.stringify(user));
 
