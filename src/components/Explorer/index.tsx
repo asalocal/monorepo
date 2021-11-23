@@ -16,6 +16,7 @@ import {
   InputContainers,
   TripOptionsContainer,
 } from './styles';
+import DiscoverContent from './DiscoverContent';
 
 const tripOptions = [
   { value: 1, label: 'One way' },
@@ -58,7 +59,9 @@ function Explorer() {
           <Form onSubmit={(data) => console.log(data)}>
             <TripOptionsContainer>
               <Select name="tripOptions" options={tripOptions} />
+
               <Select name="numberOfPassengers" options={passengersOptions} />
+
               <Select name="haveKids" options={kidsOptions} />
             </TripOptionsContainer>
             <InputContainers>
@@ -70,7 +73,7 @@ function Explorer() {
           </Form>
         </ContentContainer>
         <ContentContainer selected={wrapperContent === 1}>
-          <h1>Teste 2</h1>
+          <DiscoverContent />
         </ContentContainer>
       </ExplorerWrapper>
     </ExplorerContainer>

@@ -13,6 +13,7 @@ import {
   Option,
   SelectContainer,
 } from './styles';
+import Portal from 'components/Portal';
 
 interface IOption {
   label: string;
@@ -22,16 +23,21 @@ interface IOption {
 interface SelectProps extends InputHTMLAttributes<HTMLInputElement> {
   options: IOption[];
   name: string;
+  variant?: 'default' | 'outlined';
 }
 
-function Select({ options, name, ...props }: SelectProps) {
+function Select({ options, name, variant = 'default', ...props }: SelectProps) {
   const [selected, setSelected] = useState(options[0].label);
   const [optionsItem, setOptionsItem] = useState<IOption[]>([]);
   const [active, setActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [xPosition, setXPosition] = useState(0);
+  const [yPosition, setYPosition] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { fieldName, registerField } = useField(name);
+
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setOptionsItem(options);
@@ -63,23 +69,43 @@ function Select({ options, name, ...props }: SelectProps) {
     }
   }, [fieldName, registerField]);
 
+  useEffect(() => {
+    if (triggerRef.current && isOpen) {
+      setXPosition(triggerRef.current.getBoundingClientRect().x);
+      setYPosition(triggerRef.current.getBoundingClientRect().y);
+    }
+  }, [isOpen]);
+
   return (
     <>
       <SelectContainer>
-        <SelectWrapper type="button" active={active} onClick={handleOpen}>
+        <SelectWrapper
+          variant={variant}
+          type="button"
+          ref={triggerRef}
+          active={active}
+          onClick={handleOpen}
+        >
           {selected} {isOpen ? <TriangleUpIcon /> : <TriangleDownIcon />}
         </SelectWrapper>
-        <OptionsContainer isSelecting={isOpen}>
-          {optionsItem.map(({ label, value }) => (
-            <Option
-              data-value={value}
-              key={value}
-              onClick={() => handleSelect(label)}
-            >
-              {label}
-            </Option>
-          ))}
-        </OptionsContainer>
+        <Portal>
+          <OptionsContainer
+            css={{
+              transform: `translate(${xPosition}px, ${yPosition}px)`,
+            }}
+            isSelecting={isOpen}
+          >
+            {optionsItem.map(({ label, value }) => (
+              <Option
+                data-value={value}
+                key={value}
+                onClick={() => handleSelect(label)}
+              >
+                {label}
+              </Option>
+            ))}
+          </OptionsContainer>
+        </Portal>
         <input type="hidden" ref={inputRef} value={selected} {...props} />
       </SelectContainer>
     </>

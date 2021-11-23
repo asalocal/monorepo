@@ -92,6 +92,7 @@ export const ButtonContainer = styled('div', {
 export const ContentContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+  width: '100%',
   variants: {
     selected: {
       true: {

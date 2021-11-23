@@ -2,11 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 interface PortalProps {
-  target: HTMLElement;
+  target?: HTMLElement;
   children: React.ReactNode;
 }
 
-function Portal({ target, children }: PortalProps) {
+function Portal({
+  target = document.querySelector('#portal') as HTMLElement,
+  children,
+}: PortalProps) {
   return ReactDOM.createPortal(children, target);
 }
 

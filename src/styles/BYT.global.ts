@@ -16,6 +16,12 @@ const BYTGlobalCSS = globalCss({
   button: {
     cursor: 'pointer',
   },
+
+  '#portal': {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
 });
 
 export default BYTGlobalCSS;

@@ -10,6 +10,10 @@ export const UserInfoContainer = styled('div', {
   },
 });
 
+export const Content = styled('div', {
+  padding: '10px',
+});
+
 export const DropdownLink = styled(Link, {
   display: 'flex',
   backgroundColor: 'transparent',
@@ -20,11 +24,13 @@ export const DropdownLink = styled(Link, {
 
   '&:hover': {
     color: '$gray12',
+    backgroundColor: '$gray3',
   },
 });
 
 export const UserDataContainer = styled('div', {
   display: 'flex',
+  marginTop: '10px',
   justifyContent: 'space-between',
   borderTop: '1px solid $gray5',
   padding: '5px',

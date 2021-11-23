@@ -30,6 +30,7 @@ export const TitleContainer = styled('div', {
   height: '100%',
   h1: {
     fontWeight: '500',
+    fontSize: '36px',
     color: '$gray1',
   },
   h5: {

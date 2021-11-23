@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { styled } from '../../../styles/Theme.provider';
 
 export const NavLinkContainer = styled(NavLink, {
-  color: 'inherit',
+  color: '$gray4',
   textDecoration: 'none',
   width: '100%',
   display: 'flex',
@@ -27,6 +27,7 @@ export const NavLinkContainer = styled(NavLink, {
 
   '&:hover': {
     backgroundColor: '#F15903',
+    color: '$gray1',
   },
 
   variants: {

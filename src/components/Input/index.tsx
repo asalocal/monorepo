@@ -93,8 +93,8 @@ function Input({
     <>
       <InputContainer hasError={!!error} css={css} theme={theme}>
         <Label
-          onClick={handleInputFocus}
           isFocused={isFocus}
+          htmlFor={name}
           isFilled={isFilled}
           theme={theme}
         >
@@ -107,6 +107,8 @@ function Input({
           onChange={handleInputChange}
           type={passwordType}
           theme={theme}
+          name={name}
+          id={name}
           {...props}
         />
         {type === 'password' && (

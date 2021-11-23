@@ -1,13 +1,31 @@
+import Portal from 'components/Portal';
 import { HTMLAttributes } from 'react';
 import { DropdownContentContainer } from './styles';
 
 interface DropdownContentProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  xPosition: number;
+  yPosition: number;
 }
 
-function DropdownContent({ children, ...props }: DropdownContentProps) {
+function DropdownContent({
+  children,
+  xPosition,
+  yPosition,
+  ...props
+}: DropdownContentProps) {
   return (
-    <DropdownContentContainer {...props}>{children}</DropdownContentContainer>
+    <Portal target={document.querySelector('#portal') as HTMLDivElement}>
+      <DropdownContentContainer
+        css={{
+          left: xPosition,
+          top: yPosition,
+        }}
+        {...props}
+      >
+        {children}
+      </DropdownContentContainer>
+    </Portal>
   );
 }
 

@@ -1,22 +1,4 @@
-import { styled, keyframes } from '../../styles/Theme.provider';
-
-const grow = keyframes({
-  '0%': {
-    transform: 'translateY(-50px) scaleY(0)',
-  },
-  '100%': {
-    transform: 'traslateY(0) scaleY(1)',
-  },
-});
-
-const shrink = keyframes({
-  '0%': {
-    transform: 'traslateY(0) scaleY(1)',
-  },
-  '100%': {
-    transform: 'translateY(-50px) scaleY(0)',
-  },
-});
+import { styled } from '../../styles/Theme.provider';
 
 export const SelectContainer = styled('div', {
   display: 'flex',
@@ -42,6 +24,13 @@ export const SelectWrapper = styled('button', {
       },
       false: {},
     },
+    variant: {
+      default: {},
+      outlined: {
+        border: '1px solid $gray8',
+        padding: '5px 10px',
+      },
+    },
   },
 });
 
@@ -52,17 +41,17 @@ export const OptionsContainer = styled('div', {
   marginTop: '40px',
   borderRadius: '5px',
   zIndex: '9999',
+  minWidth: '80px',
+  width: 'fit-content',
 
   variants: {
     isSelecting: {
       true: {
         display: 'flex',
         flexDirection: 'column',
-        animation: `${grow} 0.5s ease`,
       },
       false: {
         display: 'none',
-        animation: `${shrink} 0.5s ease`,
       },
     },
   },
