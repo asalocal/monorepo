@@ -7,7 +7,6 @@ import Select from 'components/Select';
 import { useState } from 'react';
 import { BiBuildingHouse } from 'react-icons/bi';
 import {
-  ButtonContainer,
   ContentContainer,
   DiscoverButton,
   ExplorerButton,
@@ -17,6 +16,7 @@ import {
   TripOptionsContainer,
 } from './styles';
 import DiscoverContent from './DiscoverContent';
+import Flex from 'components/Flex';
 
 const tripOptions = [
   { value: 1, label: 'One way' },
@@ -40,7 +40,7 @@ function Explorer() {
 
   return (
     <ExplorerContainer>
-      <ButtonContainer>
+      <Flex>
         <ExplorerButton
           selected={wrapperContent === 0}
           onClick={() => setWrapperContent(0)}
@@ -53,24 +53,26 @@ function Explorer() {
         >
           <BiBuildingHouse /> Discover
         </DiscoverButton>
-      </ButtonContainer>
+      </Flex>
       <ExplorerWrapper>
         <ContentContainer selected={wrapperContent === 0}>
-          <Form onSubmit={(data) => console.log(data)}>
-            <TripOptionsContainer>
-              <Select name="tripOptions" options={tripOptions} />
+          <Flex css={{ padding: '20px' }}>
+            <Form onSubmit={(data) => console.log(data)}>
+              <TripOptionsContainer>
+                <Select name="tripOptions" options={tripOptions} />
 
-              <Select name="numberOfPassengers" options={passengersOptions} />
+                <Select name="numberOfPassengers" options={passengersOptions} />
 
-              <Select name="haveKids" options={kidsOptions} />
-            </TripOptionsContainer>
-            <InputContainers>
-              <ExploreForm />
-              <Button variant="primary" type="submit">
-                <MagnifyingGlassIcon /> Search
-              </Button>
-            </InputContainers>
-          </Form>
+                <Select name="haveKids" options={kidsOptions} />
+              </TripOptionsContainer>
+              <InputContainers>
+                <ExploreForm />
+                <Button variant="primary" type="submit">
+                  <MagnifyingGlassIcon /> Search
+                </Button>
+              </InputContainers>
+            </Form>
+          </Flex>
         </ContentContainer>
         <ContentContainer selected={wrapperContent === 1}>
           <DiscoverContent />

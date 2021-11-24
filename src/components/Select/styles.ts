@@ -1,10 +1,5 @@
 import { styled } from '../../styles/Theme.provider';
 
-export const SelectContainer = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-});
-
 export const SelectWrapper = styled('button', {
   display: 'flex',
   backgroundColor: 'transparent',
@@ -41,7 +36,7 @@ export const OptionsContainer = styled('div', {
   marginTop: '40px',
   borderRadius: '5px',
   zIndex: '9999',
-  minWidth: '80px',
+  minWidth: '90px',
   width: 'fit-content',
 
   variants: {
@@ -70,4 +65,10 @@ export const Option = styled('span', {
     cursor: 'pointer',
     backgroundColor: '$gray6',
   },
+});
+
+export const Overlay = styled('div', {
+  position: 'fixed',
+  width: '100%',
+  height: '100%',
 });

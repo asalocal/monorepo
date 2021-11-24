@@ -16,7 +16,6 @@ export const ExplorerWrapper = styled('div', {
   width: '100%',
   borderRadius: '0 5px 5px 5px',
   zIndex: '9',
-  padding: '20px',
 });
 
 export const ExplorerButton = styled('button', {
@@ -85,14 +84,11 @@ export const DiscoverButton = styled('button', {
   },
 });
 
-export const ButtonContainer = styled('div', {
-  display: 'flex',
-});
-
 export const ContentContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
+
   variants: {
     selected: {
       true: {

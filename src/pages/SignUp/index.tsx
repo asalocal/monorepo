@@ -107,7 +107,7 @@ function SignUp() {
             <Button variant="secondary" type="submit">
               Sign Up
             </Button>
-            <Checkbox>I accept the terms of use</Checkbox>
+            <Checkbox name="acceptTerms">I accept the terms of use</Checkbox>
           </Form>
           <span>
             Have an account? <Link to="/signin">Sign In</Link>

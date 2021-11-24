@@ -28,6 +28,7 @@ export const TitleContainer = styled('div', {
   justifyContent: 'center',
 
   height: '100%',
+
   h1: {
     fontWeight: '500',
     fontSize: '36px',

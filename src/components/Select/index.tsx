@@ -7,13 +7,9 @@ import {
   useRef,
   RefObject,
 } from 'react';
-import {
-  SelectWrapper,
-  OptionsContainer,
-  Option,
-  SelectContainer,
-} from './styles';
+import { SelectWrapper, OptionsContainer, Option, Overlay } from './styles';
 import Portal from 'components/Portal';
+import Flex from 'components/Flex';
 
 interface IOption {
   label: string;
@@ -70,45 +66,47 @@ function Select({ options, name, variant = 'default', ...props }: SelectProps) {
   }, [fieldName, registerField]);
 
   useEffect(() => {
-    if (triggerRef.current && isOpen) {
+    if (triggerRef.current) {
       setXPosition(triggerRef.current.getBoundingClientRect().x);
       setYPosition(triggerRef.current.getBoundingClientRect().y);
     }
-  }, [isOpen]);
+  }, [triggerRef, isOpen]);
 
   return (
-    <>
-      <SelectContainer>
-        <SelectWrapper
-          variant={variant}
-          type="button"
-          ref={triggerRef}
-          active={active}
-          onClick={handleOpen}
-        >
-          {selected} {isOpen ? <TriangleUpIcon /> : <TriangleDownIcon />}
-        </SelectWrapper>
-        <Portal>
-          <OptionsContainer
-            css={{
-              transform: `translate(${xPosition}px, ${yPosition}px)`,
-            }}
-            isSelecting={isOpen}
-          >
-            {optionsItem.map(({ label, value }) => (
-              <Option
-                data-value={value}
-                key={value}
-                onClick={() => handleSelect(label)}
-              >
-                {label}
-              </Option>
-            ))}
-          </OptionsContainer>
-        </Portal>
-        <input type="hidden" ref={inputRef} value={selected} {...props} />
-      </SelectContainer>
-    </>
+    <Flex direction="column">
+      <SelectWrapper
+        variant={variant}
+        type="button"
+        ref={triggerRef}
+        active={active}
+        onClick={handleOpen}
+      >
+        {selected} {isOpen ? <TriangleUpIcon /> : <TriangleDownIcon />}
+      </SelectWrapper>
+      <Portal>
+        {isOpen && (
+          <Overlay onClick={handleOpen}>
+            <OptionsContainer
+              css={{
+                transform: `translate(${xPosition}px, ${yPosition - 5}px)`,
+              }}
+              isSelecting={isOpen}
+            >
+              {optionsItem.map(({ label, value }) => (
+                <Option
+                  data-value={value}
+                  key={value}
+                  onClick={() => handleSelect(label)}
+                >
+                  {label}
+                </Option>
+              ))}
+            </OptionsContainer>
+          </Overlay>
+        )}
+      </Portal>
+      <input type="hidden" ref={inputRef} value={selected} {...props} />
+    </Flex>
   );
 }
 

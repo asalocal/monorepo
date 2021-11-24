@@ -1,6 +1,7 @@
 import { styled } from 'styles/Theme.provider';
 
 export const DiscoverContentContainer = styled('div', {
+  padding: '0 20px',
   h5: {
     color: '$gray11',
   },
