@@ -19,7 +19,7 @@ function UserInfo({ name }: { name: string }) {
 }
 
 function UserDropdown() {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
 
   return (
     <Dropdown label={UserInfo({ name: user.name })}>
@@ -33,7 +33,7 @@ function UserDropdown() {
           <DropdownLink to="/settings">
             <MixerHorizontalIcon />
           </DropdownLink>
-          <DropdownLink to="/logout">
+          <DropdownLink to="/" onClick={() => signOut()}>
             <ExitIcon />
           </DropdownLink>
         </UserDataContainer>

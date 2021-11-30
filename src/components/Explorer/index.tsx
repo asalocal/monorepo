@@ -17,6 +17,7 @@ import {
 } from './styles';
 import DiscoverContent from './DiscoverContent';
 import Flex from 'components/Flex';
+import Radio from 'components/Radio';
 
 const tripOptions = [
   { value: 1, label: 'One way' },
@@ -59,8 +60,6 @@ function Explorer() {
           <Flex css={{ padding: '20px' }}>
             <Form onSubmit={(data) => console.log(data)}>
               <TripOptionsContainer>
-                <Select name="tripOptions" options={tripOptions} />
-
                 <Select name="numberOfPassengers" options={passengersOptions} />
 
                 <Select name="haveKids" options={kidsOptions} />

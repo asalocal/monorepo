@@ -56,7 +56,7 @@ function Navbar({
           <UserDropdown />
         ) : (
           <NavItem orientation="horizontal" type="button" to="/signin">
-            Sign Up
+            Sign In
           </NavItem>
         )}
       </NavContainer>

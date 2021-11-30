@@ -2,7 +2,7 @@ import { BYTCSS } from 'styles/Theme.provider';
 import { FlexVariants, FlexWrapper } from './styles';
 
 type FlexProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   css?: BYTCSS;
 } & FlexVariants;
 
