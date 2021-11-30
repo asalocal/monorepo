@@ -8,7 +8,7 @@ export type ContainerProps = {
 
 function Container({
   children,
-  fullWidth = true,
+  fullWidth = false,
   css,
   ...props
 }: ContainerProps) {

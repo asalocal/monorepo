@@ -16,9 +16,9 @@ const BYT = {
   },
 
   media: {
-    mobile: '@media (min-width: 768px)',
-    tablet: '@media (min-width: 1024px)',
-    desktop: '@media (min-width: 1440px)',
+    sm: '(min-width: 768px)',
+    md: '(min-width: 1024px)',
+    lg: '(min-width: 1440px)',
   },
 };
 
