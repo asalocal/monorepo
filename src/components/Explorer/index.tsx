@@ -17,12 +17,6 @@ import {
 } from './styles';
 import DiscoverContent from './DiscoverContent';
 import Flex from 'components/Flex';
-import Radio from 'components/Radio';
-
-const tripOptions = [
-  { value: 1, label: 'One way' },
-  { value: 2, label: 'Two way' },
-];
 
 const passengersOptions = [
   { value: 1, label: 'One passanger' },
