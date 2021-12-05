@@ -32,8 +32,8 @@ function NavItem({
         tabIndex={1}
         orientation={orientation}
         visible={navbarVisibility}
-        to={to}
         type={type}
+        href={to}
       >
         {icon && <Icon icon={icon} />}
         {handleChangeVisibility}

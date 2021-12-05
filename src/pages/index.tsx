@@ -1,6 +1,6 @@
 import DashboardInfo from 'components/Home/DashboardInfo';
 import Introduction from 'components/Home/Introduction';
-import { HomeContainer } from './Home/styles';
+import { HomeContainer } from '../styles/Home.styles';
 
 const Home = (): JSX.Element => {
   return (

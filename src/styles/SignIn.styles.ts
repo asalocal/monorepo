@@ -1,5 +1,6 @@
+import { styled } from './Theme.provider';
+
 import { InputContainer } from 'components/Input/styles';
-import { styled } from '../../styles/Theme.provider';
 
 export const Container = styled('div', {
   height: '100vh',
@@ -21,31 +22,31 @@ export const ContentWrapper = styled('div', {
   width: '100%',
 
   display: 'flex',
+  alignItems: 'center',
   flexDirection: 'column',
   justifyContent: 'center',
 
-  button: {
-    marginTop: 20,
+  form: {
     width: '100%',
+
+    [`${InputContainer}`]: {
+      marginBottom: '20px',
+    },
   },
 
-  form: {
-    [`${InputContainer} + ${InputContainer}`]: {
-      margin: '20px 0',
-    },
+  button: {
+    marginTop: 20,
   },
 
   img: {
     width: '60%',
-    margin: '0 auto 35px auto',
+    marginBottom: 40,
   },
 
   span: {
     color: '$textLight',
     marginTop: 30,
     fontSize: '0.7rem',
-    width: '100%',
-    textAlign: 'center',
     a: {
       color: '$textLight',
     },
@@ -55,7 +56,7 @@ export const ContentWrapper = styled('div', {
 export const Background = styled('div', {
   flex: 1,
   height: '100%',
-  backgroundImage: `url("https://source.unsplash.com/random")`,
+  backgroundImage: `url(/assets/signin-background.png)`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
 });

@@ -1,7 +1,5 @@
-import { styled } from '../../styles/Theme.provider';
-
-import SignInBackground from '../../assets/signin-background.png';
 import { InputContainer } from 'components/Input/styles';
+import { styled } from './Theme.provider';
 
 export const Container = styled('div', {
   height: '100vh',
@@ -23,31 +21,31 @@ export const ContentWrapper = styled('div', {
   width: '100%',
 
   display: 'flex',
-  alignItems: 'center',
   flexDirection: 'column',
   justifyContent: 'center',
 
-  form: {
-    width: '100%',
-
-    [`${InputContainer}`]: {
-      marginBottom: '20px',
-    },
-  },
-
   button: {
     marginTop: 20,
+    width: '100%',
+  },
+
+  form: {
+    [`${InputContainer} + ${InputContainer}`]: {
+      margin: '20px 0',
+    },
   },
 
   img: {
     width: '60%',
-    marginBottom: 40,
+    margin: '0 auto 35px auto',
   },
 
   span: {
     color: '$textLight',
     marginTop: 30,
     fontSize: '0.7rem',
+    width: '100%',
+    textAlign: 'center',
     a: {
       color: '$textLight',
     },
@@ -57,7 +55,7 @@ export const ContentWrapper = styled('div', {
 export const Background = styled('div', {
   flex: 1,
   height: '100%',
-  backgroundImage: `url(${SignInBackground})`,
+  backgroundImage: `url("https://source.unsplash.com/random")`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
 });

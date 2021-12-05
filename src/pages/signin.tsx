@@ -4,31 +4,27 @@ import Input from 'components/Input';
 import { useAuth } from 'context/AuthContext';
 import { useCallback, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import logo from '../../assets/logo.svg';
-import { Container, Content, ContentWrapper } from './styles';
+import { Container, Content, ContentWrapper } from '../styles/SignIn.styles';
 
 function SignIn() {
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
-  const { push } = useHistory();
 
   const handleSubmit = useCallback(
     async (data) => {
       setLoading(true);
 
       await signIn(data);
-
-      push('/');
       setLoading(false);
     },
-    [signIn, push]
+    [signIn]
   );
 
   return (
     <Container>
       <Content>
         <ContentWrapper>
-          <img src={logo} alt="Build your trip" />
+          <img src="/assets/logo.svg" alt="Build your trip" />
           <Form onSubmit={handleSubmit}>
             <Input
               type="email"
@@ -49,7 +45,7 @@ function SignIn() {
             </Button>
           </Form>
           <span>
-            Don't have an account? <Link to="/signup">Sign up</Link>
+            Don't have an account? <a href="/signup">Sign up</a>
           </span>
         </ContentWrapper>
       </Content>

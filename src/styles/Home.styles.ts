@@ -1,4 +1,4 @@
-import { styled } from '../../styles/Theme.provider';
+import { styled } from './Theme.provider';
 
 export const HomeContainer = styled('div', {
   display: 'flex',

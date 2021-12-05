@@ -1,6 +1,5 @@
-import { Container, Content, ContentWrapper } from './styles';
+import { Container, Content, ContentWrapper } from '../styles/Signup.styles';
 
-import logo from '../../assets/logo.svg';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
@@ -8,7 +7,6 @@ import { Form } from '@unform/web';
 import { useCallback, useRef } from 'react';
 import { FormHandles } from '@unform/core';
 import { verifyPasswordStrenght } from 'utils/verifyPasswordStrenght';
-import { Link, useHistory } from 'react-router-dom';
 
 import * as yup from 'yup';
 import getValidationErrors from 'utils/getValidationErrors';
@@ -21,8 +19,6 @@ interface SignUpFormData {
 
 function SignUp() {
   const formRef = useRef<FormHandles>(null);
-
-  const { push } = useHistory();
 
   const handleSubmit = useCallback(
     async ({ fullname, email, password }: SignUpFormData) => {
@@ -60,8 +56,6 @@ function SignUp() {
           email,
           password,
         });
-
-        push('/');
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -69,7 +63,7 @@ function SignUp() {
         }
       }
     },
-    [push]
+    []
   );
 
   const handleChange = useCallback(() => {
@@ -80,7 +74,7 @@ function SignUp() {
     <Container>
       <Content>
         <ContentWrapper>
-          <img src={logo} alt="Build your trip" />
+          <img src="/assets/logo.svg" alt="Build your trip" />
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input
               onChange={handleChange}
@@ -110,7 +104,7 @@ function SignUp() {
             <Checkbox name="acceptTerms">I accept the terms of use</Checkbox>
           </Form>
           <span>
-            Have an account? <Link to="/signin">Sign In</Link>
+            Have an account? <a href="/signin">Sign In</a>
           </span>
         </ContentWrapper>
       </Content>
