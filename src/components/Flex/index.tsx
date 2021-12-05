@@ -1,10 +1,12 @@
+import { HTMLAttributes } from 'react';
 import { BYTCSS } from 'styles/Theme.provider';
 import { FlexVariants, FlexWrapper } from './styles';
 
 type FlexProps = {
   children?: React.ReactNode;
   css?: BYTCSS;
-} & FlexVariants;
+} & FlexVariants &
+  HTMLAttributes<HTMLDivElement>;
 
 function Flex({
   children,

@@ -104,8 +104,8 @@ function Select({ options, name, variant = 'default', ...props }: SelectProps) {
             </OptionsContainer>
           </Overlay>
         )}
+        <input type="hidden" ref={inputRef} value={selected} {...props} />
       </Portal>
-      <input type="hidden" ref={inputRef} value={selected} {...props} />
     </Flex>
   );
 }

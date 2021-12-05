@@ -1,7 +1,6 @@
-import { NavLink } from 'react-router-dom';
 import { styled } from '../../../styles/Theme.provider';
 
-export const NavLinkContainer = styled(NavLink, {
+export const NavLinkContainer = styled('a', {
   color: '$gray4',
   textDecoration: 'none',
   width: '100%',

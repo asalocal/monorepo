@@ -1,4 +1,13 @@
-import { styled } from '../../styles/Theme.provider';
+import { styled, keyframes } from '../../styles/Theme.provider';
+
+const leaving = keyframes({
+  '0%': {
+    height: '100%',
+  },
+  '100%': {
+    height: '0%',
+  },
+});
 
 export const SelectWrapper = styled('button', {
   display: 'flex',
@@ -48,6 +57,12 @@ export const OptionsContainer = styled('div', {
       false: {
         display: 'none',
       },
+    },
+    isLeaving: {
+      true: {
+        animation: `${leaving} 0.5s ease`,
+      },
+      false: {},
     },
   },
 });

@@ -6,12 +6,14 @@ interface DropdownContentProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   xPosition: number;
   yPosition: number;
+  onHide?: () => void;
 }
 
 function DropdownContent({
   children,
   xPosition,
   yPosition,
+  onHide,
   ...props
 }: DropdownContentProps) {
   return (

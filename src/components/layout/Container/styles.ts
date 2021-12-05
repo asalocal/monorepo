@@ -3,10 +3,10 @@ import { styled } from 'styles/Theme.provider';
 
 export const Wrapper = styled('div', {
   positon: 'relative',
-  ml: 'auto',
-  mr: 'auto',
-  pr: 'calc(12 / 2)',
-  pl: 'calc(12 / 2)',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  paddingRight: 'calc(12 / 2)',
+  paddingLeft: 'calc(12 / 2)',
   maxWidth: '100%',
   boxSizing: 'border-box',
 

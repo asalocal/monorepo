@@ -8,7 +8,8 @@ function DiscoverContent() {
     <DiscoverContentContainer>
       <h5>Discover your trip</h5>
       <span>
-        Don't know where to go? Begin your search with a city of your interest
+        Don't know where to go?{' '}
+        <b>Begin your search with a city of your interest</b>
       </span>
 
       <Form onSubmit={(data) => console.log(data)}>

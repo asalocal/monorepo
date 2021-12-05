@@ -26,14 +26,18 @@ function UserDropdown() {
       <Content>
         <DropdownLink to="/my-trips">My trips</DropdownLink>
         <DropdownLink to="/logout">Info</DropdownLink>
-        <UserDataContainer>
-          <DropdownLink to="/profile">
+        <UserDataContainer css={{ marginTop: '10px' }}>
+          <DropdownLink css={{ borderRadius: '50%' }} to="/profile">
             <PersonIcon />
           </DropdownLink>
-          <DropdownLink to="/settings">
+          <DropdownLink css={{ borderRadius: '50%' }} to="/settings">
             <MixerHorizontalIcon />
           </DropdownLink>
-          <DropdownLink to="/" onClick={() => signOut()}>
+          <DropdownLink
+            css={{ borderRadius: '50%' }}
+            to="/"
+            onClick={() => signOut()}
+          >
             <ExitIcon />
           </DropdownLink>
         </UserDataContainer>

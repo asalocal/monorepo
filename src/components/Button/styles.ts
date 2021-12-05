@@ -1,3 +1,4 @@
+import { VariantProps } from '@stitches/react';
 import { styled } from '../../styles/Theme.provider';
 
 export const Container = styled('button', {
@@ -23,6 +24,7 @@ export const Container = styled('button', {
     marginRight: '10px',
     marginLeft: '0',
   },
+
   '&:hover': {
     color: 'white',
 
@@ -64,3 +66,5 @@ export const Container = styled('button', {
     },
   },
 });
+
+export type ButtonVariants = VariantProps<typeof Container>;

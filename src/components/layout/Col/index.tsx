@@ -1,15 +1,20 @@
+import { ForwardedRef, forwardRef, HTMLAttributes } from 'react';
 import { Wrapper, WrapperVariants } from './styles';
 
 export type ColProps = {
   children: React.ReactNode;
-} & WrapperVariants;
+} & WrapperVariants &
+  HTMLAttributes<HTMLDivElement>;
 
-function Col({ sm, md, lg, children, ...props }: ColProps) {
-  return (
-    <Wrapper sm={sm} md={md} lg={lg} {...props}>
+const Col = forwardRef(
+  (
+    { sm, md, lg, children, ...props }: ColProps,
+    ref: ForwardedRef<HTMLDivElement>
+  ) => (
+    <Wrapper sm={sm} md={md} lg={lg} ref={ref} {...props}>
       {children}
     </Wrapper>
-  );
-}
+  )
+);
 
 export default Col;

@@ -1,8 +1,6 @@
 import { ChevronRightIcon, ChevronLeftIcon } from '@modulz/radix-icons';
 import Icon from 'components/Icon';
 import { useMemo } from 'react';
-import Logo from '../../assets/logo.svg';
-import LogoIcon from '../../assets/icon.svg';
 import NavItem from './NavItem';
 import { Container, LogoContainer, NavContainer } from './styles';
 
@@ -37,7 +35,7 @@ function Navbar({
       )}
       <LogoContainer orientation={orientation}>
         <img
-          src={navbarVisibility ? LogoIcon : Logo}
+          src={navbarVisibility ? '/assets/icon.svg' : '/assets/logo.svg'}
           alt="Logo Build Your Trip"
         />
       </LogoContainer>

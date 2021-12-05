@@ -1,7 +1,5 @@
 import { styled } from '../../../styles/Theme.provider';
 
-import IntroBackground from '../../../assets/introbackground.svg';
-
 export const IntroductionContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
@@ -9,7 +7,7 @@ export const IntroductionContainer = styled('div', {
   height: '600px',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
-  backgroundImage: `url(${IntroBackground})`,
+  backgroundImage: `url('/assets/introbackground.svg')`,
 });
 
 export const IntroductionContent = styled('div', {
@@ -30,7 +28,7 @@ export const TitleContainer = styled('div', {
 
   h1: {
     fontWeight: '500',
-    fontSize: '36px',
+    fontSize: '42px',
     color: '$gray1',
   },
   h5: {
