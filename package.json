@@ -29,6 +29,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "commit": "git-cz",
     "dev": "next dev",
     "start": "next start",
     "build": "next build",
