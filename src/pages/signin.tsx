@@ -1,24 +1,23 @@
 import { Form } from '@unform/web';
-import { useRouter } from 'next/router';
 import Button from 'components/Button';
 import Input from 'components/Input';
 import { useAuth } from 'context/AuthContext';
 import { useCallback, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Content, ContentWrapper } from '../styles/SignIn.styles';
 
 function SignIn() {
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
-  const { push } = useRouter();
+
   const handleSubmit = useCallback(
     async (data) => {
       setLoading(true);
 
       await signIn(data);
       setLoading(false);
-      push('/', 'href');
     },
-    [signIn, push]
+    [signIn]
   );
 
   return (

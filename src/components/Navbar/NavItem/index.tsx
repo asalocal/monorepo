@@ -29,11 +29,13 @@ function NavItem({
   return (
     <>
       <NavLinkContainer
+        tabIndex={1}
         orientation={orientation}
         visible={navbarVisibility}
         type={type}
         href={to}
       >
+        {icon && <Icon icon={icon} />}
         {handleChangeVisibility}
       </NavLinkContainer>
     </>
