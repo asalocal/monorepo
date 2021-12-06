@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { styled } from '../../../styles/Theme.provider';
 
 export const NavLinkContainer = styled('a', {
@@ -10,11 +11,6 @@ export const NavLinkContainer = styled('a', {
   borderRadius: '5px',
   transition: 'all 0.2s ease',
   fontWeight: 'regular',
-
-  svg: {
-    marginRight: '0.5rem',
-    alignSelf: 'center',
-  },
 
   '& + a': {
     marginTop: '20px',

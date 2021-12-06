@@ -41,7 +41,7 @@ function Navbar({
       </LogoContainer>
 
       <NavContainer orientation="horizontal">
-        <NavItem orientation="horizontal" type="link" to="/beaguide">
+        <NavItem orientation="horizontal" type="link" to="/be-a-guide">
           Be a guide
         </NavItem>
         <NavItem orientation="horizontal" type="link" to="/support">
