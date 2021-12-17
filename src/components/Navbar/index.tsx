@@ -1,12 +1,13 @@
 import { ChevronRightIcon, ChevronLeftIcon } from '@modulz/radix-icons';
 import Icon from 'components/Icon';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import NavItem from './NavItem';
 import { Container, LogoContainer, NavContainer } from './styles';
 
 import { useNavbar } from 'context/NavbarContext';
 import { useAuth } from 'context/AuthContext';
 import UserDropdown from './UserDropdown';
+import { useRouter } from 'next/router';
 
 interface NavbarProps {
   orientation?: 'horizontal' | 'vertical';
@@ -19,6 +20,7 @@ function Navbar({
 }: NavbarProps) {
   const { handleNavbarVisibility, navbarVisibility } = useNavbar();
   const { user } = useAuth();
+
   const showNavbarVisibility = useMemo(
     () => (navbarVisibility ? ChevronRightIcon : ChevronLeftIcon),
     [navbarVisibility]
@@ -53,7 +55,11 @@ function Navbar({
         {user ? (
           <UserDropdown />
         ) : (
-          <NavItem orientation="horizontal" type="button" to="/signin">
+          <NavItem
+            orientation="horizontal"
+            type="button"
+            to="/signup?soft=true"
+          >
             Sign In
           </NavItem>
         )}

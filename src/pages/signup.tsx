@@ -7,18 +7,50 @@ import { Form } from '@unform/web';
 import { useCallback, useRef } from 'react';
 import { FormHandles } from '@unform/core';
 import { verifyPasswordStrenght } from 'utils/verifyPasswordStrenght';
-
+import Link from 'next/link';
 import * as yup from 'yup';
 import getValidationErrors from 'utils/getValidationErrors';
+import Flex from 'components/Flex';
 import api from 'api/api';
+import { useRouter } from 'next/router';
+import { useToast } from 'context/ToastContext';
+import Head from 'next/head';
+import HardRegistration from 'components/SignUp/HardRegistration';
+import { GetServerSideProps } from 'next';
 interface SignUpFormData {
   fullname: string;
   email: string;
   password: string;
 }
 
-function SignUp() {
+interface ServerPropsData {
+  initialData: {
+    query: {
+      soft?: string;
+      url?: string;
+    };
+  };
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { query } = context;
+  return {
+    props: {
+      initialData: {
+        query: query,
+      },
+    },
+  };
+};
+
+function SignUp({
+  initialData: {
+    query: { soft, url },
+  },
+}: ServerPropsData) {
   const formRef = useRef<FormHandles>(null);
+  const { back, push } = useRouter();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(
     async ({ fullname, email, password }: SignUpFormData) => {
@@ -51,19 +83,28 @@ function SignUp() {
           { abortEarly: false }
         );
 
-        await api.post('/users/create', {
+        await api.post('/users/create/soft', {
           name: fullname,
           email,
           password,
         });
+
+        push('/');
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
+          return;
         }
+
+        addToast({
+          title: 'Something has gone wrong',
+          message: 'Please, try again later',
+          type: 'error',
+        });
       }
     },
-    []
+    [addToast, push]
   );
 
   const handleChange = useCallback(() => {
@@ -71,44 +112,63 @@ function SignUp() {
   }, []);
 
   return (
-    <Container>
-      <Content>
-        <ContentWrapper>
-          <img src="/assets/logo.svg" alt="Build your trip" />
-          <Form ref={formRef} onSubmit={handleSubmit}>
-            <Input
-              onChange={handleChange}
-              name="fullname"
-              theme="light"
-              type="text"
-              placeholder="Full Name"
-            />
-            <Input
-              onChange={handleChange}
-              name="email"
-              theme="light"
-              type="email"
-              placeholder="Email"
-            />
-            <Input
-              onChange={handleChange}
-              name="password"
-              theme="light"
-              type="password"
-              verifyPassword
-              placeholder="Senha"
-            />
-            <Button variant="secondary" type="submit">
-              Sign Up
-            </Button>
-            <Checkbox name="acceptTerms">I accept the terms of use</Checkbox>
-          </Form>
-          <span>
-            Have an account? <a href="/signin">Sign In</a>
-          </span>
-        </ContentWrapper>
-      </Content>
-    </Container>
+    <>
+      <Head>
+        <title>Sign up - Build Your Trip</title>
+      </Head>
+      <Container>
+        <Content>
+          <ContentWrapper>
+            <img src="/assets/logo.svg" alt="Build your trip" />
+            {soft === 'true' || url ? (
+              <Form ref={formRef} onSubmit={handleSubmit}>
+                <Input
+                  onChange={handleChange}
+                  name="email"
+                  theme="light"
+                  type="email"
+                  placeholder="Email"
+                />
+                <Input
+                  onChange={handleChange}
+                  name="password"
+                  theme="light"
+                  type="password"
+                  verifyPassword
+                  placeholder="Password"
+                />
+                <Flex
+                  css={{
+                    [`button + button`]: {
+                      marginLeft: '10px',
+                    },
+                  }}
+                >
+                  <Button
+                    type="button"
+                    variant="alternative"
+                    onClick={() => back()}
+                  >
+                    Back
+                  </Button>
+                  <Button variant="secondary" type="submit">
+                    Sign Up
+                  </Button>
+                </Flex>
+                <Checkbox name="acceptTerms">
+                  I accept the terms of use
+                </Checkbox>
+              </Form>
+            ) : (
+              <HardRegistration />
+            )}
+            <span>
+              Have an account? <Link href="/signin">Sign In</Link>
+            </span>
+          </ContentWrapper>
+        </Content>
+      </Container>
+    </>
   );
 }
 

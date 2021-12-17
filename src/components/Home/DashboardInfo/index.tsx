@@ -14,15 +14,20 @@ function DashboardInfo() {
         <Col sm={3} md={4} lg={6}>
           <Text
             as="h1"
-            fontWeight="normal"
             css={{
+              color: '$gray12',
               margin: '30px 0 20px 0',
               fontSize: '32px',
             }}
           >
             Use a modern dashboard to <br /> control your trip’s
           </Text>
-          <Text as="p" color="#a0a0a0">
+          <Text
+            as="p"
+            css={{
+              color: '$gray9',
+            }}
+          >
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae
             libero nisi. Maecenas at nisi euismod, dapibus tortor at, porttitor
             metus. Duis consectetur pulvinar ipsum. In tellus nisl, rutrum eu

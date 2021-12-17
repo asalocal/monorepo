@@ -63,6 +63,20 @@ export const Container = styled('button', {
           color: '$primaryHover !important',
         },
       },
+      alternative: {
+        backgroundColor: 'transparent !important',
+        border: '1px solid $gray1 !important',
+        color: '$gray1 !important',
+
+        '&:hover': {
+          backgroundColor: 'rgba(255, 255, 255, 0.2) !important',
+        },
+      },
+      ghost: {
+        backgroundColor: 'transparent !important',
+        border: 'none',
+        color: '$gray',
+      },
     },
   },
 });

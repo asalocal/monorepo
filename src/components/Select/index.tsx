@@ -6,8 +6,10 @@ import {
   InputHTMLAttributes,
   useRef,
   RefObject,
+  useCallback,
 } from 'react';
-import { SelectWrapper, OptionsContainer, Option, Overlay } from './styles';
+import Overlay from 'components/Overlay';
+import { SelectWrapper, OptionsContainer, Option } from './styles';
 import Portal from 'components/Portal';
 import Flex from 'components/Flex';
 
@@ -39,16 +41,16 @@ function Select({ options, name, variant = 'default', ...props }: SelectProps) {
     setOptionsItem(options);
   }, [options]);
 
-  function handleOpen() {
+  const handleOpen = useCallback(() => {
     setIsOpen(!isOpen);
     setActive(!active);
-  }
+  }, [isOpen, active]);
 
-  function handleSelect(label: string) {
+  const handleSelect = useCallback((label: string) => {
     setSelected(label);
     setIsOpen(false);
-    setActive(!active);
-  }
+    setActive((prevState) => !prevState);
+  }, []);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -64,6 +66,20 @@ function Select({ options, name, variant = 'default', ...props }: SelectProps) {
       });
     }
   }, [fieldName, registerField]);
+
+  useEffect(() => {
+    const handleCloseSelectOnScroll = () => {
+      setIsOpen(false);
+      setActive(false);
+    };
+
+    if (isOpen) {
+      window.addEventListener('scroll', handleCloseSelectOnScroll);
+    }
+
+    return () =>
+      window.removeEventListener('scroll', handleCloseSelectOnScroll);
+  }, [isOpen]);
 
   useEffect(() => {
     if (triggerRef.current) {

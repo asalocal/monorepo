@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { styled } from '../../../styles/Theme.provider';
 
 export const UserInfoContainer = styled('div', {
@@ -14,7 +13,7 @@ export const Content = styled('div', {
   padding: '10px',
 });
 
-export const DropdownLink = styled(Link, {
+export const DropdownLink = styled('a', {
   display: 'flex',
   backgroundColor: 'transparent',
   color: '$gray9',

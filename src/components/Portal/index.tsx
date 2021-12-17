@@ -14,10 +14,11 @@ function Portal({ target = null, children }: PortalProps) {
 
     return () => setMounted(false);
   }, []);
+
   return mounted
     ? ReactDOM.createPortal(
         children,
-        document.querySelector('#portal') as HTMLDivElement
+        target || (document.querySelector('#portal') as HTMLDivElement)
       )
     : null;
 }

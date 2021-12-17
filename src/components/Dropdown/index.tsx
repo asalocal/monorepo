@@ -24,6 +24,20 @@ function Dropdown({ label, children, css }: DropdownProps) {
   }, []);
 
   useEffect(() => {
+    const handleCloseDropdownOnScroll = () => {
+      setIsOpen(false);
+      setIsActive(false);
+    };
+
+    if (isOpen) {
+      window.addEventListener('scroll', handleCloseDropdownOnScroll);
+    }
+
+    return () =>
+      window.removeEventListener('scroll', handleCloseDropdownOnScroll);
+  }, [isOpen]);
+
+  useEffect(() => {
     if (isOpen && triggerRef.current) {
       const heightCalculated =
         triggerRef.current?.getBoundingClientRect().y +
@@ -45,7 +59,11 @@ function Dropdown({ label, children, css }: DropdownProps) {
         {label}
       </DropdownTrigger>
       {isOpen && (
-        <DropdownContent xPosition={positionX} yPosition={positionY}>
+        <DropdownContent
+          onHide={handleOpenDropdown}
+          xPosition={positionX}
+          yPosition={positionY}
+        >
           {children}
         </DropdownContent>
       )}

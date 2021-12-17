@@ -1,4 +1,4 @@
-import { orange, blue, tomato, gray } from '@radix-ui/colors';
+import { orange, blue, tomato, gray, green } from '@radix-ui/colors';
 
 const BYT = {
   colors: {
@@ -9,6 +9,7 @@ const BYT = {
     primaryHover: '#DD5000',
 
     textLight: '#fff',
+    ...green,
     ...orange,
     ...blue,
     ...tomato,

@@ -2,6 +2,12 @@ import { styled, keyframes } from '../../../styles/Theme.provider';
 
 export const Container = styled('div', {
   display: 'flex',
+
+  '.strength-container': {
+    width: '100%',
+  },
+
+  '[data-state="active"]': {},
 });
 
 export const PasswordContainer = styled('div', {
@@ -118,12 +124,25 @@ export const PasswordMessage = styled('span', {
   margin: '0 !important',
 });
 
-const MessageContainerHeightAnimation = keyframes({
+const open = keyframes({
   from: {
+    width: '0',
     height: '0px',
   },
   to: {
+    width: '300px',
     height: '20px',
+  },
+});
+
+const close = keyframes({
+  from: {
+    width: '300px',
+    height: '20px',
+  },
+  to: {
+    width: '0px',
+    height: '0px',
   },
 });
 
@@ -131,5 +150,15 @@ export const MessageContainer = styled('div', {
   display: 'flex',
   alignItems: 'center',
   overflow: 'hidden',
-  animation: `${MessageContainerHeightAnimation} .5s ease`,
+  width: '0',
+
+  '&[data-state="active"]': {
+    animation: `${open} .3s ease-in-out`,
+    width: '300px',
+  },
+
+  '&[data-state="inactive"]': {
+    animation: `${close} .3s ease-in-out`,
+    height: '0px',
+  },
 });

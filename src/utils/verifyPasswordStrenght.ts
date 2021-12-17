@@ -8,7 +8,7 @@ export function verifyPasswordStrenght(password: string): PasswordStrength {
   const regexHighPassword =
     /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})|(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@!#$%])(?=.{6,})/g;
   const regexStrongestPassword =
-    /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.*[@!$%])(?=.{6,})/g;
+    /(?=.*[a-z]|[A-Z])(?=.*[A-Z]|[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.*[@!$%])(?=.{6,})/g;
 
   if (regexStrongestPassword.test(password)) {
     return {

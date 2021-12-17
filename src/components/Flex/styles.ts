@@ -25,6 +25,9 @@ export const FlexWrapper = styled('div', {
       baseline: {
         alignItems: 'baseline',
       },
+      spaceBetween: {
+        alignItems: 'space-between',
+      },
     },
     alignContent: {
       start: {
@@ -72,6 +75,9 @@ export const FlexWrapper = styled('div', {
       },
       stretch: {
         justifyContent: 'stretch',
+      },
+      spaceBetween: {
+        justifyContent: 'space-between',
       },
     },
     direction: {

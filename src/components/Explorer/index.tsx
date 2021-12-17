@@ -1,10 +1,10 @@
 import { RocketIcon, MagnifyingGlassIcon } from '@modulz/radix-icons';
-
+import { useState } from 'react';
 import { Form } from '@unform/web';
+
 import ExploreForm from './ExploreForm';
 import Button from 'components/Button';
 import Select from 'components/Select';
-import { useState } from 'react';
 import { BiBuildingHouse } from 'react-icons/bi';
 import {
   ContentContainer,

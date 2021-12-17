@@ -10,39 +10,38 @@ import {
   MessageContainer,
 } from './styles';
 
-interface IStrenghtPassword {
-  strength: 'weak' | 'medium' | 'high' | 'strong' | 'none';
-}
-
 interface StrenghtPasswordProps {
   password: string;
 }
 
 function StrenghtPassword({ password }: StrenghtPasswordProps) {
-  const [strength, setStrength] = useState<IStrenghtPassword>({
-    strength: 'none',
-  });
+  const [strength, setStrength] = useState<
+    'weak' | 'medium' | 'high' | 'strong' | 'none'
+  >('none');
 
   useEffect(() => {
     const verifyStrength = verifyPasswordStrenght(password);
-    setStrength(verifyStrength);
+    setStrength(verifyStrength.strength);
   }, [password]);
 
   return (
     <>
       <Container>
-        <WeakPassword strength={strength.strength} />
-        <MediumPassword strength={strength.strength} />
-        <HighPassword strength={strength.strength} />
-        <StrongPassword strength={strength.strength} />
-      </Container>
-      {strength.strength !== 'none' && (
-        <MessageContainer>
-          <PasswordMessage>
-            Your password is {strength.strength}
-          </PasswordMessage>
+        <WeakPassword className="strength-container" strength={strength} />
+        <MediumPassword className="strength-container" strength={strength} />
+        <HighPassword className="strength-container" strength={strength} />
+        <StrongPassword className="strength-container" strength={strength} />
+        <MessageContainer
+          data-state={
+            strength !==
+            ('none' as 'weak' | 'medium' | 'high' | 'strong' | 'none')
+              ? 'active'
+              : 'inactive'
+          }
+        >
+          <PasswordMessage>{strength}</PasswordMessage>
         </MessageContainer>
-      )}
+      </Container>
     </>
   );
 }

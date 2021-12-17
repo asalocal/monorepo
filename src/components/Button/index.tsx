@@ -4,7 +4,7 @@ import { ButtonVariants, Container } from './styles';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   loading?: boolean;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'alternative';
   css?: BYTCSS;
 } & ButtonVariants;
 
