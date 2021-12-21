@@ -7,6 +7,7 @@ export const NavLinkContainer = styled('a', {
   display: 'flex',
   alignItems: 'center',
   padding: '10px',
+  fontSize: '14px',
   borderRadius: '5px',
   transition: 'all 0.2s ease',
   fontWeight: 'regular',

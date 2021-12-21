@@ -10,7 +10,7 @@ export const Container = styled('div', {
 export const Content = styled('div', {
   display: 'flex',
   height: '100%',
-  backgroundColor: '$primary',
+  backgroundColor: '$colors$backgroundPrimary',
   width: '100%',
   justifyContent: 'center',
   padding: 10,

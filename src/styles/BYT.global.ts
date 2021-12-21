@@ -19,6 +19,7 @@ const BYTGlobalCSS = globalCss({
 
   '#portal': {
     position: 'absolute',
+    zIndex: '99999',
     top: 0,
     left: 0,
   },

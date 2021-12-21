@@ -1,16 +1,16 @@
 import { orange, blue, tomato, gray, green } from '@radix-ui/colors';
 
-const BYT = {
+const DarkTheme = {
   colors: {
     primary: '#FF5C00',
+    primaryHover: '#DD5000',
+
     secondary: '#125FB3',
     background: '#fff',
 
-    backgroundAlternative: '#fff',
-    backgroundPrimary: '#FF5C00',
-    backgroundSecondary: '#FF5C00',
-
-    primaryHover: '#DD5000',
+    backgroundAlternative: '#282828',
+    backgroundPrimary: '#282828',
+    backgroundSecondary: '#161616',
 
     textLight: '#fff',
     ...green,
@@ -27,4 +27,4 @@ const BYT = {
   },
 };
 
-export default BYT;
+export default DarkTheme;

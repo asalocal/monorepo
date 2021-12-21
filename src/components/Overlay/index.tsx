@@ -3,12 +3,20 @@ import { OverlayContainer } from './styles';
 
 interface OverlayProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  visible?: boolean;
 }
 
-function Overlay({ children, ...props }: OverlayProps) {
+function Overlay({ children, visible = false, ...props }: OverlayProps) {
   return (
     <>
-      <OverlayContainer {...props}>{children}</OverlayContainer>
+      <OverlayContainer
+        css={{
+          backgroundColor: visible ? 'rgba(0, 0, 0, 0.2)' : 'transparent',
+        }}
+        {...props}
+      >
+        {children}
+      </OverlayContainer>
     </>
   );
 }

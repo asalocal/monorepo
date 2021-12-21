@@ -17,6 +17,7 @@ import { useToast } from 'context/ToastContext';
 import Head from 'next/head';
 import HardRegistration from 'components/SignUp/HardRegistration';
 import { GetServerSideProps } from 'next';
+import { darkTheme } from 'styles/Theme.provider';
 interface SignUpFormData {
   fullname: string;
   email: string;
@@ -34,6 +35,7 @@ interface ServerPropsData {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
+
   return {
     props: {
       initialData: {
@@ -89,6 +91,11 @@ function SignUp({
           password,
         });
 
+        if (url) {
+          push(url);
+          return;
+        }
+
         push('/');
       } catch (err) {
         if (err instanceof yup.ValidationError) {
@@ -116,7 +123,7 @@ function SignUp({
       <Head>
         <title>Sign up - Build Your Trip</title>
       </Head>
-      <Container>
+      <Container className={darkTheme}>
         <Content>
           <ContentWrapper>
             <img src="/assets/logo.svg" alt="Build your trip" />
@@ -127,6 +134,7 @@ function SignUp({
                   name="email"
                   theme="light"
                   type="email"
+                  defaultValue="Teste"
                   placeholder="Email"
                 />
                 <Input

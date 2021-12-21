@@ -5,6 +5,7 @@ import { Form } from '@unform/web';
 import ExploreForm from './ExploreForm';
 import Button from 'components/Button';
 import Select from 'components/Select';
+import Option from 'components/Select/Option';
 import { BiBuildingHouse } from 'react-icons/bi';
 import {
   ContentContainer,
@@ -19,15 +20,15 @@ import DiscoverContent from './DiscoverContent';
 import Flex from 'components/Flex';
 
 const passengersOptions = [
-  { value: 1, label: 'One passanger' },
-  { value: 2, label: 'Two passangers' },
-  { value: 3, label: 'Three passangers' },
+  { value: 'One passanger', label: 'One passanger' },
+  { value: 'Two Passangers', label: 'Two passangers' },
+  { value: 'Three Passangers', label: 'Three passangers' },
 ];
 
 const kidsOptions = [
-  { value: 1, label: 'No kids' },
-  { value: 2, label: 'One kid' },
-  { value: 3, label: 'More than 2 kids' },
+  { value: 'No kids', label: 'No kids' },
+  { value: 'One kid', label: 'One kid' },
+  { value: 'More than 2 kids', label: 'More than 2 kids' },
 ];
 
 function Explorer() {
@@ -54,9 +55,21 @@ function Explorer() {
           <Flex css={{ padding: '20px' }}>
             <Form onSubmit={(data) => console.log(data)}>
               <TripOptionsContainer>
-                <Select name="numberOfPassengers" options={passengersOptions} />
+                <Select name="numberOfPassengers">
+                  {passengersOptions.map((option) => (
+                    <Option key={option.value} value={option.value}>
+                      {option.label}
+                    </Option>
+                  ))}
+                </Select>
 
-                <Select name="haveKids" options={kidsOptions} />
+                <Select name="numberOfKids">
+                  {kidsOptions.map((option) => (
+                    <Option key={option.value} value={option.value}>
+                      {option.label}
+                    </Option>
+                  ))}
+                </Select>
               </TripOptionsContainer>
               <InputContainers>
                 <ExploreForm />

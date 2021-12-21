@@ -3,6 +3,7 @@ import { styled } from 'styles/Theme.provider';
 
 export const Wrapper = styled('div', {
   display: 'flex',
+  flexDirection: 'row',
   flexWrap: 'wrap',
   mr: 'calc(12 / 2)',
   ml: 'calc(12 / 2)',

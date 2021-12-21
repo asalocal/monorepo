@@ -9,48 +9,85 @@ import {
   useCallback,
 } from 'react';
 import Overlay from 'components/Overlay';
-import { SelectWrapper, OptionsContainer, Option } from './styles';
+import { SelectWrapper, OptionsContainer } from './styles';
 import Portal from 'components/Portal';
 import Flex from 'components/Flex';
 
+import Option from './Option';
+
 interface IOption {
-  label: string;
-  value: number;
+  children: React.ReactNode | string;
+  value: string | number;
 }
 
 interface SelectProps extends InputHTMLAttributes<HTMLInputElement> {
-  options: IOption[];
+  children: React.ReactElement<IOption>[];
   name: string;
   variant?: 'default' | 'outlined';
 }
 
-function Select({ options, name, variant = 'default', ...props }: SelectProps) {
-  const [selected, setSelected] = useState(options[0].label);
-  const [optionsItem, setOptionsItem] = useState<IOption[]>([]);
+interface IPositions {
+  x: number;
+  y: number;
+}
+
+function Select({
+  children,
+  name,
+  variant = 'default',
+  ...props
+}: SelectProps) {
+  const [selected, setSelected] = useState<string | React.ReactNode>('');
+  const [option, setOption] = useState<string | number>('');
   const [active, setActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [xPosition, setXPosition] = useState(0);
-  const [yPosition, setYPosition] = useState(0);
+  const [positions, setPositions] = useState<IPositions>({} as IPositions);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { fieldName, registerField } = useField(name);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    setOptionsItem(options);
-  }, [options]);
-
   const handleOpen = useCallback(() => {
     setIsOpen(!isOpen);
     setActive(!active);
   }, [isOpen, active]);
 
-  const handleSelect = useCallback((label: string) => {
-    setSelected(label);
+  const handleSelect = useCallback((value: string | number) => {
+    setSelected(value);
+    setOption(value);
     setIsOpen(false);
     setActive((prevState) => !prevState);
   }, []);
+
+  useEffect(() => {
+    if (children) {
+      setSelected(children[0].props.children);
+    }
+  }, [children]);
+
+  const handleCloseSelectOnScroll = useCallback(() => {
+    setIsOpen(false);
+    setActive(false);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      window.addEventListener('scroll', handleCloseSelectOnScroll);
+    }
+
+    return () =>
+      window.removeEventListener('scroll', handleCloseSelectOnScroll);
+  }, [isOpen, handleCloseSelectOnScroll]);
+
+  useEffect(() => {
+    if (triggerRef.current) {
+      setPositions({
+        x: triggerRef.current.getBoundingClientRect().x,
+        y: triggerRef.current.getBoundingClientRect().y,
+      });
+    }
+  }, [triggerRef, isOpen]);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -66,27 +103,6 @@ function Select({ options, name, variant = 'default', ...props }: SelectProps) {
       });
     }
   }, [fieldName, registerField]);
-
-  useEffect(() => {
-    const handleCloseSelectOnScroll = () => {
-      setIsOpen(false);
-      setActive(false);
-    };
-
-    if (isOpen) {
-      window.addEventListener('scroll', handleCloseSelectOnScroll);
-    }
-
-    return () =>
-      window.removeEventListener('scroll', handleCloseSelectOnScroll);
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (triggerRef.current) {
-      setXPosition(triggerRef.current.getBoundingClientRect().x);
-      setYPosition(triggerRef.current.getBoundingClientRect().y);
-    }
-  }, [triggerRef, isOpen]);
 
   return (
     <Flex direction="column">
@@ -104,24 +120,26 @@ function Select({ options, name, variant = 'default', ...props }: SelectProps) {
           <Overlay onClick={handleOpen}>
             <OptionsContainer
               css={{
-                transform: `translate(${xPosition}px, ${yPosition - 5}px)`,
+                transform: `translate(${positions.x}px, ${positions.y - 5}px)`,
               }}
               isSelecting={isOpen}
             >
-              {optionsItem.map(({ label, value }) => (
-                <Option
-                  data-value={value}
-                  key={value}
-                  onClick={() => handleSelect(label)}
-                >
-                  {label}
-                </Option>
-              ))}
+              {children &&
+                children.map(({ props }) => (
+                  <Option
+                    data-value={props.value}
+                    key={props.value}
+                    value={props.value}
+                    onClick={() => handleSelect(props.value)}
+                  >
+                    {props.children}
+                  </Option>
+                ))}
             </OptionsContainer>
           </Overlay>
         )}
-        <input type="hidden" ref={inputRef} value={selected} {...props} />
       </Portal>
+      <input type="hidden" ref={inputRef} value={option} {...props} />
     </Flex>
   );
 }

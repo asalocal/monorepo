@@ -20,7 +20,7 @@ export const NavContainer = styled('nav', {
 
 export const LogoContainer = styled('div', {
   display: 'flex',
-  width: '100%',
+  width: '50%',
   alignItems: 'center',
 
   variants: {
@@ -36,13 +36,28 @@ export const LogoContainer = styled('div', {
 export const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+  position: 'fixed',
+  left: '0',
   alignItems: 'center',
-  padding: '30px 0',
-  height: '100vh',
-  width: '300px',
-  position: 'relative',
+  width: '100%',
   transition: 'all 0.2s ease',
-  backgroundColor: '$primary',
+  backgroundColor: 'transparent',
+  zIndex: '99999',
+
+  variants: {
+    scrolled: {
+      true: {
+        backgroundColor: '$primary',
+      },
+    },
+  },
+});
+
+export const WrapperContainer = styled('div', {
+  display: 'flex',
+  alignItems: 'space-between',
+  width: '400px',
+  padding: '20px',
 
   '> svg': {
     position: 'absolute',
@@ -53,7 +68,7 @@ export const Container = styled('div', {
   },
 
   img: {
-    width: '50%',
+    width: '40%',
   },
 
   variants: {
@@ -68,7 +83,7 @@ export const Container = styled('div', {
     orientation: {
       horizontal: {
         flexDirection: 'row',
-        width: '100%',
+        width: '1240px',
         justifyContent: 'space-between',
         height: 'fit-content',
       },

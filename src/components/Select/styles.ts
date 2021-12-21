@@ -67,7 +67,7 @@ export const OptionsContainer = styled('div', {
   },
 });
 
-export const Option = styled('span', {
+export const OptionWrapper = styled('option', {
   color: '$gray11',
   width: '100%',
   display: 'flex',

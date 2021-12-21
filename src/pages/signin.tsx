@@ -10,6 +10,7 @@ import Flex from 'components/Flex';
 
 import Head from 'next/head';
 import { useToast } from 'context/ToastContext';
+import { darkTheme } from 'styles/Theme.provider';
 
 function SignIn() {
   const [loading, setLoading] = useState(false);
@@ -23,6 +24,9 @@ function SignIn() {
         setLoading(true);
 
         await signIn(data);
+
+        window.location.href = '/';
+
         setLoading(false);
       } catch (error: any) {
         addToast({
@@ -41,7 +45,7 @@ function SignIn() {
       <Head>
         <title>Sign in - Build Your Trip</title>
       </Head>
-      <Container>
+      <Container className={darkTheme}>
         <Content>
           <ContentWrapper>
             <img src="/assets/logo.svg" alt="Build your trip" />

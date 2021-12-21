@@ -34,6 +34,7 @@ function Input({
   placeholder,
   verifyPassword = false,
   name,
+  defaultValue,
   css,
   theme = 'primary',
   onChange,
@@ -75,6 +76,12 @@ function Input({
   );
 
   useEffect(() => {
+    if (defaultValue) {
+      setIsFilled((prevState) => !prevState);
+    }
+  }, [defaultValue]);
+
+  useEffect(() => {
     if (inputRef.current) {
       registerField({
         name: fieldName,
@@ -105,6 +112,7 @@ function Input({
           onFocus={handleInputFocus}
           onBlur={handleInputFocus}
           onChange={handleInputChange}
+          defaultValue={defaultValue}
           type={passwordType}
           theme={theme}
           name={name}

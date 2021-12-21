@@ -8,7 +8,10 @@ interface TextProps {
 }
 
 const Text = forwardRef(
-  ({ as, color = '#000', css, children, ...props }: TextProps, ref) => {
+  (
+    { as = 'span', color = '#000', css, children, ...props }: TextProps,
+    ref
+  ) => {
     return (
       <>
         <TextContainer as={as} css={css} {...props}>

@@ -1,23 +1,30 @@
 import { ChevronRightIcon, ChevronLeftIcon } from '@modulz/radix-icons';
 import Icon from 'components/Icon';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import NavItem from './NavItem';
-import { Container, LogoContainer, NavContainer } from './styles';
+import {
+  Container,
+  LogoContainer,
+  NavContainer,
+  WrapperContainer,
+} from './styles';
 
 import { useNavbar } from 'context/NavbarContext';
 import { useAuth } from 'context/AuthContext';
 import UserDropdown from './UserDropdown';
-import { useRouter } from 'next/router';
 
 interface NavbarProps {
   orientation?: 'horizontal' | 'vertical';
   backgroundColor?: 'primary' | 'transparent';
+  overwriteScroll?: boolean;
 }
 
 function Navbar({
   orientation = 'horizontal',
   backgroundColor = 'primary',
+  overwriteScroll = false,
 }: NavbarProps) {
+  const [scrolled, setScrolled] = useState(false);
   const { handleNavbarVisibility, navbarVisibility } = useNavbar();
   const { user } = useAuth();
 
@@ -26,44 +33,68 @@ function Navbar({
     [navbarVisibility]
   );
 
-  return (
-    <Container
-      orientation={orientation}
-      background={backgroundColor}
-      hidden={navbarVisibility}
-    >
-      {orientation === 'vertical' && (
-        <Icon onClick={handleNavbarVisibility} icon={showNavbarVisibility} />
-      )}
-      <LogoContainer orientation={orientation}>
-        <img
-          src={navbarVisibility ? '/assets/icon.svg' : '/assets/logo.svg'}
-          alt="Logo Build Your Trip"
-        />
-      </LogoContainer>
+  useEffect(() => {
+    if (overwriteScroll) {
+      setScrolled(true);
+      return;
+    }
 
-      <NavContainer orientation="horizontal">
-        <NavItem orientation="horizontal" type="link" to="/beaguide">
-          Be a guide
-        </NavItem>
-        <NavItem orientation="horizontal" type="link" to="/support">
-          Support
-        </NavItem>
-        <NavItem orientation="horizontal" type="link" to="/faq">
-          FAQ
-        </NavItem>
-        {user ? (
-          <UserDropdown />
-        ) : (
-          <NavItem
-            orientation="horizontal"
-            type="button"
-            to="/signup?soft=true"
-          >
-            Sign In
-          </NavItem>
+    const handleScroll = () => {
+      if (window.scrollY > 40) {
+        setScrolled(true);
+        return;
+      }
+
+      setScrolled(false);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [overwriteScroll]);
+
+  return (
+    <Container scrolled={scrolled}>
+      <WrapperContainer
+        orientation={orientation}
+        background={backgroundColor}
+        hidden={navbarVisibility}
+      >
+        {orientation === 'vertical' && (
+          <Icon onClick={handleNavbarVisibility} icon={showNavbarVisibility} />
         )}
-      </NavContainer>
+        <LogoContainer orientation={orientation}>
+          <a href="/">
+            <img
+              src={navbarVisibility ? '/assets/icon.svg' : '/assets/logo.svg'}
+              alt="Logo Build Your Trip"
+            />
+          </a>
+        </LogoContainer>
+
+        <NavContainer orientation="horizontal">
+          <NavItem orientation="horizontal" type="link" to="/beaguide">
+            Be a guide
+          </NavItem>
+          <NavItem orientation="horizontal" type="link" to="/support">
+            Support
+          </NavItem>
+          <NavItem orientation="horizontal" type="link" to="/faq">
+            FAQ
+          </NavItem>
+          {user ? (
+            <UserDropdown />
+          ) : (
+            <NavItem
+              orientation="horizontal"
+              type="button"
+              to="/signup?soft=true"
+            >
+              Sign In
+            </NavItem>
+          )}
+        </NavContainer>
+      </WrapperContainer>
     </Container>
   );
 }

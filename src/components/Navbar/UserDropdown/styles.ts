@@ -3,7 +3,7 @@ import { styled } from '../../../styles/Theme.provider';
 export const UserInfoContainer = styled('div', {
   display: 'flex',
   alignItems: 'center',
-  width: 'fit-content !important',
+  width: '100% !important',
   svg: {
     marginRight: '10px',
   },
@@ -11,6 +11,7 @@ export const UserInfoContainer = styled('div', {
 
 export const Content = styled('div', {
   padding: '10px',
+  width: '100%',
 });
 
 export const DropdownLink = styled('a', {

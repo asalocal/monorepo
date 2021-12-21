@@ -1,5 +1,5 @@
 import Toast, { ToastMessage } from 'components/Toast';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 import generateHash from 'utils/generateHash';
 
 interface ToastContextData {
@@ -16,17 +16,23 @@ const ToastContext = createContext<ToastContextData>({} as ToastContextData);
 export const ToastProvider = ({ children }: ToastProviderProps) => {
   const [messages, setMessages] = useState<ToastMessage[]>([]);
 
-  const addToast = (message: Omit<ToastMessage, 'id'>) => {
-    const toast = {
-      id: generateHash(),
-      ...message,
-    };
-    setMessages([...messages, toast]);
-  };
+  const addToast = useCallback(
+    (message: Omit<ToastMessage, 'id'>) => {
+      const toast = {
+        id: generateHash(),
+        ...message,
+      };
+      setMessages([...messages, toast]);
+    },
+    [messages]
+  );
 
-  const removeToast = (id: string) => {
-    setMessages(messages.filter((message) => message.id !== id));
-  };
+  const removeToast = useCallback(
+    (id: string) => {
+      setMessages(messages.filter((message) => message.id !== id));
+    },
+    [messages]
+  );
 
   return (
     <ToastContext.Provider value={{ addToast, removeToast }}>

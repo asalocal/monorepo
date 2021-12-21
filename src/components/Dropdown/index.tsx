@@ -3,6 +3,7 @@ import { DropdownContainer, DropdownTrigger } from './styles';
 
 import DropdownContent from './DropdownContent';
 import { BYTCSS } from 'styles/Theme.provider';
+import { DropdownProvider, useDropdown } from './DropdownContext';
 
 interface DropdownProps {
   label: string | JSX.Element;
@@ -11,9 +12,16 @@ interface DropdownProps {
 }
 
 function Dropdown({ label, children, css }: DropdownProps) {
+  return (
+    <DropdownProvider>
+      <DropdownWrapper label={label} children={children} css={css} />
+    </DropdownProvider>
+  );
+}
+
+function DropdownWrapper({ label, children, css }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [positionX, setPositionX] = useState(0);
-  const [positionY, setPositionY] = useState(0);
+  const { handleSetPositions } = useDropdown();
   const [active, setIsActive] = useState(false);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -44,13 +52,12 @@ function Dropdown({ label, children, css }: DropdownProps) {
           triggerRef.current?.getBoundingClientRect().height || 0;
       const leftPosition = triggerRef.current?.getBoundingClientRect().x || 0;
 
-      setPositionX(leftPosition);
-      setPositionY(heightCalculated);
+      handleSetPositions({ x: leftPosition, y: heightCalculated });
     }
-  }, [isOpen]);
+  }, [isOpen, handleSetPositions]);
 
   return (
-    <DropdownContainer css={css}>
+    <DropdownContainer>
       <DropdownTrigger
         ref={triggerRef}
         onClick={handleOpenDropdown}
@@ -59,11 +66,7 @@ function Dropdown({ label, children, css }: DropdownProps) {
         {label}
       </DropdownTrigger>
       {isOpen && (
-        <DropdownContent
-          onHide={handleOpenDropdown}
-          xPosition={positionX}
-          yPosition={positionY}
-        >
+        <DropdownContent css={css} onHide={handleOpenDropdown}>
           {children}
         </DropdownContent>
       )}
