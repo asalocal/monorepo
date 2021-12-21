@@ -4,7 +4,7 @@ export const IntroductionContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
-  height: '600px',
+  height: '700px',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
   backgroundImage: `url('/assets/introbackground.svg')`,

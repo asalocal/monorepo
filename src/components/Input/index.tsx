@@ -126,7 +126,7 @@ function Input({
           />
         )}
       </InputContainer>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {error && <ErrorMessage theme={theme}>{error}</ErrorMessage>}
       {type === 'password' && verifyPassword && (
         <StrenghtPassword password={value} />
       )}

@@ -1,5 +1,6 @@
 import Explorer from 'components/Explorer';
 import Navbar from 'components/Navbar';
+import Text from 'components/Text';
 
 import {
   IntroductionContainer,
@@ -13,10 +14,10 @@ function Introduction() {
       <IntroductionContent>
         <Navbar orientation="horizontal" backgroundColor="transparent" />
         <TitleContainer>
-          <h1>
+          <Text as="h1" css={{ color: '$text' }}>
             It’s your time to build <br />
             <strong>your dreams</strong>
-          </h1>
+          </Text>
           <h5>
             We give you the possibility to build your dream in a few minutes
           </h5>

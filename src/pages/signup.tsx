@@ -111,7 +111,7 @@ function SignUp({
         });
       }
     },
-    [addToast, push]
+    [url, addToast, push]
   );
 
   const handleChange = useCallback(() => {

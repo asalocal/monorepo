@@ -24,6 +24,9 @@ export const InputContainer = styled('div', {
     theme: {
       light: {},
       primary: {
+        svg: {
+          color: '$primary !important',
+        },
         borderBottom: '1px solid $primary',
       },
     },
@@ -84,6 +87,9 @@ export const Label = styled('label', {
     theme: {
       light: {},
       primary: {
+        svg: {
+          color: '$primary',
+        },
         color: '$gray12',
       },
     },
@@ -93,4 +99,13 @@ export const Label = styled('label', {
 export const ErrorMessage = styled('span', {
   color: '$gray4 !important',
   fontSize: '0.6rem !important',
+
+  variants: {
+    theme: {
+      light: {},
+      primary: {
+        color: '$primary !important',
+      },
+    },
+  },
 });

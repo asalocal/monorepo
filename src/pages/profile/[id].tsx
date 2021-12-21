@@ -10,7 +10,9 @@ import TabsItem from 'components/Tabs/TabsItem';
 import TabsList from 'components/Tabs/TabsList';
 import Text from 'components/Text';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
+import Input from 'components/Input';
+import { Form } from '@unform/web';
+import UpdatePasswordForm from 'components/Profile/UpdatePasswordForm';
 
 interface IUserData {
   id: string;
@@ -90,8 +92,49 @@ function Profile({ user }: ProfileProps) {
             <TabsItem value="personal-data">Personal Data</TabsItem>
             <TabsItem value="login-data">Login Data</TabsItem>
           </TabsList>
-          <TabsContent value="personal-data">Teste 1</TabsContent>
-          <TabsContent value="login-data">Teste 2</TabsContent>
+          <TabsContent value="personal-data">
+            <Container css={{ marginTop: '20px', padding: '20px' }}>
+              <Form onSubmit={(data) => console.log(data)}>
+                <Row>
+                  <Col lg={6}>
+                    <Input
+                      type="text"
+                      css={{ width: '100%' }}
+                      placeholder="Full name"
+                      defaultValue={user.name}
+                      name="name"
+                      id="fullName"
+                    />
+                  </Col>
+                  <Col lg={6}>
+                    <Input
+                      css={{ width: '100%' }}
+                      type="email"
+                      placeholder="Email"
+                      defaultValue={user.email}
+                      name="email"
+                      id="email"
+                    />
+                  </Col>
+                </Row>
+                <Row css={{ marginTop: '30px' }}>
+                  <Col lg={12}>
+                    <Input
+                      css={{ width: '100%' }}
+                      type="tel"
+                      placeholder="Cellphone"
+                      defaultValue={user.cellphone || ''}
+                      name="cellphone"
+                      id="cellphone"
+                    />
+                  </Col>
+                </Row>
+              </Form>
+            </Container>
+          </TabsContent>
+          <TabsContent value="login-data">
+            <UpdatePasswordForm />
+          </TabsContent>
         </Tabs>
       </Flex>
     </Container>
