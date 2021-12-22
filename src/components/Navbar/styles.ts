@@ -50,6 +50,11 @@ export const Container = styled('div', {
         backgroundColor: '$primary',
       },
     },
+    staticMenu: {
+      true: {
+        backgroundColor: '$primary !important',
+      },
+    },
   },
 });
 

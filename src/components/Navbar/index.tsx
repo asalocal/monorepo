@@ -16,13 +16,13 @@ import UserDropdown from './UserDropdown';
 interface NavbarProps {
   orientation?: 'horizontal' | 'vertical';
   backgroundColor?: 'primary' | 'transparent';
-  overwriteScroll?: boolean;
+  staticMenu?: boolean;
 }
 
 function Navbar({
   orientation = 'horizontal',
   backgroundColor = 'primary',
-  overwriteScroll = false,
+  staticMenu = false,
 }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const { handleNavbarVisibility, navbarVisibility } = useNavbar();
@@ -34,11 +34,6 @@ function Navbar({
   );
 
   useEffect(() => {
-    if (overwriteScroll) {
-      setScrolled(true);
-      return;
-    }
-
     const handleScroll = () => {
       if (window.scrollY > 40) {
         setScrolled(true);
@@ -51,10 +46,10 @@ function Navbar({
     window.addEventListener('scroll', handleScroll);
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [overwriteScroll]);
+  }, []);
 
   return (
-    <Container scrolled={scrolled}>
+    <Container staticMenu={staticMenu} scrolled={scrolled}>
       <WrapperContainer
         orientation={orientation}
         background={backgroundColor}

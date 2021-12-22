@@ -14,6 +14,7 @@ export const TabsItemContainer = styled('div', {
   variants: {
     active: {
       true: {
+        backgroundColor: 'rgba(255, 92, 0, 0.05)',
         borderBottom: '2px solid $primary',
       },
     },

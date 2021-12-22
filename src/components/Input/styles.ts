@@ -33,26 +33,6 @@ export const InputContainer = styled('div', {
   },
 });
 
-export const InputWrapper = styled('input', {
-  backgroundColor: 'transparent',
-  border: 'none',
-  height: '45px',
-  width: '100%',
-  marginTop: 10,
-  padding: 10,
-  color: 'white',
-  outline: 'none',
-
-  variants: {
-    theme: {
-      light: {},
-      primary: {
-        color: '$gray12',
-      },
-    },
-  },
-});
-
 export const ShowPasswordButton = styled(Icon, {
   cursor: 'pointer',
 });
@@ -67,6 +47,7 @@ export const Label = styled('label', {
   opacity: 0.5,
   pointerEvents: 'auto',
   cursor: 'text',
+
   svg: {
     marginRight: 10,
   },
@@ -84,12 +65,41 @@ export const Label = styled('label', {
         transform: 'translateY(-20px) translateX(-10px) scale(0.8)',
       },
     },
+    disabled: {
+      true: {
+        opacity: '0.3 !important',
+      },
+    },
     theme: {
       light: {},
       primary: {
         svg: {
           color: '$primary',
         },
+        color: '$gray12',
+      },
+    },
+  },
+});
+
+export const InputWrapper = styled('input', {
+  backgroundColor: 'transparent',
+  border: 'none',
+  height: '45px',
+  width: '100%',
+  marginTop: 10,
+  padding: 10,
+  color: 'white',
+  outline: 'none',
+
+  '&:disabled': {
+    opacity: 0.3,
+  },
+
+  variants: {
+    theme: {
+      light: {},
+      primary: {
         color: '$gray12',
       },
     },

@@ -2,8 +2,10 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import api from 'api/api';
 import Button from 'components/Button';
+import Flex from 'components/Flex';
 import Input from 'components/Input';
 import { Col, Container, Row } from 'components/layout';
+import Text from 'components/Text';
 import { useAuth } from 'context/AuthContext';
 import { useToast } from 'context/ToastContext';
 import { useCallback, useRef } from 'react';
@@ -44,7 +46,11 @@ function UpdatePasswordForm() {
           confirmPassword,
         });
 
-        addToast({ type: 'success', title: 'Password updated with success' });
+        addToast({
+          type: 'success',
+          title: 'Password updated with success',
+          message: 'On the next login, you need to use the new password',
+        });
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -62,34 +68,33 @@ function UpdatePasswordForm() {
     [addToast, user]
   );
   return (
-    <Container css={{ marginTop: '20px', padding: '20px' }}>
-      <Form ref={formRef} onSubmit={handleSubmit}>
-        <Row>
-          <Col lg={6}>
-            <Input
-              type="password"
-              name="password"
-              placeholder="New Password"
-              id="password"
-            />
-          </Col>
-          <Col lg={6}>
-            <Input
-              type="password"
-              name="confirmPassword"
-              placeholder="New Password"
-              id="confirmPassword"
-            />
-          </Col>
-        </Row>
-        <Row css={{ marginTop: '30px' }}>
-          <Col lg={12}>
-            <Button>Continue</Button>
-          </Col>
-        </Row>
+    <Flex
+      direction="column"
+      alignItems="center"
+      css={{ width: '100%', marginTop: '30px', padding: '20px' }}
+    >
+      <Text as="p" css={{ marginBottom: '10px', color: '$gray9' }}>
+        Change your password
+      </Text>
+      <Form style={{ width: '100%' }} ref={formRef} onSubmit={handleSubmit}>
+        <Flex direction="column" alignItems="center" css={{ width: '100%' }}>
+          <Input
+            type="password"
+            name="password"
+            placeholder="New Password"
+            id="password"
+          />
+          <Input
+            type="password"
+            name="confirmPassword"
+            css={{ marginTop: '30px' }}
+            placeholder="Confirm new password"
+            id="confirmPassword"
+          />
+          <Button css={{ marginTop: '50px', width: '200px' }}>Update</Button>
+        </Flex>
       </Form>
-    </Container>
+    </Flex>
   );
 }
-
 export default UpdatePasswordForm;

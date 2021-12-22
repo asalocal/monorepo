@@ -47,6 +47,8 @@ function Input({
 
   const { fieldName, registerField, error } = useField(name);
 
+  const { disabled } = props;
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInputFocus = useCallback((): void => {
@@ -100,6 +102,7 @@ function Input({
     <>
       <InputContainer hasError={!!error} css={css} theme={theme}>
         <Label
+          disabled={disabled}
           isFocused={isFocus}
           htmlFor={name}
           isFilled={isFilled}
