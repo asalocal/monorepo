@@ -21,7 +21,9 @@ function UserInfo({ name }: { name: string }) {
 function UserDropdown() {
   const { user, signOut } = useAuth();
 
-  const { id } = user;
+  const { id, username } = user;
+
+  const usernameQuery = username ? `@${username}` : id;
 
   return (
     <Dropdown label={<UserInfo name={user.name} />}>
@@ -29,7 +31,10 @@ function UserDropdown() {
         <DropdownLink href="/my-trips">My trips</DropdownLink>
         <DropdownLink href="/logout">Info</DropdownLink>
         <UserDataContainer css={{ marginTop: '10px' }}>
-          <DropdownLink css={{ borderRadius: '50%' }} href={`/profile/${id}`}>
+          <DropdownLink
+            css={{ borderRadius: '50%' }}
+            href={`/profile/${usernameQuery}`}
+          >
             <PersonIcon />
           </DropdownLink>
           <DropdownLink css={{ borderRadius: '50%' }} href="/settings">

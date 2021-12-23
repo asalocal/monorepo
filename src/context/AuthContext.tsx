@@ -1,4 +1,5 @@
 import api from 'api/api';
+import { parseCookies, destroyCookie, setCookie } from 'nookies';
 import {
   createContext,
   useCallback,
@@ -11,6 +12,7 @@ interface User {
   email: string;
   id: string;
   name: string;
+  username?: string;
 }
 
 interface ICredentials {
@@ -43,24 +45,21 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
     const { user, token } = response.data as IUserData;
 
-    console.log(response.data);
-
-    localStorage.setItem('@BYT:token', token);
-    localStorage.setItem('@BYT:user', JSON.stringify(user));
+    setCookie(null, 'token', token);
+    setCookie(null, 'user', JSON.stringify(user));
 
     setData({ user, token });
   }, []);
 
   const signOut = useCallback(async () => {
-    localStorage.removeItem('@BYT:token');
-    localStorage.removeItem('@BYT:user');
+    destroyCookie(null, 'token');
+    destroyCookie(null, 'user');
 
     setData({} as IUserData);
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem('@BYT:token') || '';
-    const user = localStorage.getItem('@BYT:user') || '';
+    const { token, user } = parseCookies() || '';
 
     if (token && user) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;

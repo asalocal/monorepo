@@ -18,6 +18,7 @@ import Head from 'next/head';
 import HardRegistration from 'components/SignUp/HardRegistration';
 import { GetServerSideProps } from 'next';
 import { darkTheme } from 'styles/Theme.provider';
+
 interface SignUpFormData {
   fullname: string;
   email: string;
@@ -135,7 +136,7 @@ function SignUp({
                   theme="light"
                   type="email"
                   defaultValue="Teste"
-                  placeholder="Email"
+                  label="Email"
                 />
                 <Input
                   onChange={handleChange}
@@ -143,7 +144,7 @@ function SignUp({
                   theme="light"
                   type="password"
                   verifyPassword
-                  placeholder="Password"
+                  label="Password"
                 />
                 <Flex
                   css={{

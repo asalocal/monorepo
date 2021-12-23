@@ -6,22 +6,17 @@ function ExploreForm() {
     <>
       <Input
         type="text"
-        placeholder="Leaving from"
+        label="Leaving from"
         name="leavingFrom"
         id="leavingFrom"
       />
       <WidthIcon width="120px" />
-      <Input type="text" placeholder="Going to" name="goingTo" id="goingTo" />
-      <Input
-        type="text"
-        placeholder="Departure"
-        name="departure"
-        id="departure"
-      />
+      <Input type="text" label="Going to" name="goingTo" id="goingTo" />
+      <Input type="text" label="Departure" name="departure" id="departure" />
 
       <WidthIcon width="120px" />
 
-      <Input type="text" placeholder="Return" name="return" id="return" />
+      <Input type="text" label="Return" name="return" id="return" />
     </>
   );
 }

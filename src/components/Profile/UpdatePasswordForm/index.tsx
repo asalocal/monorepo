@@ -68,11 +68,7 @@ function UpdatePasswordForm() {
     [addToast, user]
   );
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      css={{ width: '100%', marginTop: '30px', padding: '20px' }}
-    >
+    <>
       <Text as="p" css={{ marginBottom: '10px', color: '$gray9' }}>
         Change your password
       </Text>
@@ -81,20 +77,20 @@ function UpdatePasswordForm() {
           <Input
             type="password"
             name="password"
-            placeholder="New Password"
+            label="New Password"
             id="password"
           />
           <Input
             type="password"
             name="confirmPassword"
             css={{ marginTop: '30px' }}
-            placeholder="Confirm new password"
+            label="Confirm new password"
             id="confirmPassword"
           />
           <Button css={{ marginTop: '50px', width: '200px' }}>Update</Button>
         </Flex>
       </Form>
-    </Flex>
+    </>
   );
 }
 export default UpdatePasswordForm;

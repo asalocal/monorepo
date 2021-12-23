@@ -4,18 +4,30 @@ import { TabsProvider, useTabsContext } from './TabsContext';
 
 interface TabsProps {
   children: React.ReactNode;
-}
-function TabsWrapper({ children }: TabsProps) {
-  return <TabsProvider>{children}</TabsProvider>;
+  orientation?: 'horizontal' | 'vertical';
 }
 
-function Tabs({ children }: TabsProps) {
+function Tabs({ children, orientation = 'horizontal' }: TabsProps) {
   return (
-    <TabsWrapper>
-      <Flex direction="column" css={{ width: '100%' }}>
-        {children}
-      </Flex>
-    </TabsWrapper>
+    <TabsProvider>
+      <TabsWrapper orientation={orientation}>{children}</TabsWrapper>
+    </TabsProvider>
+  );
+}
+
+function TabsWrapper({ children, orientation = 'horizontal' }: TabsProps) {
+  const { handleOrientation } = useTabsContext();
+
+  useEffect(() => {
+    handleOrientation(orientation);
+  }, [orientation, handleOrientation]);
+  return (
+    <Flex
+      direction={orientation === 'horizontal' ? 'column' : 'row'}
+      css={{ width: '100%' }}
+    >
+      {children}
+    </Flex>
   );
 }
 

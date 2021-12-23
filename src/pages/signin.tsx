@@ -55,14 +55,14 @@ function SignIn() {
                 name="email"
                 theme="light"
                 id="email"
-                placeholder="Email"
+                label="Email"
               />
               <Input
                 type="password"
                 theme="light"
                 name="password"
                 id="password"
-                placeholder="Password"
+                label="Password"
               />
               <Flex
                 css={{

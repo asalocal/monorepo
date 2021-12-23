@@ -25,6 +25,7 @@ import {
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   verifyPassword?: boolean;
   name: string;
+  label: string;
   theme?: 'light' | 'primary';
   css?: BYTCSS;
 };
@@ -35,6 +36,7 @@ function Input({
   verifyPassword = false,
   name,
   defaultValue,
+  label,
   css,
   theme = 'primary',
   onChange,
@@ -66,16 +68,23 @@ function Input({
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setValue(e.target.value);
-      setIsFilled(!!e.target.value);
+
+      placeholder ? setIsFilled(true) : setIsFilled(!!e.target.value);
       onChange && onChange(e);
     },
-    [onChange]
+    [onChange, placeholder]
   );
 
   const passwordType = useMemo(
     () => (type === 'password' && isShowingMessage ? 'text' : type),
     [isShowingMessage, type]
   );
+
+  useEffect(() => {
+    if (placeholder) {
+      setIsFilled(true);
+    }
+  }, [placeholder]);
 
   useEffect(() => {
     if (defaultValue) {
@@ -108,7 +117,7 @@ function Input({
           isFilled={isFilled}
           theme={theme}
         >
-          {placeholder}
+          {label}
         </Label>
         <InputWrapper
           ref={inputRef}
@@ -118,6 +127,7 @@ function Input({
           defaultValue={defaultValue}
           type={passwordType}
           theme={theme}
+          placeholder={placeholder}
           name={name}
           id={name}
           {...props}

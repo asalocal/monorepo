@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 
 interface DropdownContextData {
   positions: Positions;
@@ -21,9 +21,9 @@ const DropdownContext = createContext<DropdownContextData>(
 export const DropdownProvider = ({ children }: DropdownProviderProps) => {
   const [positions, setPositions] = useState<Positions>({} as Positions);
 
-  const handleSetPositions = (positions: Positions) => {
+  const handleSetPositions = useCallback((positions: Positions) => {
     setPositions(positions);
-  };
+  }, []);
 
   return (
     <DropdownContext.Provider value={{ positions, handleSetPositions }}>

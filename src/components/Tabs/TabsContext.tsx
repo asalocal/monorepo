@@ -14,6 +14,8 @@ interface ITabsContext {
   handleTabChange: (value: string) => void;
   defaultTab: (value: string) => void;
   activeTab: string;
+  orientation: 'horizontal' | 'vertical';
+  handleOrientation: (orientation: 'horizontal' | 'vertical') => void;
 }
 
 interface ITrigger {
@@ -26,10 +28,20 @@ const TabsContext = createContext<ITabsContext>({} as ITabsContext);
 export const TabsProvider = ({ children }: TabsProviderProps) => {
   const [trigger, setTrigger] = useState<ITrigger[]>([]);
   const [activeTab, setActiveTab] = useState('');
+  const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>(
+    'horizontal'
+  );
 
   const addTrigger = useCallback(({ id, value }: ITrigger) => {
     setTrigger((prevState) => [...prevState, { id, value }]);
   }, []);
+
+  const handleOrientation = useCallback(
+    (orientation: 'vertical' | 'horizontal') => {
+      setOrientation(orientation);
+    },
+    []
+  );
 
   const handleTabChange = useCallback(
     (value: string) => {
@@ -61,7 +73,14 @@ export const TabsProvider = ({ children }: TabsProviderProps) => {
 
   return (
     <TabsContext.Provider
-      value={{ addTrigger, defaultTab, activeTab, handleTabChange }}
+      value={{
+        addTrigger,
+        defaultTab,
+        handleOrientation,
+        activeTab,
+        orientation,
+        handleTabChange,
+      }}
     >
       {children}
     </TabsContext.Provider>

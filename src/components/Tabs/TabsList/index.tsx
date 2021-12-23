@@ -5,10 +5,11 @@ import { TabsListContainer } from './styles';
 interface TabsListProps {
   children: React.ReactNode;
   defaultValue?: string;
+  orientation?: 'horizontal' | 'vertical';
 }
 
 function TabsList({ children, defaultValue }: TabsListProps) {
-  const { defaultTab } = useTabsContext();
+  const { defaultTab, orientation } = useTabsContext();
 
   useEffect(() => {
     if (defaultValue) {
@@ -16,7 +17,9 @@ function TabsList({ children, defaultValue }: TabsListProps) {
     }
   }, [defaultTab, defaultValue]);
 
-  return <TabsListContainer>{children}</TabsListContainer>;
+  return (
+    <TabsListContainer orientation={orientation}>{children}</TabsListContainer>
+  );
 }
 
 export default TabsList;

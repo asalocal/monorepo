@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useState } from 'react';
 
 interface IModalContext {
   isOpen: boolean;
-  openModal: (shouldOpen: boolean, options: Record<string, string>) => void;
+  openModal: (shouldOpen: boolean, options?: Record<string, string>) => void;
   options: Record<string, string>;
 }
 
