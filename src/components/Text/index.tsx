@@ -1,10 +1,11 @@
 import { forwardRef } from 'react';
+import { BYTCSS } from 'styles/Theme.provider';
 import { TextContainer } from './styles';
 interface TextProps {
   as: 'span' | 'p' | 'label' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   color?: string;
   children: React.ReactNode;
-  css?: Record<string, any>;
+  css?: BYTCSS;
 }
 
 const Text = forwardRef(

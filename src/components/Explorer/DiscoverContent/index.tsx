@@ -1,7 +1,7 @@
 import { DiscoverContentContainer, InputContainer } from './styles';
 import Input from 'components/Input';
-import { Form } from '@unform/web';
 import Button from 'components/Button';
+import Form from 'components/Form';
 
 function DiscoverContent() {
   return (
@@ -14,11 +14,7 @@ function DiscoverContent() {
 
       <Form onSubmit={(data) => console.log(data)}>
         <InputContainer>
-          <Input
-            type="text"
-            name="searchCity"
-            placeholder="Search for a city"
-          />
+          <Input type="text" name="searchCity" label="Search for a city" />
           <Button>Search</Button>
         </InputContainer>
       </Form>

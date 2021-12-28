@@ -1,9 +1,8 @@
 import { EyeClosedIcon, EyeOpenIcon } from '@modulz/radix-icons';
-import { useField } from '@unform/core';
+import { useForm } from 'components/Form/FormContext';
 import {
   ChangeEvent,
   InputHTMLAttributes,
-  RefObject,
   useCallback,
   useEffect,
   useMemo,
@@ -47,7 +46,7 @@ function Input({
   const [value, setValue] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
 
-  const { fieldName, registerField, error } = useField(name);
+  const { registerField } = useForm();
 
   const { disabled } = props;
 
@@ -95,21 +94,17 @@ function Input({
   useEffect(() => {
     if (inputRef.current) {
       registerField({
-        name: fieldName,
+        name,
         ref: inputRef,
-        getValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? ref.current.value : '',
-        setValue: (ref: RefObject<HTMLInputElement>, value: string) =>
-          ref.current ? (ref.current.value = value) : value,
-        clearValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? (ref.current.value = '') : '',
+        value: inputRef.current.value,
+        id: inputRef.current.id,
       });
     }
-  }, [fieldName, registerField, value]);
+  }, [name, registerField]);
 
   return (
     <>
-      <InputContainer hasError={!!error} css={css} theme={theme}>
+      <InputContainer hasError={!!false} css={css} theme={theme}>
         <Label
           disabled={disabled}
           isFocused={isFocus}
@@ -139,7 +134,7 @@ function Input({
           />
         )}
       </InputContainer>
-      {error && <ErrorMessage theme={theme}>{error}</ErrorMessage>}
+      {false && <ErrorMessage theme={theme}>Teste</ErrorMessage>}
       {type === 'password' && verifyPassword && (
         <StrenghtPassword password={value} />
       )}

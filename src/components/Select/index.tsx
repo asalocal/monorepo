@@ -14,6 +14,7 @@ import Portal from 'components/Portal';
 import Flex from 'components/Flex';
 
 import Option from './Option';
+import { useForm } from 'components/Form/FormContext';
 
 interface IOption {
   children: React.ReactNode | string;
@@ -44,7 +45,7 @@ function Select({
   const [positions, setPositions] = useState<IPositions>({} as IPositions);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { fieldName, registerField } = useField(name);
+  const { registerField } = useForm();
 
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -92,17 +93,17 @@ function Select({
   useEffect(() => {
     if (inputRef.current) {
       registerField({
-        name: fieldName,
+        name,
         ref: inputRef,
-        getValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? ref.current.value : '',
-        setValue: (ref: RefObject<HTMLInputElement>, value: string) =>
-          ref.current ? (ref.current.value = value) : value,
-        clearValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? (ref.current.value = '') : '',
+        id: inputRef.current.id,
+        value: inputRef.current.value,
       });
     }
-  }, [fieldName, registerField]);
+  }, [name, registerField]);
+
+  useEffect(() => {
+    setOption(children[0].props.value);
+  }, [children]);
 
   return (
     <Flex direction="column">
