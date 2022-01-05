@@ -23,6 +23,15 @@ export const LogoContainer = styled('div', {
   width: '50%',
   alignItems: 'center',
 
+  a: {
+    img: {
+      transition: 'all 0.2s ease-in-out',
+      '&:hover': {
+        transform: 'scale(1.1)',
+      },
+    },
+  },
+
   variants: {
     orientation: {
       horizontal: {

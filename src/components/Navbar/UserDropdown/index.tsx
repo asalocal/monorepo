@@ -37,7 +37,10 @@ function UserDropdown() {
           >
             <PersonIcon />
           </DropdownLink>
-          <DropdownLink css={{ borderRadius: '50%' }} href="/settings">
+          <DropdownLink
+            css={{ borderRadius: '50%' }}
+            href={`/settings/${usernameQuery}`}
+          >
             <MixerHorizontalIcon />
           </DropdownLink>
           <DropdownLink

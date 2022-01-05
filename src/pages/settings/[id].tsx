@@ -63,14 +63,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           name: 'Error',
         },
         error: {
-          statusCode: err.response.status,
+          statusCode: err.response.status || 500,
         },
       },
     };
   }
 };
 
-function Profile({ user }: ProfileProps) {
+function Settings({ user }: ProfileProps) {
   const { openModal } = useModal();
 
   const updateUsername = async (data: { username: string }) => {
@@ -312,4 +312,5 @@ function Profile({ user }: ProfileProps) {
   );
 }
 
-export default Profile;
+Settings.isAuthenticated = true;
+export default Settings;

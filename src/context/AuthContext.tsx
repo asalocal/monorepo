@@ -45,8 +45,13 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
     const { user, token } = response.data as IUserData;
 
+    const userFormatted = {
+      name: user.name,
+      username: user.username,
+    };
+
     setCookie(null, 'token', token);
-    setCookie(null, 'user', JSON.stringify(user));
+    setCookie(null, 'user', JSON.stringify(userFormatted));
 
     setData({ user, token });
   }, []);

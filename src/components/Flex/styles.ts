@@ -4,7 +4,6 @@ import { styled } from 'styles/Theme.provider';
 export const FlexWrapper = styled('div', {
   display: 'flex',
   boxSizing: 'border-box',
-
   variants: {
     alignItems: {
       normal: {

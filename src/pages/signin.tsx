@@ -94,4 +94,6 @@ function SignIn() {
   );
 }
 
+SignIn.isAuthenticated = false;
+
 export default SignIn;

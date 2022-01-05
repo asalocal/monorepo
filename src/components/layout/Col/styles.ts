@@ -4,7 +4,6 @@ import { styled } from 'styles/Theme.provider';
 export const Wrapper = styled('div', {
   width: '100%',
   position: 'relative',
-
   padding: '0 12px',
 
   variants: {

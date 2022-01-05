@@ -1,5 +1,4 @@
 import Explorer from 'components/Explorer';
-import Navbar from 'components/Navbar';
 import Text from 'components/Text';
 
 import {
@@ -12,7 +11,6 @@ function Introduction() {
   return (
     <IntroductionContainer>
       <IntroductionContent>
-        <Navbar orientation="horizontal" backgroundColor="transparent" />
         <TitleContainer>
           <Text as="h1" css={{ color: '$text' }}>
             It’s your time to build <br />

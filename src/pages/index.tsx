@@ -4,6 +4,7 @@ import DashboardInfo from 'components/Home/DashboardInfo';
 import { HomeContainer } from '../styles/Home.styles';
 import { useModal } from 'context/ModalProvider';
 import { useEffect } from 'react';
+import Inspiration from 'components/Home/Inspiration';
 
 const Home = (): JSX.Element => {
   const { openModal } = useModal();
@@ -19,9 +20,11 @@ const Home = (): JSX.Element => {
       <HomeContainer>
         <Introduction />
         <DashboardInfo />
+        <Inspiration />
       </HomeContainer>
     </>
   );
 };
 
+Home.isAuthenticated = true;
 export default Home;

@@ -4,8 +4,13 @@ import { AuthProvider } from 'context/AuthContext';
 import { NavbarProvider } from 'context/NavbarContext';
 import { ToastProvider } from 'context/ToastContext';
 import { ModalProvider } from 'context/ModalProvider';
+import Page from 'components/Page';
 
-function MyApp({ Component, pageProps }: AppProps) {
+interface MyAppProps extends AppProps {
+  Component: AppProps['Component'] & { isAuthenticated: boolean };
+}
+
+function MyApp({ Component, pageProps }: MyAppProps) {
   BYTGlobalCSS();
   return (
     <>
@@ -13,7 +18,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ModalProvider>
           <ToastProvider>
             <NavbarProvider>
-              <Component {...pageProps} />
+              {!Component.isAuthenticated ? (
+                <Component {...pageProps} />
+              ) : (
+                <Page>
+                  <Component {...pageProps} />
+                </Page>
+              )}
             </NavbarProvider>
           </ToastProvider>
         </ModalProvider>
