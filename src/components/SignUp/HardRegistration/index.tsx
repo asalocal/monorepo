@@ -93,21 +93,21 @@ function HardRegistration() {
         name="fullname"
         theme="light"
         type="text"
-        placeholder="Full Name"
+        label="Full Name"
       />
       <Input
         onChange={handleChange}
         name="cellphone"
         theme="light"
         type="tel"
-        placeholder="Cellphone"
+        label="Cellphone"
       />
       <Input
         onChange={handleChange}
         name="email"
         theme="light"
         type="email"
-        placeholder="Email"
+        label="Email"
       />
       <Input
         onChange={handleChange}
@@ -115,7 +115,7 @@ function HardRegistration() {
         theme="light"
         type="password"
         verifyPassword
-        placeholder="Password"
+        label="Password"
       />
       <Flex
         css={{
