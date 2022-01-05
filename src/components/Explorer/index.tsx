@@ -1,7 +1,7 @@
 import { RocketIcon, MagnifyingGlassIcon } from '@modulz/radix-icons';
-import { useState } from 'react';
-import { Form } from '@unform/web';
-
+import { useRef, useState } from 'react';
+import Form from 'components/Form';
+import * as yup from 'yup';
 import ExploreForm from './ExploreForm';
 import Button from 'components/Button';
 import Select from 'components/Select';
@@ -18,6 +18,8 @@ import {
 } from './styles';
 import DiscoverContent from './DiscoverContent';
 import Flex from 'components/Flex';
+import { FormHandles } from '@unform/core';
+import getValidationErrors from 'utils/getValidationErrors';
 
 const passengersOptions = [
   { value: 'One passanger', label: 'One passanger' },
@@ -30,6 +32,15 @@ const kidsOptions = [
   { value: 'One kid', label: 'One kid' },
   { value: 'More than 2 kids', label: 'More than 2 kids' },
 ];
+
+interface ExploreFormData {
+  leavingFrom: string;
+  goingTo: string;
+  departure: string;
+  return: string;
+  numberOfKids: string;
+  numberOfPassengers: string;
+}
 
 function Explorer() {
   const [wrapperContent, setWrapperContent] = useState(0);
@@ -53,7 +64,7 @@ function Explorer() {
       <ExplorerWrapper>
         <ContentContainer selected={wrapperContent === 0}>
           <Flex css={{ padding: '20px' }}>
-            <Form onSubmit={(data) => console.log(data)}>
+            <Form doSubmit={(data) => console.log(data)}>
               <TripOptionsContainer>
                 <Select name="numberOfPassengers">
                   {passengersOptions.map((option) => (
