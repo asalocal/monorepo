@@ -12,6 +12,7 @@ import {
 import { useNavbar } from 'context/NavbarContext';
 import { useAuth } from 'context/AuthContext';
 import UserDropdown from './UserDropdown';
+import HamburguerMenu from './HamburguerMenu';
 
 interface NavbarProps {
   orientation?: 'horizontal' | 'vertical';
@@ -67,28 +68,33 @@ function Navbar({
           </a>
         </LogoContainer>
 
-        <NavContainer orientation="horizontal">
-          <NavItem orientation="horizontal" type="link" to="/beaguide">
-            Be a guide
-          </NavItem>
-          <NavItem orientation="horizontal" type="link" to="/support">
-            Support
-          </NavItem>
-          <NavItem orientation="horizontal" type="link" to="/faq">
-            FAQ
-          </NavItem>
-          {user ? (
-            <UserDropdown />
-          ) : (
-            <NavItem
-              orientation="horizontal"
-              type="button"
-              to="/signup?soft=true"
-            >
-              Sign In
+        {scrolled ? (
+          <HamburguerMenu />
+        ) : (
+          <NavContainer orientation="horizontal">
+            <NavItem orientation="horizontal" type="link" to="/beaguide">
+              Be a guide
             </NavItem>
-          )}
-        </NavContainer>
+            <NavItem orientation="horizontal" type="link" to="/support">
+              Support
+            </NavItem>
+            <NavItem orientation="horizontal" type="link" to="/faq">
+              FAQ
+            </NavItem>
+
+            {user ? (
+              <UserDropdown />
+            ) : (
+              <NavItem
+                orientation="horizontal"
+                type="button"
+                to="/signup?soft=true"
+              >
+                Sign In
+              </NavItem>
+            )}
+          </NavContainer>
+        )}
       </WrapperContainer>
     </Container>
   );
