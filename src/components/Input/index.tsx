@@ -1,8 +1,9 @@
 import { EyeClosedIcon, EyeOpenIcon } from '@modulz/radix-icons';
-import { useForm } from 'components/Form/FormContext';
+import { useField } from '@unform/core';
 import {
   ChangeEvent,
   InputHTMLAttributes,
+  RefObject,
   useCallback,
   useEffect,
   useMemo,
@@ -19,6 +20,7 @@ import {
   InputWrapper,
   Label,
   ShowPasswordButton,
+  InputContent,
 } from './styles';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -35,6 +37,7 @@ function Input({
   verifyPassword = false,
   name,
   defaultValue,
+  value: controlledValue,
   label,
   css,
   theme = 'primary',
@@ -46,7 +49,7 @@ function Input({
   const [value, setValue] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
 
-  const { registerField } = useForm();
+  const { fieldName, registerField, error } = useField(name);
 
   const { disabled } = props;
 
@@ -92,49 +95,63 @@ function Input({
   }, [defaultValue]);
 
   useEffect(() => {
+    if (controlledValue) {
+      setIsFilled(true);
+    }
+  }, [controlledValue]);
+
+  useEffect(() => {
     if (inputRef.current) {
       registerField({
-        name,
+        name: fieldName,
         ref: inputRef,
-        value: inputRef.current.value,
-        id: inputRef.current.id,
+        getValue: (ref: RefObject<HTMLInputElement>) =>
+          ref.current ? ref.current.value : '',
+        setValue: (ref: RefObject<HTMLInputElement>, value: string) =>
+          ref.current ? (ref.current.value = value) : value,
+        clearValue: (ref: RefObject<HTMLInputElement>) =>
+          ref.current ? (ref.current.value = '') : '',
       });
     }
-  }, [name, registerField]);
+  }, [fieldName, registerField]);
 
   return (
     <>
-      <InputContainer hasError={!!false} css={css} theme={theme}>
-        <Label
-          disabled={disabled}
-          isFocused={isFocus}
-          htmlFor={name}
-          isFilled={isFilled}
-          theme={theme}
-        >
-          {label}
-        </Label>
-        <InputWrapper
-          ref={inputRef}
-          onFocus={handleInputFocus}
-          onBlur={handleInputFocus}
-          onChange={handleInputChange}
-          defaultValue={defaultValue}
-          type={passwordType}
-          theme={theme}
-          placeholder={placeholder}
-          name={name}
-          id={name}
-          {...props}
-        />
-        {type === 'password' && (
-          <ShowPasswordButton
-            onClick={handleShowPassword}
-            icon={isShowingMessage ? EyeOpenIcon : EyeClosedIcon}
+      <InputContent>
+        <InputContainer hasError={!!false} css={css} theme={theme}>
+          <Label
+            disabled={disabled}
+            isFocused={isFocus}
+            htmlFor={name}
+            isFilled={isFilled}
+            theme={theme}
+          >
+            {label}
+          </Label>
+          <InputWrapper
+            ref={inputRef}
+            onFocus={handleInputFocus}
+            onBlur={handleInputFocus}
+            onChange={handleInputChange}
+            defaultValue={defaultValue}
+            type={passwordType}
+            theme={theme}
+            placeholder={placeholder}
+            name={name}
+            value={controlledValue}
+            id={name}
+            {...props}
           />
-        )}
-      </InputContainer>
-      {false && <ErrorMessage theme={theme}>Teste</ErrorMessage>}
+          {type === 'password' && (
+            <ShowPasswordButton
+              onClick={handleShowPassword}
+              icon={isShowingMessage ? EyeOpenIcon : EyeClosedIcon}
+            />
+          )}
+        </InputContainer>
+        {error && <ErrorMessage theme={theme}>{error}</ErrorMessage>}
+      </InputContent>
+
       {type === 'password' && verifyPassword && (
         <StrenghtPassword password={value} />
       )}

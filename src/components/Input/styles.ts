@@ -1,6 +1,12 @@
 import Icon from 'components/Icon';
 import { styled } from '../../styles/Theme.provider';
 
+export const InputContent = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+});
+
 export const InputContainer = styled('div', {
   borderBottom: '1px solid $gray6',
   position: 'relative',
@@ -108,8 +114,8 @@ export const InputWrapper = styled('input', {
 
 export const ErrorMessage = styled('span', {
   color: '$gray4 !important',
-  fontSize: '0.6rem !important',
-
+  fontSize: '0.8rem !important',
+  marginTop: '5px',
   variants: {
     theme: {
       light: {},

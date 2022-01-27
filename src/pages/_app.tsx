@@ -3,7 +3,6 @@ import { AppProps } from 'next/app';
 import { AuthProvider } from 'context/AuthContext';
 import { NavbarProvider } from 'context/NavbarContext';
 import { ToastProvider } from 'context/ToastContext';
-import { ModalProvider } from 'context/ModalProvider';
 import Page from 'components/Page';
 
 interface MyAppProps extends AppProps {
@@ -15,19 +14,17 @@ function MyApp({ Component, pageProps }: MyAppProps) {
   return (
     <>
       <AuthProvider>
-        <ModalProvider>
-          <ToastProvider>
-            <NavbarProvider>
-              {!Component.isAuthenticated ? (
+        <ToastProvider>
+          <NavbarProvider>
+            {!Component.isAuthenticated ? (
+              <Component {...pageProps} />
+            ) : (
+              <Page>
                 <Component {...pageProps} />
-              ) : (
-                <Page>
-                  <Component {...pageProps} />
-                </Page>
-              )}
-            </NavbarProvider>
-          </ToastProvider>
-        </ModalProvider>
+              </Page>
+            )}
+          </NavbarProvider>
+        </ToastProvider>
       </AuthProvider>
     </>
   );

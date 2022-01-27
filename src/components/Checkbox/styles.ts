@@ -6,8 +6,8 @@ export const CheckboxContainer = styled('button', {
   alignItems: 'center',
   justifyContent: 'flex-start',
   border: 'none',
-  height: '40px',
-  marginTop: '10px !important',
+  height: '30px',
+  width: '100%',
 });
 
 export const CheckboxBox = styled('div', {
@@ -15,7 +15,7 @@ export const CheckboxBox = styled('div', {
   maxHeight: '20px !important',
   width: '100%',
   height: '100%',
-  border: '1px solid $colors$gray1',
+  border: '1px solid #c4c4c4 !important',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

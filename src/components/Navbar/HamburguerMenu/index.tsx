@@ -7,7 +7,7 @@ import {
 } from './styles';
 
 interface HamburguerMenuProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  onClick: (ev: MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (ev: MouseEvent<HTMLButtonElement>) => void;
 }
 
 function HamburguerMenu({ onClick, ...props }: HamburguerMenuProps) {

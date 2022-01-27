@@ -1,32 +1,41 @@
 import Flex from 'components/Flex';
 import Overlay from 'components/Overlay';
-import { useModal } from 'context/ModalProvider';
+import { useState, useEffect } from 'react';
 import Portal from '../Portal';
 
 interface ModalProps {
   children: React.ReactNode;
+  onHide?: () => void;
+  isOpen: boolean;
 }
 
-function Modal({ children }: ModalProps) {
-  const { isOpen } = useModal();
+function Modal({ children, isOpen, onHide }: ModalProps) {
+  const [open, setOpen] = useState(false);
 
-  return !isOpen ? (
-    <></>
-  ) : (
-    <Portal>
-      <Overlay visible>
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          css={{
-            width: '100%',
-            height: '100%',
-          }}
-        >
-          {children}
-        </Flex>
-      </Overlay>
-    </Portal>
+  useEffect(() => {
+    setOpen(isOpen);
+  }, [isOpen]);
+
+  return (
+    open && (
+      <Portal>
+        <Overlay visible>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            css={{
+              width: '100%',
+              height: '100%',
+            }}
+            onClick={() => {
+              onHide && onHide();
+            }}
+          >
+            {children}
+          </Flex>
+        </Overlay>
+      </Portal>
+    )
   );
 }
 

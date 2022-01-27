@@ -61,12 +61,14 @@ function HardRegistration() {
           { abortEarly: false }
         );
 
-        await api.post('/users/create', {
+        const data = await api.post('/users/create', {
           name: fullname,
           cellphone,
           email,
           password,
         });
+
+        console.log(data);
 
         push('/');
       } catch (err) {

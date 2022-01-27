@@ -15,24 +15,14 @@ import { Form } from '@unform/web';
 import UpdatePasswordForm from 'components/Profile/UpdatePasswordForm';
 import Head from 'next/head';
 import nookies from 'nookies';
-import { useModal } from 'context/ModalProvider';
-import { useEffect } from 'react';
-import Modal from 'components/Modal';
-interface IUserData {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  isincomplete: boolean;
-  subtitle?: string;
-  username?: string;
-  createdat: string;
-  updatedat: string;
-  cellphone: string | null;
-}
+import React, { useCallback, useEffect, useState } from 'react';
+import maskCreation from 'utils/inputMaskCreation';
+import { AxiosResponse } from 'axios';
+import { UserComplete } from 'context/AuthContext';
+import UsernameModal from 'components/Settings/UsernameModal';
 
 interface ProfileProps {
-  user: IUserData;
+  user: UserComplete;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -71,30 +61,74 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 function Settings({ user }: ProfileProps) {
-  const { openModal } = useModal();
+  const [userData, setUserData] = useState<UserComplete>(user);
+  const [cellphone, setCellphone] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
 
-  const updateUsername = async (data: { username: string }) => {
-    const updatedUser = await api.put(`/users/username/${user.id}`, data, {
-      headers: {
-        Authorization: `Bearer ${nookies.get(null).token}`,
-      },
-    });
+  const handleDateOfBirth = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const dateOfBirthFormatted = e.target.value.replace(/\D/g, '');
 
-    if (updatedUser.status === 200) {
-      openModal(false);
-    }
-  };
+      const dateOfBirthMasked = maskCreation({
+        type: 'date',
+        value: dateOfBirthFormatted,
+      });
+
+      setDateOfBirth(dateOfBirthMasked);
+    },
+    []
+  );
+
+  const handleCellphoneChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const cellphoneFormatted = e.target.value.replace(/\D/g, '');
+
+      const maskedCellphone = maskCreation({
+        type: 'cellphone',
+        value: cellphoneFormatted,
+      });
+
+      setCellphone(maskedCellphone);
+    },
+    []
+  );
+
+  const updateUser = useCallback(
+    async (data) => {
+      const updateUserData: AxiosResponse<UserComplete> = await api.patch(
+        `/users/update/${user.id}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${nookies.get(null).token}`,
+          },
+        }
+      );
+
+      if (updateUserData.status === 200) {
+        setUserData((prevState) => ({
+          ...prevState,
+          ...updateUserData.data,
+        }));
+      }
+    },
+    [user.id]
+  );
 
   useEffect(() => {
-    if (!user.username) {
-      openModal(true);
-    }
-  }, [user, openModal]);
+    const dateBirth = new Date(user.birth_date);
+    const dateBirthFormatted = new Intl.DateTimeFormat('pt-BR').format(
+      dateBirth
+    );
+
+    setCellphone(user.cellphone || '');
+    setDateOfBirth(dateBirthFormatted || '');
+  }, [user.birth_date, user.cellphone]);
 
   return (
     <>
       <Head>
-        <title>{user.name} - Profile</title>
+        <title>{user.name ? user.name : 'User'} - Profile</title>
       </Head>
       <Container>
         <Row>
@@ -152,10 +186,10 @@ function Settings({ user }: ProfileProps) {
                 justifyContent="spaceBetween"
                 css={{ height: '100%' }}
               >
-                <Text as="h1">{user.name}</Text>
-                {user.username && (
-                  <Text as="span" css={{ color: '$gray9', marginTop: '-px' }}>
-                    @{user.username}
+                <Text as="h1">{userData.name}</Text>
+                {userData.username && (
+                  <Text as="span" css={{ color: '$gray9', marginTop: '10px' }}>
+                    @{userData.username}
                   </Text>
                 )}
               </Flex>
@@ -189,10 +223,7 @@ function Settings({ user }: ProfileProps) {
                       >
                         Update your data
                       </Text>
-                      <Form
-                        style={{ width: '100%' }}
-                        onSubmit={(data) => console.log(data)}
-                      >
+                      <Form style={{ width: '100%' }} onSubmit={updateUser}>
                         <Flex
                           direction="column"
                           alignItems="center"
@@ -202,7 +233,7 @@ function Settings({ user }: ProfileProps) {
                             type="text"
                             css={{ width: '100%' }}
                             label="Full name"
-                            defaultValue={user.name}
+                            defaultValue={userData.name}
                             name="name"
                             id="fullName"
                           />
@@ -210,7 +241,7 @@ function Settings({ user }: ProfileProps) {
                             css={{ width: '100%', marginTop: '20px' }}
                             type="email"
                             label="Email"
-                            defaultValue={user.email}
+                            defaultValue={userData.email}
                             disabled
                             name="email"
                             id="email"
@@ -219,12 +250,25 @@ function Settings({ user }: ProfileProps) {
                             css={{ width: '100%', marginTop: '20px' }}
                             type="tel"
                             label="Cellphone"
-                            defaultValue={user.cellphone || ''}
                             name="cellphone"
                             id="cellphone"
+                            value={cellphone}
+                            onChange={handleCellphoneChange}
+                          />
+                          <Input
+                            css={{ width: '100%', marginTop: '20px' }}
+                            type="text"
+                            label="Birth date"
+                            name="birthDate"
+                            id="birthDate"
+                            value={dateOfBirth}
+                            onChange={handleDateOfBirth}
                           />
 
-                          <Button css={{ marginTop: '50px', width: '200px' }}>
+                          <Button
+                            type="submit"
+                            css={{ marginTop: '50px', width: '200px' }}
+                          >
                             Update
                           </Button>
                         </Flex>
@@ -242,15 +286,6 @@ function Settings({ user }: ProfileProps) {
                       }}
                     >
                       <UpdatePasswordForm />
-
-                      <Flex css={{ marginTop: '30px' }}>
-                        <Text as="span" css={{ color: '$gray9' }}>
-                          Account created at{' '}
-                          {new Intl.DateTimeFormat('pt-BR').format(
-                            new Date(user.createdat)
-                          )}
-                        </Text>
-                      </Flex>
                     </Flex>
                   </TabsContent>
                 </Tabs>
@@ -266,48 +301,7 @@ function Settings({ user }: ProfileProps) {
         )}
       </Container>
 
-      <Modal>
-        <Flex
-          direction="column"
-          css={{
-            backgroundColor: '$gray1',
-            maxWidth: '400px',
-            width: '100%',
-            padding: '40px',
-            borderRadius: '10px',
-          }}
-        >
-          <Text as="span" css={{ opacity: 0.4, marginBottom: '20px' }}>
-            To continue with your experience, you need to insert your username
-          </Text>
-          <Form onSubmit={updateUsername}>
-            <Input
-              type="text"
-              placeholder="Ex.: @john_doe"
-              label="Username"
-              name="username"
-              id="username"
-            />
-            <Flex css={{ marginTop: '20px' }}>
-              <Button
-                variant="alternative"
-                css={{
-                  marginRight: '10px',
-                  color: '$primary !important',
-                  border: '1px solid $primary !important',
-
-                  '&:hover': {
-                    backgroundColor: 'rgba(255, 92, 0, 0.05) !important',
-                  },
-                }}
-              >
-                Return to Homepage
-              </Button>
-              <Button>Create username</Button>
-            </Flex>
-          </Form>
-        </Flex>
-      </Modal>
+      <UsernameModal userData={user} />
     </>
   );
 }

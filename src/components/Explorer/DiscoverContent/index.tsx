@@ -1,8 +1,7 @@
 import { DiscoverContentContainer, InputContainer } from './styles';
 import Input from 'components/Input';
 import Button from 'components/Button';
-import Form from 'components/Form';
-
+import { Form } from '@unform/web';
 function DiscoverContent() {
   return (
     <DiscoverContentContainer>

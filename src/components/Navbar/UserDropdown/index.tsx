@@ -1,7 +1,9 @@
 import { PersonIcon, ExitIcon, MixerHorizontalIcon } from '@modulz/radix-icons';
 import Dropdown from 'components/Dropdown';
 import Icon from 'components/Icon';
-import { useAuth } from 'context/AuthContext';
+import { useAuth, User } from 'context/AuthContext';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   DropdownLink,
   UserInfoContainer,
@@ -19,14 +21,46 @@ function UserInfo({ name }: { name: string }) {
 }
 
 function UserDropdown() {
-  const { user, signOut } = useAuth();
+  const [data, setData] = useState<User>({} as User);
+  const { user, signOut, getData } = useAuth();
 
+  const { push } = useRouter();
   const { id, username } = user;
 
   const usernameQuery = username ? `@${username}` : id;
 
+  const handleSettingsClick = async () => {
+    if (user.isIncomplete) {
+      const getUserData = await getData();
+
+      const userString = getUserData?.username
+        ? getUserData.username
+        : getUserData.id;
+
+      push(`/settings/${userString}`);
+
+      return;
+    }
+
+    push(`/settings/${usernameQuery}`);
+  };
+
+  useEffect(() => {
+    async function getUserData() {
+      if (user.isIncomplete) {
+        const userData = await getData();
+        console.log(userData);
+        return setData(userData);
+      }
+
+      setData(user);
+    }
+
+    getUserData();
+  }, [getData, user]);
+
   return (
-    <Dropdown label={<UserInfo name={user.name} />}>
+    <Dropdown label={<UserInfo name={data.name} />}>
       <Content>
         <DropdownLink href="/my-trips">My trips</DropdownLink>
         <DropdownLink href="/logout">Info</DropdownLink>
@@ -39,7 +73,7 @@ function UserDropdown() {
           </DropdownLink>
           <DropdownLink
             css={{ borderRadius: '50%' }}
-            href={`/settings/${usernameQuery}`}
+            onClick={handleSettingsClick}
           >
             <MixerHorizontalIcon />
           </DropdownLink>

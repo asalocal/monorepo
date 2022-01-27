@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import { BYTCSS } from 'styles/Theme.provider';
 import { TextContainer } from './styles';
 interface TextProps {
-  as:
+  as?:
     | 'span'
     | 'p'
     | 'strong'
@@ -44,8 +44,8 @@ const Text = forwardRef(
     ref
   ) => {
     const textCSS = {
-      ...css,
       fontWeight: fontWeight || 'regular',
+      ...css,
     };
     return (
       <>

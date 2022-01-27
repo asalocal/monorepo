@@ -28,7 +28,6 @@ export const Container = styled('button', {
   '&:hover': {
     color: 'white',
 
-    backgroundColor: '$primary',
     '&:before': {
       width: '100%',
     },
@@ -53,6 +52,7 @@ export const Container = styled('button', {
 
         '&:hover': {
           backgroundColor: '$primaryHover !important',
+          boxShadow: '0 0 5px 1px rgba(255, 103, 56, 0.3) ',
         },
       },
       secondary: {
@@ -60,22 +60,29 @@ export const Container = styled('button', {
         color: '$primary',
 
         '&:hover': {
-          color: '$primaryHover !important',
+          color: 'rgba(255, 103, 56, 0.6) !important',
+          backgroundColor: 'rgba(201, 201, 201, 1)',
+          boxShadow: '0 0 5px 1px rgba(255, 103, 56, 0.3) ',
         },
       },
       alternative: {
-        backgroundColor: 'transparent !important',
+        backgroundColor: 'transparent',
         border: '1px solid $gray1 !important',
         color: '$gray1 !important',
 
         '&:hover': {
-          backgroundColor: 'rgba(255, 255, 255, 0.2) !important',
+          backgroundColor: 'rgba(255, 103, 56, 0.1) !important',
+          boxShadow: '0 0 2px 1px rgba(255, 103, 56, 0.2) ',
         },
       },
       ghost: {
         backgroundColor: 'transparent !important',
         border: 'none',
         color: '$gray',
+
+        '&:hover': {
+          color: '$primary',
+        },
       },
     },
   },

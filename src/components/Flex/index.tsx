@@ -16,6 +16,7 @@ function Flex({
   justifyContent = 'normal',
   direction = 'row',
   css,
+  ...props
 }: FlexProps) {
   return (
     <FlexWrapper
@@ -25,6 +26,7 @@ function Flex({
       css={css}
       direction={direction}
       justifyContent={justifyContent}
+      {...props}
     >
       {children}
     </FlexWrapper>

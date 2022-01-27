@@ -90,7 +90,7 @@ function Navbar({
                 type="button"
                 to="/signup?soft=true"
               >
-                Sign In
+                Sign Up
               </NavItem>
             )}
           </NavContainer>
