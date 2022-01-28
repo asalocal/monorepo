@@ -248,7 +248,7 @@ function Explore({
               </Row>
             </Col>
             <Col sm={12} md={6} lg={4}>
-              <Collapse collapseTitle="Filters" defaultValue="type">
+              <Collapse collapseTitle="Filters" defaultValue="country">
                 <CollapseItem value="country" title="Country">
                   <Form onSubmit={() => console.log('Submit')}>
                     <Checkbox name="country">United States</Checkbox>

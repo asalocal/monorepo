@@ -17,25 +17,27 @@ function Modal({ children, isOpen, onHide }: ModalProps) {
   }, [isOpen]);
 
   return (
-    open && (
-      <Portal>
-        <Overlay visible>
-          <Flex
-            alignItems="center"
-            justifyContent="center"
-            css={{
-              width: '100%',
-              height: '100%',
-            }}
-            onClick={() => {
-              onHide && onHide();
-            }}
-          >
-            {children}
-          </Flex>
-        </Overlay>
-      </Portal>
-    )
+    <>
+      {open && (
+        <Portal>
+          <Overlay visible>
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              css={{
+                width: '100%',
+                height: '100%',
+              }}
+              onClick={() => {
+                onHide && onHide();
+              }}
+            >
+              {children}
+            </Flex>
+          </Overlay>
+        </Portal>
+      )}
+    </>
   );
 }
 

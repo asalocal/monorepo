@@ -1,4 +1,3 @@
-import Button from 'components/Button';
 import { ButtonHTMLAttributes } from 'react';
 import { DayButtonContainer } from './styles';
 

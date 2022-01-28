@@ -83,6 +83,10 @@ export const Container = styled('button', {
         '&:hover': {
           color: '$primary',
         },
+
+        '&:disabled': {
+          color: '$gray7',
+        },
       },
     },
   },

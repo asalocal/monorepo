@@ -13,9 +13,10 @@ import nookies from 'nookies';
 
 interface UsernameModalProps {
   userData: UserComplete;
+  isOpen: boolean;
 }
 
-function UsernameModal({ userData }: UsernameModalProps) {
+function UsernameModal({ userData, isOpen }: UsernameModalProps) {
   const [username, setUsername] = useState(userData.username || '');
 
   const { push } = useRouter();
@@ -44,7 +45,7 @@ function UsernameModal({ userData }: UsernameModalProps) {
 
   return (
     <>
-      <Modal>
+      <Modal isOpen={isOpen}>
         <Flex
           direction="column"
           css={{

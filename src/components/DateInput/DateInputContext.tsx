@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   useCallback,
   useContext,
@@ -16,15 +16,25 @@ interface IDateInputContext {
   positions: IPositions;
   handleCalendar: (value?: boolean) => void;
   calendarOpen: boolean;
-  handleFocus: (value?: boolean) => void;
-  isFocused: boolean;
   handleDay: (day: number) => void;
   optionDay: number;
+  year: string;
   month: string[];
+  value: DateInputValue;
+  currentMonth: number;
+  setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
+  setYear: React.SetStateAction<React.Dispatch<string>>;
+  handleValue: (value: string) => void;
 }
 
 interface DateInputProviderProps {
   children: React.ReactNode;
+}
+
+export interface DateInputValue {
+  formatted: string;
+  month: string;
+  year: string;
 }
 
 const DateInputContext = createContext<IDateInputContext>(
@@ -34,8 +44,10 @@ const DateInputContext = createContext<IDateInputContext>(
 export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   const [positions, setPositions] = useState<IPositions>({} as IPositions);
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
   const [optionDay, setOptionDay] = useState(0);
+  const [value, setValue] = useState<DateInputValue>({} as DateInputValue);
+  const [currentMonth, setCurrentMonth] = useState(0);
+  const [year, setYear] = useState('');
 
   const month = useMemo(
     () => [
@@ -53,19 +65,21 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
     []
   );
 
+  const handleValue = useCallback(
+    (value: string) => {
+      setValue({
+        month: month[currentMonth],
+        year: year,
+        formatted: value,
+      });
+    },
+    [month, currentMonth, year]
+  );
+
   const handleDay = useCallback((day: number) => {
     setOptionDay(day);
   }, []);
 
-  const handleFocus = useCallback((value?: boolean) => {
-    setIsFocused((prevState) => {
-      if (value) {
-        return value;
-      }
-
-      return !prevState;
-    });
-  }, []);
   const handleCalendar = useCallback((value?: boolean) => {
     setCalendarOpen((prevState) => {
       if (value) {
@@ -87,14 +101,18 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   return (
     <DateInputContext.Provider
       value={{
+        setYear,
+        year,
+        handleValue,
+        value,
+        setCurrentMonth,
+        currentMonth,
         month,
         handleDay,
         optionDay,
         registerPositions,
-        isFocused,
         handleCalendar,
         calendarOpen,
-        handleFocus,
         positions,
       }}
     >

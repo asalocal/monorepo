@@ -64,6 +64,7 @@ function Settings({ user }: ProfileProps) {
   const [userData, setUserData] = useState<UserComplete>(user);
   const [cellphone, setCellphone] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleDateOfBirth = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -301,7 +302,7 @@ function Settings({ user }: ProfileProps) {
         )}
       </Container>
 
-      <UsernameModal userData={user} />
+      <UsernameModal isOpen={modalOpen} userData={user} />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import {
+  ChangeEvent,
   InputHTMLAttributes,
   useCallback,
   useEffect,
@@ -41,23 +42,41 @@ function DateInputWrapper({
   placeholder,
   defaultValue,
   id,
+  onChange,
   ...props
 }: DateInputProps) {
+  const [isFocused, setIsFocused] = useState(false);
   const {
     registerPositions,
     calendarOpen,
     handleCalendar,
-    isFocused,
-    handleFocus,
+    value,
+    handleValue,
   } = useDateInputContext();
 
   const inputRef = useRef<HTMLDivElement>(null);
 
-  const setFocus = useCallback(() => {
-    handleFocus();
+  const handleChange = useCallback(
+    (ev: ChangeEvent<HTMLInputElement>) => {
+      setIsFocused(!!ev.target.value);
+      handleValue(ev.target.value);
+      onChange && onChange(ev);
+    },
+    [onChange, handleValue]
+  );
 
-    handleCalendar();
-  }, [handleCalendar, handleFocus]);
+  const setFocus = useCallback(
+    (ev) => {
+      setIsFocused((prevState) => !prevState);
+
+      handleCalendar();
+    },
+    [handleCalendar]
+  );
+
+  const handleBlur = useCallback(() => {
+    setIsFocused((prevState) => !prevState);
+  }, []);
 
   useEffect(() => {
     const xPosition = inputRef.current?.getBoundingClientRect().left;
@@ -73,9 +92,9 @@ function DateInputWrapper({
 
   useEffect(() => {
     if (placeholder || defaultValue) {
-      handleFocus(true);
+      setIsFocused(true);
     }
-  }, [handleFocus, placeholder, defaultValue]);
+  }, [placeholder, defaultValue]);
 
   return (
     <>
@@ -84,7 +103,14 @@ function DateInputWrapper({
           <DateInputLabel isFocused={isFocused} htmlFor={id}>
             {label}
           </DateInputLabel>
-          <InputWrapper onClick={setFocus} name={name} id={id} {...props} />
+          <InputWrapper
+            onChange={handleChange}
+            onFocus={setFocus}
+            onBlur={handleBlur}
+            name={name}
+            id={id}
+            {...props}
+          />
           <CalendarIcon />
         </InputContent>
       </InputContainer>

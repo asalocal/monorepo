@@ -22,18 +22,25 @@ const months = [
   'December',
 ];
 
-function Calendar() {
-  const [currentMonth, setCurrentMonth] = useState(0);
+const days = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24, 25, 26, 27, 28, 29, 30, 1, 2,
+];
 
-  const { positions, handleCalendar, month, handleFocus } =
+function Calendar() {
+  const [currentDay, setCurrentDay] = useState(5);
+  const { positions, setCurrentMonth, currentMonth, handleCalendar, month } =
     useDateInputContext();
 
   const calendarRef = useRef<HTMLDivElement>(null);
 
   const handleClickOnOverlay = useCallback(() => {
     handleCalendar(false);
-    handleFocus();
-  }, [handleCalendar, handleFocus]);
+  }, [handleCalendar]);
+
+  const handleDayClick = useCallback((value: number) => {
+    setCurrentDay(value);
+  }, []);
 
   const handlePrevMonth = useCallback(() => {
     setCurrentMonth((prevState) => {
@@ -43,7 +50,7 @@ function Calendar() {
 
       return prevState - 1;
     });
-  }, []);
+  }, [setCurrentMonth]);
 
   const handleNextMonth = useCallback(() => {
     setCurrentMonth((prevState) => {
@@ -53,7 +60,7 @@ function Calendar() {
 
       return prevState + 1;
     });
-  }, []);
+  }, [setCurrentMonth]);
 
   useEffect(() => {
     function handleMouseDown(event: MouseEvent) {
@@ -67,6 +74,16 @@ function Calendar() {
     document.addEventListener('mousedown', handleMouseDown);
 
     return () => document.removeEventListener('mousedown', handleMouseDown);
+  }, [handleClickOnOverlay]);
+
+  useEffect(() => {
+    function handleScroll() {
+      handleClickOnOverlay();
+    }
+
+    document.addEventListener('scroll', handleScroll);
+
+    return () => document.removeEventListener('scroll', handleScroll);
   }, [handleClickOnOverlay]);
 
   return (
@@ -97,6 +114,7 @@ function Calendar() {
           <Flex alignItems="center" justifyContent="center">
             <Button
               variant="ghost"
+              disabled={currentMonth === 0}
               onClick={handlePrevMonth}
               css={{ width: 'fit-content' }}
             >
@@ -119,6 +137,7 @@ function Calendar() {
             <Button
               variant="ghost"
               onClick={handleNextMonth}
+              disabled={currentMonth === months.length - 1}
               css={{ width: 'fit-content' }}
             >
               <ChevronRightIcon />
@@ -140,49 +159,110 @@ function Calendar() {
             />
             <Flex direction="column" css={{ padding: '5px' }}>
               <Flex css={{ marginTop: '10px' }} justifyContent="spaceBetween">
-                <Day active={true}>1</Day>
-                <Day active={false}>2</Day>
-                <Day active={false}>3</Day>
-                <Day active={false}>4</Day>
-                <Day active={false}>5</Day>
-                <Day active={false}>6</Day>
-                <Day active={false}>7</Day>
+                {days.map((day, index) => {
+                  if (index > 6) {
+                    return null;
+                  }
+
+                  return (
+                    <>
+                      <Day
+                        onClick={() => handleDayClick(day)}
+                        active={currentDay === day}
+                      >
+                        {day}
+                      </Day>
+                    </>
+                  );
+                })}
               </Flex>
               <Flex css={{ marginTop: '5px' }} justifyContent="spaceBetween">
-                <Day active={false}>8</Day>
-                <Day active={false}>9</Day>
-                <Day active={false}>10</Day>
-                <Day active={false}>11</Day>
-                <Day active={false}>12</Day>
-                <Day active={false}>13</Day>
-                <Day active={false}>14</Day>
+                {days.map((day, index) => {
+                  if (index < 6) {
+                    return null;
+                  }
+
+                  if (index > 12) {
+                    return null;
+                  }
+
+                  return (
+                    <>
+                      <Day
+                        onClick={() => handleDayClick(day)}
+                        active={currentDay === day}
+                      >
+                        {day}
+                      </Day>
+                    </>
+                  );
+                })}
               </Flex>
               <Flex css={{ marginTop: '5px' }} justifyContent="spaceBetween">
-                <Day active={false}>15</Day>
-                <Day active={false}>16</Day>
-                <Day active={false}>17</Day>
-                <Day active={false}>18</Day>
-                <Day active={false}>19</Day>
-                <Day active={false}>20</Day>
-                <Day active={false}>21</Day>
+                {days.map((day, index) => {
+                  if (index < 12) {
+                    return null;
+                  }
+
+                  if (index > 18) {
+                    return null;
+                  }
+
+                  return (
+                    <>
+                      <Day
+                        onClick={() => handleDayClick(day)}
+                        active={currentDay === day}
+                      >
+                        {day}
+                      </Day>
+                    </>
+                  );
+                })}
               </Flex>
               <Flex css={{ marginTop: '5px' }} justifyContent="spaceBetween">
-                <Day active={false}>22</Day>
-                <Day active={false}>23</Day>
-                <Day active={false}>24</Day>
-                <Day active={false}>25</Day>
-                <Day active={false}>26</Day>
-                <Day active={false}>27</Day>
-                <Day active={false}>28</Day>
+                {days.map((day, index) => {
+                  if (index < 18) {
+                    return null;
+                  }
+
+                  if (index > 24) {
+                    return null;
+                  }
+
+                  return (
+                    <>
+                      <Day
+                        onClick={() => handleDayClick(day)}
+                        active={currentDay === day}
+                      >
+                        {day}
+                      </Day>
+                    </>
+                  );
+                })}
               </Flex>
               <Flex css={{ marginTop: '5px' }} justifyContent="spaceBetween">
-                <Day active={false}>29</Day>
-                <Day active={false}>30</Day>
-                <Day active={false}>31</Day>
-                <Day active={false}>1</Day>
-                <Day active={false}>2</Day>
-                <Day active={false}>3</Day>
-                <Day active={false}>4</Day>
+                {days.map((day, index) => {
+                  if (index < 25) {
+                    return null;
+                  }
+
+                  if (index > days.length - 1) {
+                    return null;
+                  }
+
+                  return (
+                    <>
+                      <Day
+                        onClick={() => handleDayClick(day)}
+                        active={currentDay === day}
+                      >
+                        {day}
+                      </Day>
+                    </>
+                  );
+                })}
               </Flex>
             </Flex>
           </Flex>
