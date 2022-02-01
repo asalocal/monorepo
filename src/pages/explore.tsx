@@ -14,18 +14,7 @@ import Checkbox from 'components/Checkbox';
 import Head from 'next/head';
 import DateInput from 'components/DateInput';
 import City from 'components/Explore/City';
-
-interface ITrips {
-  id: string;
-  name: string;
-  subtitle: string;
-  thumb: string;
-  description: string;
-  user: {
-    name: string;
-    avatar: string;
-  };
-}
+import { ITrips } from 'types/Trips';
 
 interface ExploreProps {
   data: {

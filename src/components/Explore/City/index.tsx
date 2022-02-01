@@ -2,8 +2,13 @@ import Button from 'components/Button';
 import Flex from 'components/Flex';
 import Text from 'components/Text';
 import { FiMapPin } from 'react-icons/fi';
+import { ITrips } from 'types/Trips';
 
-function City({ trip }: any) {
+interface CityProps {
+  trip: ITrips;
+}
+
+function City({ trip }: CityProps) {
   return (
     <>
       <Flex

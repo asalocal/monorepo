@@ -2,9 +2,11 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
+import getMonth from 'utils/getMonth';
 
 interface IPositions {
   x: number;
@@ -23,8 +25,8 @@ interface IDateInputContext {
   value: DateInputValue;
   currentMonth: number;
   setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
-  setYear: React.SetStateAction<React.Dispatch<string>>;
-  handleValue: (value: string) => void;
+  setYear: React.Dispatch<React.SetStateAction<string>>;
+  handleValue: (value: DateInputValue) => void;
 }
 
 interface DateInputProviderProps {
@@ -33,6 +35,7 @@ interface DateInputProviderProps {
 
 export interface DateInputValue {
   formatted: string;
+  day: number;
   month: string;
   year: string;
 }
@@ -44,13 +47,24 @@ const DateInputContext = createContext<IDateInputContext>(
 export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   const [positions, setPositions] = useState<IPositions>({} as IPositions);
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [optionDay, setOptionDay] = useState(0);
+  const [optionDay, setOptionDay] = useState(1);
   const [value, setValue] = useState<DateInputValue>({} as DateInputValue);
   const [currentMonth, setCurrentMonth] = useState(0);
   const [year, setYear] = useState('');
 
   const month = useMemo(
-    () => [
+    (): (
+      | 'January'
+      | 'February'
+      | 'March'
+      | 'July'
+      | 'June'
+      | 'August'
+      | 'September'
+      | 'October'
+      | 'November'
+      | 'December'
+    )[] => [
       'January',
       'February',
       'March',
@@ -65,20 +79,25 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
     []
   );
 
-  const handleValue = useCallback(
-    (value: string) => {
-      setValue({
-        month: month[currentMonth],
-        year: year,
-        formatted: value,
-      });
+  const handleValue = useCallback((value: DateInputValue) => {
+    setValue(value);
+  }, []);
+
+  const handleDay = useCallback(
+    (day: number) => {
+      setOptionDay(day);
+      const formattedDay = day < 10 ? `0${day}` : day;
+
+      setValue((prevState) => ({
+        ...prevState,
+        day,
+        formatted: `${formattedDay}/${getMonth(
+          month[currentMonth + 1]
+        )}/${year}`,
+      }));
     },
     [month, currentMonth, year]
   );
-
-  const handleDay = useCallback((day: number) => {
-    setOptionDay(day);
-  }, []);
 
   const handleCalendar = useCallback((value?: boolean) => {
     setCalendarOpen((prevState) => {

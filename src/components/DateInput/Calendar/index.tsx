@@ -9,6 +9,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Day from './Day';
 import Weekdays from './Weekdays';
 
+interface DayProps {
+  day: number;
+  month: string;
+}
+
 const months = [
   'January',
   'February',
@@ -28,9 +33,16 @@ const days = [
 ];
 
 function Calendar() {
-  const [currentDay, setCurrentDay] = useState(5);
-  const { positions, setCurrentMonth, currentMonth, handleCalendar, month } =
-    useDateInputContext();
+  const [currentDay, setCurrentDay] = useState({});
+  const {
+    positions,
+    setCurrentMonth,
+    currentMonth,
+    value,
+    handleCalendar,
+    handleDay,
+    month,
+  } = useDateInputContext();
 
   const calendarRef = useRef<HTMLDivElement>(null);
 
@@ -38,9 +50,13 @@ function Calendar() {
     handleCalendar(false);
   }, [handleCalendar]);
 
-  const handleDayClick = useCallback((value: number) => {
-    setCurrentDay(value);
-  }, []);
+  const handleDayClick = useCallback(
+    (day: number) => {
+      handleDay(day);
+      console.log(value);
+    },
+    [handleDay, value]
+  );
 
   const handlePrevMonth = useCallback(() => {
     setCurrentMonth((prevState) => {
@@ -167,6 +183,7 @@ function Calendar() {
                   return (
                     <>
                       <Day
+                        key={`${day}-${index}`}
                         onClick={() => handleDayClick(day)}
                         active={currentDay === day}
                       >
@@ -189,6 +206,7 @@ function Calendar() {
                   return (
                     <>
                       <Day
+                        key={`${day}-${index}`}
                         onClick={() => handleDayClick(day)}
                         active={currentDay === day}
                       >
@@ -211,6 +229,7 @@ function Calendar() {
                   return (
                     <>
                       <Day
+                        key={`${day}-${index}`}
                         onClick={() => handleDayClick(day)}
                         active={currentDay === day}
                       >
@@ -233,6 +252,7 @@ function Calendar() {
                   return (
                     <>
                       <Day
+                        key={`${day}-${index}`}
                         onClick={() => handleDayClick(day)}
                         active={currentDay === day}
                       >
@@ -255,6 +275,7 @@ function Calendar() {
                   return (
                     <>
                       <Day
+                        key={`${day}-${index}`}
                         onClick={() => handleDayClick(day)}
                         active={currentDay === day}
                       >

@@ -17,7 +17,7 @@ function dateMask(value: string) {
 
   const dateMasked = dateFormatted
     .replace(/^(\d{2})(\d)/g, '$1/$2')
-    .replace(/^(\d{2}\/\d{2})(\d{4})/g, '$1/$2');
+    .replace(/^(\d{2}\/\d{2})(\d{1,4})/g, '$1/$2');
 
   return dateMasked;
 }

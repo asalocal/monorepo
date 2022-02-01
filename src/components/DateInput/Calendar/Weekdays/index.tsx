@@ -11,6 +11,7 @@ function Weekdays({ weekdays }: WeekdaysProps) {
       <Flex justifyContent="spaceBetween" css={{ marginTop: '10px' }}>
         {weekdays.map((day, index) => (
           <Text
+            key={`${day}-${index}`}
             css={{
               display: 'flex',
               justifyContent: 'center',

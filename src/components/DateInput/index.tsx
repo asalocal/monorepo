@@ -15,6 +15,7 @@ import {
 import { CalendarIcon } from '@modulz/radix-icons';
 import Calendar from './Calendar';
 import { DateInputProvider, useDateInputContext } from './DateInputContext';
+import maskCreation from 'utils/inputMaskCreation';
 
 interface DateInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -46,41 +47,61 @@ function DateInputWrapper({
   ...props
 }: DateInputProps) {
   const [isFocused, setIsFocused] = useState(false);
-  const {
-    registerPositions,
-    calendarOpen,
-    handleCalendar,
-    value,
-    handleValue,
-  } = useDateInputContext();
+  const [hasValue, setHasValue] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
-  const inputRef = useRef<HTMLDivElement>(null);
+  const { registerPositions, calendarOpen, setYear, handleCalendar, value } =
+    useDateInputContext();
+
+  const divContainerRef = useRef<HTMLDivElement>(null);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = useCallback(
     (ev: ChangeEvent<HTMLInputElement>) => {
       setIsFocused(!!ev.target.value);
-      handleValue(ev.target.value);
+
+      const valueMasked = maskCreation({
+        type: 'date',
+        value: ev.target.value,
+      });
+
+      setInputValue(valueMasked);
       onChange && onChange(ev);
     },
-    [onChange, handleValue]
+    [onChange]
   );
 
   const setFocus = useCallback(
     (ev) => {
-      setIsFocused((prevState) => !prevState);
-
       handleCalendar();
+
+      if (hasValue) {
+        setIsFocused(true);
+        return;
+      }
+
+      setIsFocused((prevState) => !prevState);
     },
-    [handleCalendar]
+    [handleCalendar, hasValue]
   );
 
   const handleBlur = useCallback(() => {
+    if (hasValue) {
+      setIsFocused(true);
+      return;
+    }
+
     setIsFocused((prevState) => !prevState);
-  }, []);
+  }, [hasValue]);
 
   useEffect(() => {
-    const xPosition = inputRef.current?.getBoundingClientRect().left;
-    const yPosition = inputRef.current?.getBoundingClientRect().top;
+    setHasValue(!!value.formatted);
+  }, [value]);
+
+  useEffect(() => {
+    const xPosition = divContainerRef.current?.getBoundingClientRect().left;
+    const yPosition = divContainerRef.current?.getBoundingClientRect().top;
 
     if (xPosition && yPosition) {
       registerPositions({
@@ -96,9 +117,23 @@ function DateInputWrapper({
     }
   }, [placeholder, defaultValue]);
 
+  useEffect(() => {
+    setYear('2021');
+  }, [setYear]);
+
+  useEffect(() => {
+    setInputValue(value.formatted);
+  }, [value.formatted]);
+
+  useEffect(() => {
+    if (inputRef.current?.defaultValue) {
+      setIsFocused(true);
+    }
+  }, [inputRef.current?.defaultValue]);
+
   return (
     <>
-      <InputContainer ref={inputRef}>
+      <InputContainer ref={divContainerRef}>
         <InputContent>
           <DateInputLabel isFocused={isFocused} htmlFor={id}>
             {label}
@@ -109,12 +144,15 @@ function DateInputWrapper({
             onBlur={handleBlur}
             name={name}
             id={id}
+            maxLength={10}
+            value={inputValue}
+            ref={inputRef}
             {...props}
           />
           <CalendarIcon />
         </InputContent>
+        {calendarOpen && <Calendar />}
       </InputContainer>
-      {calendarOpen && <Calendar />}
     </>
   );
 }
