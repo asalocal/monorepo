@@ -5,7 +5,7 @@ import { useDateInputContext } from '../DateInputContext';
 import { CalendarContainer } from './styles';
 import { ChevronLeftIcon, ChevronRightIcon } from '@modulz/radix-icons';
 import Button from 'components/Button';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import Day from './Day';
 import Weekdays from './Weekdays';
 
@@ -14,23 +14,9 @@ interface DayProps {
   month: number;
 }
 
-const months = [
-  'January',
-  'February',
-  'March',
-  'July',
-  'June',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
 function Calendar() {
   const {
     positions,
-    setCurrentMonth,
     handleMonthValue,
     currentMonth,
     value,
@@ -85,9 +71,7 @@ function Calendar() {
           ref={calendarRef}
           css={{
             zIndex: 99999,
-            transform: `translate(${positions.x / 1.25}px, ${
-              positions.y + 70
-            }px)`,
+            transform: `translate(${positions.x}px, ${positions.y + 70}px)`,
           }}
         >
           <Text
@@ -154,7 +138,7 @@ function Calendar() {
                 ></Flex>
               ))}
 
-              {days.map(({ day, month: dayMonth, UTCdate }, index) => {
+              {days.map(({ day, month: dayMonth }, index) => {
                 if (currentMonth === 1 && day > 28) {
                   return (
                     <Flex css={{ maxWidth: '37px', width: '100%' }}></Flex>

@@ -6,7 +6,6 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import getMonth from 'utils/getMonth';
 import getQuantityOfDays from 'utils/getQuantityOfDays';
 
 interface IPositions {
@@ -78,6 +77,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   const [monthValue, setMonthValue] = useState(0);
   const [year, setYear] = useState('');
   const [days, setDays] = useState<IDays[]>([]);
+
   const date = useMemo(() => new Date(), []);
 
   const handleNextMonth = useCallback(() => {

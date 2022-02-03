@@ -101,7 +101,7 @@ function Input({
   }, [controlledValue]);
 
   useEffect(() => {
-    if (inputRef.current) {
+    if (inputRef.current && registerField) {
       registerField({
         name: fieldName,
         ref: inputRef,

@@ -1,6 +1,7 @@
 import {
   ChangeEvent,
   InputHTMLAttributes,
+  RefObject,
   useCallback,
   useEffect,
   useRef,
@@ -16,22 +17,30 @@ import { CalendarIcon } from '@modulz/radix-icons';
 import Calendar from './Calendar';
 import { DateInputProvider, useDateInputContext } from './DateInputContext';
 import maskCreation from 'utils/inputMaskCreation';
+import { useField } from '@unform/core';
 
 interface DateInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
-  id: string;
   placeholder?: string;
+  defaultValue?: string;
 }
 
-function DateInput({ id, label, placeholder, name }: DateInputProps) {
+function DateInput({
+  label,
+  placeholder,
+  name,
+  defaultValue,
+  ...props
+}: DateInputProps) {
   return (
     <DateInputProvider>
       <DateInputWrapper
         label={label}
         placeholder={placeholder}
         name={name}
-        id={id}
+        defaultValue={defaultValue}
+        {...props}
       />
     </DateInputProvider>
   );
@@ -42,16 +51,17 @@ function DateInputWrapper({
   name,
   placeholder,
   defaultValue,
-  id,
   onChange,
   ...props
 }: DateInputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [hasValue, setHasValue] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState<string | readonly string[]>('');
 
   const { registerPositions, calendarOpen, setYear, handleCalendar, value } =
     useDateInputContext();
+
+  const { fieldName, registerField, error } = useField(name);
 
   const divContainerRef = useRef<HTMLDivElement>(null);
 
@@ -122,20 +132,44 @@ function DateInputWrapper({
   }, [setYear]);
 
   useEffect(() => {
-    setInputValue(value.formatted);
+    if (value.formatted) {
+      setInputValue(value.formatted);
+    }
   }, [value.formatted]);
 
   useEffect(() => {
-    if (inputRef.current?.defaultValue) {
+    if (defaultValue) {
+      setHasValue(!!defaultValue);
+      setInputValue(defaultValue);
+    }
+  }, [defaultValue]);
+
+  useEffect(() => {
+    if (defaultValue) {
       setIsFocused(true);
     }
-  }, [inputRef.current?.defaultValue]);
+  }, [defaultValue]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      registerField({
+        name: fieldName,
+        ref: inputRef,
+        getValue: (ref: RefObject<HTMLInputElement>) =>
+          ref.current ? ref.current.value : '',
+        setValue: (ref: RefObject<HTMLInputElement>, value: string) =>
+          ref.current ? (ref.current.value = value) : value,
+        clearValue: (ref: RefObject<HTMLInputElement>) =>
+          ref.current ? (ref.current.value = '') : '',
+      });
+    }
+  }, [fieldName, registerField]);
 
   return (
     <>
       <InputContainer ref={divContainerRef}>
         <InputContent>
-          <DateInputLabel isFocused={isFocused} htmlFor={id}>
+          <DateInputLabel isFocused={isFocused} htmlFor={name}>
             {label}
           </DateInputLabel>
           <InputWrapper
@@ -143,7 +177,6 @@ function DateInputWrapper({
             onFocus={setFocus}
             onBlur={handleBlur}
             name={name}
-            id={id}
             maxLength={10}
             value={inputValue}
             ref={inputRef}
