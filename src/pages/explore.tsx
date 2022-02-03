@@ -2,7 +2,7 @@ import { Form } from '@unform/web';
 import Input from 'components/Input';
 import { Col, Container, Row } from 'components/layout';
 import Navbar from 'components/Navbar';
-import { FiGrid, FiList } from 'react-icons/fi';
+import { FiAlertTriangle, FiGrid, FiList } from 'react-icons/fi';
 import { GetServerSideProps } from 'next';
 import Text from 'components/Text';
 import Flex from 'components/Flex';
@@ -15,6 +15,7 @@ import City from 'components/Explore/City';
 import { ITrips } from 'types/Trips';
 import { trips } from 'mocks/trips';
 import DateInput from 'components/DateInput';
+import Tooltip from 'components/Tooltip';
 
 interface ExploreProps {
   data: {

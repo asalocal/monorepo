@@ -134,6 +134,7 @@ function DateInputWrapper({
   useEffect(() => {
     if (value.formatted) {
       setInputValue(value.formatted);
+      setIsFocused(true);
     }
   }, [value.formatted]);
 

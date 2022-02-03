@@ -24,6 +24,7 @@ import Flex from 'components/Flex';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import Input from 'components/Input';
+import DateInput from 'components/DateInput';
 
 const passengersOptions = [
   { value: 'One passanger', label: 'One passanger' },
@@ -134,8 +135,7 @@ function Explorer() {
                   name="goingTo"
                   id="goingTo"
                 />
-                <Input
-                  type="text"
+                <DateInput
                   onChange={handleInputChange}
                   label="Departure"
                   name="departure"
@@ -144,7 +144,7 @@ function Explorer() {
 
                 <WidthIcon width="120px" />
 
-                <Input
+                <DateInput
                   type="text"
                   label="Return"
                   name="dateOfReturn"

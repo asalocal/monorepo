@@ -1,7 +1,7 @@
-import { IconProps } from '@modulz/radix-icons/dist/types';
+import { IconBaseProps } from 'react-icons';
 
 interface IIconProps {
-  icon: (props: IconProps) => JSX.Element;
+  icon: React.ComponentType<IconBaseProps>;
   onClick?: () => void;
 }
 
