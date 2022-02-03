@@ -11,7 +11,7 @@ import Weekdays from './Weekdays';
 
 interface DayProps {
   day: number;
-  month: string;
+  month: number;
 }
 
 const months = [
@@ -27,21 +27,19 @@ const months = [
   'December',
 ];
 
-const days = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 25, 26, 27, 28, 29, 30, 1, 2,
-];
-
 function Calendar() {
-  const [currentDay, setCurrentDay] = useState({});
   const {
     positions,
     setCurrentMonth,
+    handleMonthValue,
     currentMonth,
     value,
+    days,
+    handleNextMonth,
+    handlePrevMonth,
+    months,
     handleCalendar,
-    handleDay,
-    month,
+    year,
   } = useDateInputContext();
 
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -51,33 +49,11 @@ function Calendar() {
   }, [handleCalendar]);
 
   const handleDayClick = useCallback(
-    (day: number) => {
-      handleDay(day);
-      console.log(value);
+    ({ day, month }: DayProps) => {
+      handleMonthValue({ month, day });
     },
-    [handleDay, value]
+    [handleMonthValue]
   );
-
-  const handlePrevMonth = useCallback(() => {
-    setCurrentMonth((prevState) => {
-      if (prevState === 0) {
-        return months.length - 1;
-      }
-
-      return prevState - 1;
-    });
-  }, [setCurrentMonth]);
-
-  const handleNextMonth = useCallback(() => {
-    setCurrentMonth((prevState) => {
-      if (prevState === months.length - 1) {
-        return 0;
-      }
-
-      return prevState + 1;
-    });
-  }, [setCurrentMonth]);
-
   useEffect(() => {
     function handleMouseDown(event: MouseEvent) {
       if (calendarRef.current) {
@@ -130,7 +106,6 @@ function Calendar() {
           <Flex alignItems="center" justifyContent="center">
             <Button
               variant="ghost"
-              disabled={currentMonth === 0}
               onClick={handlePrevMonth}
               css={{ width: 'fit-content' }}
             >
@@ -147,20 +122,19 @@ function Calendar() {
                 justifyContent: 'center',
               }}
             >
-              {month[currentMonth]}
+              {months[currentMonth]}
             </Text>
 
             <Button
               variant="ghost"
               onClick={handleNextMonth}
-              disabled={currentMonth === months.length - 1}
               css={{ width: 'fit-content' }}
             >
               <ChevronRightIcon />
             </Button>
           </Flex>
           <Flex justifyContent="center">
-            <Text css={{ color: '$gray9', fontSize: '0.8rem' }}>2021</Text>
+            <Text css={{ color: '$gray9', fontSize: '0.8rem' }}>{year}</Text>
           </Flex>
 
           <Flex
@@ -173,118 +147,32 @@ function Calendar() {
             <Weekdays
               weekdays={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
             />
-            <Flex direction="column" css={{ padding: '5px' }}>
-              <Flex css={{ marginTop: '10px' }} justifyContent="spaceBetween">
-                {days.map((day, index) => {
-                  if (index > 6) {
-                    return null;
-                  }
+            <Flex direction="row" flexWrap="wrap" css={{ paddingTop: '5px' }}>
+              {[...Array(days[0].UTCdate)].map((_, index) => (
+                <Flex
+                  css={{ maxWidth: '37px', width: '100%', height: '40px' }}
+                ></Flex>
+              ))}
 
+              {days.map(({ day, month: dayMonth, UTCdate }, index) => {
+                if (currentMonth === 1 && day > 28) {
                   return (
-                    <>
-                      <Day
-                        key={`${day}-${index}`}
-                        onClick={() => handleDayClick(day)}
-                        active={currentDay === day}
-                      >
-                        {day}
-                      </Day>
-                    </>
+                    <Flex css={{ maxWidth: '37px', width: '100%' }}></Flex>
                   );
-                })}
-              </Flex>
-              <Flex css={{ marginTop: '5px' }} justifyContent="spaceBetween">
-                {days.map((day, index) => {
-                  if (index < 6) {
-                    return null;
-                  }
+                }
 
-                  if (index > 12) {
-                    return null;
-                  }
-
-                  return (
-                    <>
-                      <Day
-                        key={`${day}-${index}`}
-                        onClick={() => handleDayClick(day)}
-                        active={currentDay === day}
-                      >
-                        {day}
-                      </Day>
-                    </>
-                  );
-                })}
-              </Flex>
-              <Flex css={{ marginTop: '5px' }} justifyContent="spaceBetween">
-                {days.map((day, index) => {
-                  if (index < 12) {
-                    return null;
-                  }
-
-                  if (index > 18) {
-                    return null;
-                  }
-
-                  return (
-                    <>
-                      <Day
-                        key={`${day}-${index}`}
-                        onClick={() => handleDayClick(day)}
-                        active={currentDay === day}
-                      >
-                        {day}
-                      </Day>
-                    </>
-                  );
-                })}
-              </Flex>
-              <Flex css={{ marginTop: '5px' }} justifyContent="spaceBetween">
-                {days.map((day, index) => {
-                  if (index < 18) {
-                    return null;
-                  }
-
-                  if (index > 24) {
-                    return null;
-                  }
-
-                  return (
-                    <>
-                      <Day
-                        key={`${day}-${index}`}
-                        onClick={() => handleDayClick(day)}
-                        active={currentDay === day}
-                      >
-                        {day}
-                      </Day>
-                    </>
-                  );
-                })}
-              </Flex>
-              <Flex css={{ marginTop: '5px' }} justifyContent="spaceBetween">
-                {days.map((day, index) => {
-                  if (index < 25) {
-                    return null;
-                  }
-
-                  if (index > days.length - 1) {
-                    return null;
-                  }
-
-                  return (
-                    <>
-                      <Day
-                        key={`${day}-${index}`}
-                        onClick={() => handleDayClick(day)}
-                        active={currentDay === day}
-                      >
-                        {day}
-                      </Day>
-                    </>
-                  );
-                })}
-              </Flex>
+                return (
+                  <>
+                    <Day
+                      key={`${day}-${index}`}
+                      onClick={() => handleDayClick({ day, month: dayMonth })}
+                      active={value.day === day && currentMonth === dayMonth}
+                    >
+                      {day}
+                    </Day>
+                  </>
+                );
+              })}
             </Flex>
           </Flex>
         </CalendarContainer>

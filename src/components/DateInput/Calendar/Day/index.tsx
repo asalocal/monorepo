@@ -9,7 +9,15 @@ interface DayProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 function Day({ children, active, ...props }: DayProps) {
   return (
     <>
-      <DayButtonContainer variant="ghost" active={active} {...props}>
+      <DayButtonContainer
+        variant="ghost"
+        active={active}
+        css={{
+          maxWidth: '37px',
+          width: '100%',
+        }}
+        {...props}
+      >
         {children}
       </DayButtonContainer>
     </>

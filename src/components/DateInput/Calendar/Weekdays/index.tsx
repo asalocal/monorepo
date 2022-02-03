@@ -17,7 +17,7 @@ function Weekdays({ weekdays }: WeekdaysProps) {
               justifyContent: 'center',
               width: '100%',
               opacity: 0.5,
-              fontSize: '0.7rem',
+              fontSize: '0.75rem',
             }}
           >
             {day}
