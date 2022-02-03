@@ -4,8 +4,6 @@ import {
   WidthIcon,
 } from '@modulz/radix-icons';
 import { useCallback, useRef, useState } from 'react';
-import * as yup from 'yup';
-import ExploreForm from './ExploreForm';
 import Button from 'components/Button';
 import Select from 'components/Select';
 import Option from 'components/Select/Option';

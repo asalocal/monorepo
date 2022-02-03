@@ -1,12 +1,16 @@
+import { IconProps } from '@modulz/radix-icons/dist/types';
 import { IconBaseProps } from 'react-icons';
-
 interface IIconProps {
-  icon: React.ComponentType<IconBaseProps>;
+  icon: (props: IconProps) => JSX.Element | React.ReactElement<IconBaseProps>;
   onClick?: () => void;
 }
 
 function Icon({ icon: Icon, ...rest }: IIconProps) {
-  return <>{Icon && <Icon {...rest} />}</>;
+  return (
+    <>
+      <Icon {...rest} />
+    </>
+  );
 }
 
 export default Icon;

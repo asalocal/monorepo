@@ -1,17 +1,15 @@
+import { IconProps } from '@modulz/radix-icons/dist/types';
 import Flex from 'components/Flex';
 import Icon from 'components/Icon';
 import Text from 'components/Text';
-import { useState } from 'react';
 import { IconBaseProps } from 'react-icons/lib';
 
 interface TooltipProps {
   children: React.ReactNode;
-  icon: React.ComponentType<IconBaseProps>;
+  icon: (props: IconProps) => JSX.Element | React.ReactElement<IconBaseProps>;
 }
 
 function Tooltip({ children, icon }: TooltipProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <Flex
       direction="column"
