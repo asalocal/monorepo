@@ -178,6 +178,7 @@ function DateInputWrapper({
             onFocus={setFocus}
             onBlur={handleBlur}
             name={name}
+            id={name}
             maxLength={10}
             value={inputValue}
             ref={inputRef}
