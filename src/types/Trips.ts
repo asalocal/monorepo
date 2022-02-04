@@ -2,7 +2,7 @@ export interface ITrips {
   id: string;
   name: string;
   subtitle: string;
-  thumb: string;
+  thumbs: string[];
   description: string;
   user: {
     name: string;

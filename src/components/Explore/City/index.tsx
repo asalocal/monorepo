@@ -3,7 +3,7 @@ import Flex from 'components/Flex';
 import Text from 'components/Text';
 import { FiMapPin } from 'react-icons/fi';
 import { ITrips } from 'types/Trips';
-
+import Gallery from 'components/Gallery';
 interface CityProps {
   trip: ITrips;
 }
@@ -15,17 +15,10 @@ function City({ trip }: CityProps) {
         key={`${Date.now()}-${trip.id}`}
         css={{
           marginTop: '20px',
-          padding: '10px 5px',
-          img: {
-            borderRadius: '10px',
-            height: '200px',
-            width: '200px',
-            objectFit: 'cover',
-            marginRight: '20px',
-          },
+          padding: '10px 5px 10px 0',
         }}
       >
-        <img src={trip.thumb} alt={trip.name} />
+        <Gallery thumbs={trip.thumbs} />
         <Flex direction="column">
           <Text as="h2">{trip.name}</Text>
           <Flex>
@@ -51,6 +44,8 @@ function City({ trip }: CityProps) {
                 img: {
                   height: '20px',
                   width: '20px',
+                  borderRadius: '10px',
+                  objectFit: 'cover',
                   margin: 0,
                   marginRight: '10px',
                 },
