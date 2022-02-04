@@ -4,6 +4,9 @@ import Text from 'components/Text';
 import { FiMapPin } from 'react-icons/fi';
 import { ITrips } from 'types/Trips';
 import Gallery from 'components/Gallery';
+import ProfileCard from 'components/ProfileCard';
+import Image from 'components/Image';
+import TripUser from './TripUser';
 interface CityProps {
   trip: ITrips;
 }
@@ -51,10 +54,7 @@ function City({ trip }: CityProps) {
                 },
               }}
             >
-              <img src={trip.user.avatar} alt={trip.user.name} />
-              <Text as="span" css={{ color: '$gray11', opacity: 0.5 }}>
-                {trip.user.name}
-              </Text>
+              <TripUser user={trip.user} />
             </Flex>
           </Flex>
 

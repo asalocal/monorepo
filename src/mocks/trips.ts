@@ -1,12 +1,18 @@
 import crypto from 'crypto';
+import { ITrips } from 'types/Trips';
 
-export const trips = [
+export const trips: ITrips[] = [
   {
     id: crypto.createHash('md5').update('1').digest('hex'),
     name: 'New York',
     subtitle: 'New York, USA',
     user: {
       name: 'John Doe',
+      rank: 'Silver',
+      followers: 1340,
+      following: 30,
+      trips: 10,
+      bio: `Nulla quis lorem ut libero malesuada feugiat. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Quisque velit nisi, pretium ut lacinia in, elementum id enim.`,
       avatar:
         'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     },
@@ -33,7 +39,12 @@ export const trips = [
     ],
 
     user: {
+      rank: 'Silver',
       name: 'John Doe',
+      followers: 1340,
+      following: 30,
+      trips: 10,
+      bio: `Nulla quis lorem ut libero malesuada feugiat. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Quisque velit nisi, pretium ut lacinia in, elementum id enim.`,
       avatar:
         'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     },
@@ -52,7 +63,12 @@ export const trips = [
       'https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bmV3JTIweW9ya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
     ],
     user: {
+      rank: 'Silver',
       name: 'John Doe',
+      followers: 1340,
+      following: 30,
+      trips: 10,
+      bio: `Nulla quis lorem ut libero malesuada feugiat. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Quisque velit nisi, pretium ut lacinia in, elementum id enim.`,
       avatar:
         'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     },
@@ -71,7 +87,12 @@ export const trips = [
       'https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bmV3JTIweW9ya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
     ],
     user: {
+      rank: 'Silver',
       name: 'John Doe',
+      followers: 1340,
+      following: 30,
+      trips: 10,
+      bio: `Nulla quis lorem ut libero malesuada feugiat. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Quisque velit nisi, pretium ut lacinia in, elementum id enim.`,
       avatar:
         'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     },
@@ -90,7 +111,12 @@ export const trips = [
       'https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8bmV3JTIweW9ya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
     ],
     user: {
+      rank: 'Silver',
       name: 'John Doe',
+      followers: 1340,
+      following: 30,
+      trips: 10,
+      bio: `Nulla quis lorem ut libero malesuada feugiat. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Quisque velit nisi, pretium ut lacinia in, elementum id enim.`,
       avatar:
         'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     },
