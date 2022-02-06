@@ -13,7 +13,11 @@ function TripUser({ user }: ITripUserProps) {
     <>
       <ProfileCard
         label={
-          <>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            css={{ width: 'fit-content' }}
+          >
             <img src={user.avatar} alt={user.name} />
             <Text
               as="span"
@@ -24,7 +28,7 @@ function TripUser({ user }: ITripUserProps) {
             >
               {user.name}
             </Text>
-          </>
+          </Flex>
         }
       >
         <Flex direction="column" css={{ padding: '20px' }}>

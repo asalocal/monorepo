@@ -14,7 +14,7 @@ function Card({ children }: ICardProps) {
       <CardContainer
         direction="column"
         css={{
-          transform: `translate(${positions.x - 50}px, ${positions.y + 30}px)`,
+          transform: `translate(${positions.x / 1.2}px, ${positions.y + 30}px)`,
         }}
       >
         <Flex

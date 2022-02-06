@@ -3,11 +3,10 @@ import Text from 'components/Text';
 import Portal from '../../Portal';
 import { useDateInputContext } from '../DateInputContext';
 import { CalendarContainer } from './styles';
-import { ChevronLeftIcon, ChevronRightIcon } from '@modulz/radix-icons';
-import Button from 'components/Button';
 import { useCallback, useEffect, useRef } from 'react';
 import Day from './Day';
 import Weekdays from './Weekdays';
+import CalendarHeader from './CalendarHeader';
 
 interface DayProps {
   day: number;
@@ -21,9 +20,7 @@ function Calendar() {
     currentMonth,
     value,
     days,
-    handleNextMonth,
-    handlePrevMonth,
-    months,
+
     handleCalendar,
     year,
   } = useDateInputContext();
@@ -87,36 +84,8 @@ function Calendar() {
             Calendar
           </Text>
 
-          <Flex alignItems="center" justifyContent="center">
-            <Button
-              variant="ghost"
-              onClick={handlePrevMonth}
-              css={{ width: 'fit-content' }}
-            >
-              <ChevronLeftIcon />
-            </Button>
-            <Text
-              as="span"
-              css={{
-                fontSize: '1.2rem',
-                fontWeight: '700',
-                minWidth: '110px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              {months[currentMonth]}
-            </Text>
+          <CalendarHeader />
 
-            <Button
-              variant="ghost"
-              onClick={handleNextMonth}
-              css={{ width: 'fit-content' }}
-            >
-              <ChevronRightIcon />
-            </Button>
-          </Flex>
           <Flex justifyContent="center">
             <Text css={{ color: '$gray9', fontSize: '0.8rem' }}>{year}</Text>
           </Flex>

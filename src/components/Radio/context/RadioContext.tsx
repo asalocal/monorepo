@@ -1,18 +1,18 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from 'react';
 
 interface IRadioGroupContext {
-  fields: Fields[];
-  setFields: React.Dispatch<React.SetStateAction<Fields[]>>;
+  handleRadioActive: (value: string) => void;
+  radioActive: string | number;
 }
 
 interface IRadioGroupProviderProps {
   children: ReactNode;
-}
-
-export interface Fields {
-  value: any;
-  name: string;
-  id: string;
 }
 
 const RadioGroupContext = createContext<IRadioGroupContext>(
@@ -20,10 +20,14 @@ const RadioGroupContext = createContext<IRadioGroupContext>(
 );
 
 export const RadioGroupProvider = ({ children }: IRadioGroupProviderProps) => {
-  const [fields, setFields] = useState<Fields[]>([]);
+  const [radioActive, setRadioActive] = useState<string | number>('');
+
+  const handleRadioActive = useCallback((value: string) => {
+    setRadioActive(value);
+  }, []);
 
   return (
-    <RadioGroupContext.Provider value={{ fields, setFields }}>
+    <RadioGroupContext.Provider value={{ radioActive, handleRadioActive }}>
       {children}
     </RadioGroupContext.Provider>
   );

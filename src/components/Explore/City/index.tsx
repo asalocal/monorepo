@@ -21,7 +21,7 @@ function City({ trip }: CityProps) {
           padding: '10px 5px 10px 0',
         }}
       >
-        <Gallery thumbs={trip.thumbs} />
+        <Gallery orientation="vertical" thumbs={trip.thumbs} />
         <Flex direction="column">
           <Text as="h2">{trip.name}</Text>
           <Flex>

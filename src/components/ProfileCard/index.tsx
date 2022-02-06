@@ -1,6 +1,6 @@
 import Flex from 'components/Flex';
 import Portal from 'components/Portal';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { ProfileCardProvider, useProfileCard } from './ProfileCardContext';
 import Card from './Card';
 
@@ -37,13 +37,32 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
     setIsProfileHovered(false);
   }, []);
 
+  const handleMouseEnter = useCallback(
+    (ev: MouseEvent<HTMLDivElement>) => {
+      if (
+        containerRef.current &&
+        containerRef.current.contains(ev.target as Node)
+      ) {
+        handleProfileHover(true);
+      }
+    },
+    [handleProfileHover]
+  );
+
+  const handleMouseLeave = useCallback(
+    (ev: MouseEvent<HTMLDivElement>) => {
+      handleProfileHover(false);
+    },
+    [handleProfileHover]
+  );
+
   useEffect(() => {
     if (containerRef.current) {
-      const { left, top } = containerRef.current.getBoundingClientRect();
+      const { x, y } = containerRef.current.getBoundingClientRect();
 
       registerPositions({
-        x: left,
-        y: top,
+        x,
+        y,
       });
     }
   }, [registerPositions, containerRef]);
@@ -52,11 +71,12 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
     <>
       <Flex
         ref={containerRef}
-        onMouseEnter={() => handleProfileHover(true)}
-        onMouseLeave={() => handleProfileHover(false)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         alignItems="center"
         css={{
           width: 'fit-content',
+
           '&:hover': {
             cursor: 'pointer',
           },

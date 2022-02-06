@@ -9,16 +9,15 @@ import {
   useState,
 } from 'react';
 import generateHash from 'utils/generateHash';
-import { Fields, useRadioGroup } from './context/RadioContext';
-import { Label, RadioChecked, RadioInput } from './styles';
-import useRadio from './useRadio';
+import { useRadioGroup } from './context/RadioContext';
+import { InputHidden, Label, RadioChecked, RadioInput } from './styles';
 
-type RadioProps = {
+export interface RadioProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
   value: string | number;
   isChecked?: boolean;
-} & InputHTMLAttributes<HTMLInputElement>;
+}
 
 const Radio = ({
   label,
@@ -31,13 +30,15 @@ const Radio = ({
 
   const radioRef = useRef<HTMLInputElement>(null);
 
+  const { radioActive, handleRadioActive } = useRadioGroup();
   const { fieldName, registerField } = useField(name);
 
   const handleClick = (ev: MouseEvent<HTMLDivElement>) => {
-    radioRef.current?.click();
+    if (radioRef.current) {
+      radioRef.current.checked = true;
+      handleRadioActive(radioRef.current.value);
+    }
   };
-
-  console.log(radioRef.current?.value);
 
   useEffect(() => {
     if (radioRef.current) {
@@ -61,16 +62,18 @@ const Radio = ({
 
   return (
     <Flex alignItems="center">
-      <RadioInput
+      <InputHidden
         {...props}
-        ref={radioRef}
         type="radio"
+        ref={radioRef}
         data-checked="false"
         data-value={value}
         name={name}
         value={value}
-        id={generatedId}
       />
+      <RadioInput onClick={(ev) => handleClick(ev)} id={generatedId}>
+        {radioActive === value && <RadioChecked />}
+      </RadioInput>
       <Label htmlFor={generatedId}>{label}</Label>
     </Flex>
   );

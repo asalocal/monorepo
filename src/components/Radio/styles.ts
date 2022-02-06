@@ -2,14 +2,13 @@ import { VariantProps } from '@stitches/react';
 import { styled } from 'styles/Theme.provider';
 
 export const RadioChecked = styled('div', {
-  height: '20px',
-  width: '20px',
+  height: '10px',
+  width: '10px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '50%',
-  border: '1px solid $gray9',
-  marginRight: '5px',
+  borderRadius: '20px',
+  backgroundColor: '$primary',
   transition: 'all 0.2s ease',
 
   '&:hover': {
@@ -22,5 +21,16 @@ export const Label = styled('label', {
   fontSize: '11px',
 });
 
-export const RadioInput = styled('input', {});
+export const RadioInput = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '20px',
+  height: '20px',
+  borderRadius: '40px',
+  border: '1px solid $gray9',
+});
+
+export const InputHidden = styled('input', {});
+
 export type WrapperVariants = VariantProps<typeof RadioChecked>;

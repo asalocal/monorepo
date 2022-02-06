@@ -2,7 +2,7 @@ import { Form } from '@unform/web';
 import Input from 'components/Input';
 import { Col, Container, Row } from 'components/layout';
 import Navbar from 'components/Navbar';
-import { FiAlertTriangle, FiGrid, FiList } from 'react-icons/fi';
+import { FiGrid, FiList } from 'react-icons/fi';
 import { GetServerSideProps } from 'next';
 import Text from 'components/Text';
 import Flex from 'components/Flex';
@@ -13,14 +13,12 @@ import Checkbox from 'components/Checkbox';
 import Head from 'next/head';
 import City from 'components/Explore/City';
 import { ITrips } from 'types/Trips';
-import { trips } from 'mocks/trips';
 import DateInput from 'components/DateInput';
-import Tooltip from 'components/Tooltip';
+import routesAPI from 'api/routesAPI';
+import { useCallback, useEffect, useState } from 'react';
+import CitySkeleton from 'components/Explore/CitySkeleton';
 
 interface ExploreProps {
-  data: {
-    trips: ITrips[];
-  };
   filter: {
     goingTo: string;
     leavingFrom: string;
@@ -45,9 +43,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      data: {
-        trips,
-      },
       filter: {
         leavingFrom,
         departure,
@@ -62,8 +57,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 function Explore({
   filter: { goingTo, leavingFrom, dateOfReturn, departure },
-  data: { trips },
 }: ExploreProps) {
+  const [trips, setTrips] = useState<ITrips[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const getAllTrips = useCallback(async () => {
+    setLoading(true);
+    const { data } = await routesAPI.get('/trips');
+
+    setTrips(data);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    getAllTrips();
+  }, [getAllTrips]);
+
   return (
     <>
       <Head>
@@ -156,11 +165,17 @@ function Explore({
               </Form>
 
               <Row>
-                <Col sm={12} md={12} lg={12}>
-                  {trips.map((trip) => (
-                    <City key={trip.id} trip={trip} />
-                  ))}
-                </Col>
+                {loading ? (
+                  <Col sm={12} md={12} lg={12}>
+                    <CitySkeleton />
+                  </Col>
+                ) : (
+                  <Col sm={12} md={12} lg={12}>
+                    {trips.map((trip) => (
+                      <City key={trip.id} trip={trip} />
+                    ))}
+                  </Col>
+                )}
               </Row>
             </Col>
             <Col sm={12} md={6} lg={4}>
