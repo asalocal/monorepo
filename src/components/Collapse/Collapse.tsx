@@ -7,6 +7,7 @@ interface CollapseProps {
   children: React.ReactNode;
   collapseTitle?: string;
   css?: BYTCSS;
+  type?: 'special' | 'default';
   isMultiple?: boolean;
   defaultValue?: string | string[];
 }
@@ -15,6 +16,7 @@ function Collapse({
   children,
   collapseTitle,
   css,
+  type = 'default',
   isMultiple = false,
   defaultValue,
 }: CollapseProps) {
@@ -25,6 +27,7 @@ function Collapse({
           collapseTitle={collapseTitle}
           isMultiple={isMultiple}
           css={css}
+          type={type}
           defaultValue={defaultValue}
         >
           {children}
@@ -38,10 +41,12 @@ function CollapseWrapper({
   children,
   collapseTitle,
   css,
+  type,
   isMultiple = false,
   defaultValue,
 }: CollapseProps) {
-  const { handleCollapseMultiple, handleDefaultValue } = useCollapse();
+  const { handleCollapseMultiple, handleDefaultValue, handleCollapseType } =
+    useCollapse();
 
   useEffect(() => {
     handleCollapseMultiple(isMultiple);
@@ -52,6 +57,12 @@ function CollapseWrapper({
       handleDefaultValue(defaultValue);
     }
   }, [handleDefaultValue, defaultValue]);
+
+  useEffect(() => {
+    if (type) {
+      handleCollapseType(type);
+    }
+  }, [handleCollapseType, type]);
 
   return (
     <>

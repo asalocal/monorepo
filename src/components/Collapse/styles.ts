@@ -2,7 +2,6 @@ import { styled } from 'styles/Theme.provider';
 
 export const CollapseContainer = styled('div', {
   borderRadius: '10px',
-  border: '1px solid #C4C4C4',
   padding: '10px',
 
   h5: {
@@ -14,27 +13,48 @@ export const CollapseContainer = styled('div', {
 
 export const CollapseItemTrigger = styled('button', {
   width: '100%',
-  border: '1px solid #c4c4c4',
   cursor: 'pointer',
   padding: '15px',
+  background: '#FFF',
+  border: 'none',
+  borderBottom: '2px solid $primary',
   display: 'flex',
+  borderRadius: '5px',
   justifyContent: 'space-between',
-  borderRadius: '10px',
   transition: 'all 0.3s ease',
-  background: 'rgba(218, 218, 218, 0.4)',
 
   variants: {
     active: {
       true: {
-        background: 'rgba(218, 218, 218, 0.8)',
+        background: '#FFEDE2',
       },
     },
+
+    variant: {
+      special: {
+        background: 'rgba(218, 218, 218, 0.4)',
+        borderRadius: '10px',
+        border: '1px solid #c4c4c4',
+      },
+      default: {},
+    },
   },
+
+  compoundVariants: [
+    {
+      variant: 'special',
+      active: true,
+      css: {
+        backgroundColor: 'rgba(218,218,218,0.8)',
+        border: '1px solid #C4C4C4',
+      },
+    },
+  ],
 });
 
 export const CollapseContentContainer = styled('div', {
   display: 'none',
-  padding: '20px 15px',
+  padding: '20px 15px 15px 15px',
   marginTop: '-10px',
   borderBottom: '1px solid rgba(218, 218, 218, 0.8)',
   borderLeft: '1px solid rgba(218, 218, 218, 0.8)',

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import CollapseContent from './CollapseContent';
 import { PlusIcon, MinusIcon } from '@modulz/radix-icons';
 import { useCollapse } from './CollapseContext';
@@ -11,17 +10,14 @@ interface ICollapseItemProps {
 }
 
 function CollapseItem({ children, title, value }: ICollapseItemProps) {
-  const { handleCollapse, registerCollapse, contentOpened } = useCollapse();
+  const { handleCollapse, contentOpened, collapseType } = useCollapse();
 
   const isCollapseActive = contentOpened.includes(value);
-
-  useEffect(() => {
-    registerCollapse(value);
-  }, [registerCollapse, value]);
 
   return (
     <CollapseItemContainer>
       <CollapseItemTrigger
+        variant={collapseType}
         type="button"
         active={isCollapseActive}
         onClick={() => handleCollapse(value)}

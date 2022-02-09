@@ -1,16 +1,11 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, useCallback, useContext, useState } from 'react';
 
 interface ICollapseContext {
   contentOpened: string[];
   handleCollapse: (value: string) => void;
-  registerCollapse: (value: string) => void;
+  handleCollapseType: (value: 'special' | 'default') => void;
   handleDefaultValue: (value: string | string[]) => void;
+  collapseType: 'special' | 'default';
   handleCollapseMultiple: (value: boolean) => void;
   collapseIsMultiple: boolean;
 }
@@ -25,8 +20,10 @@ export const CollapseContext = createContext<ICollapseContext>(
 
 export const CollapseProvider = ({ children }: CollapseProviderProps) => {
   const [contentOpened, setContentOpened] = useState<string[]>([]);
-  const [collapse, setCollapse] = useState<string[]>([]);
   const [collapseIsMultiple, setCollapseIsMultiple] = useState(false);
+  const [collapseType, setCollapseType] = useState<'special' | 'default'>(
+    'default'
+  );
 
   const handleDefaultValue = useCallback((value: string | string[]) => {
     if (typeof value === 'string') {
@@ -58,17 +55,18 @@ export const CollapseProvider = ({ children }: CollapseProviderProps) => {
     setCollapseIsMultiple(value);
   }, []);
 
-  const registerCollapse = useCallback((value: string) => {
-    setCollapse((prevState) => [...prevState, value]);
+  const handleCollapseType = useCallback((value: 'special' | 'default') => {
+    setCollapseType(value);
   }, []);
 
   return (
     <CollapseContext.Provider
       value={{
+        collapseType,
         handleDefaultValue,
+        handleCollapseType,
         collapseIsMultiple,
         contentOpened,
-        registerCollapse,
         handleCollapseMultiple,
         handleCollapse,
       }}

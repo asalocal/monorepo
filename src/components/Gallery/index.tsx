@@ -2,6 +2,7 @@ import Flex from 'components/Flex';
 import Image from 'components/Image';
 import { useState, useCallback } from 'react';
 import { BYTCSS } from 'styles/Theme.provider';
+import generateHash from 'utils/generateHash';
 import { GalleryImage } from './styles';
 
 interface GalleryProps {
@@ -46,21 +47,19 @@ function Gallery({
           css={{
             marginRight: '15px',
             marginTop: orientation === 'vertical' ? '0' : '10px',
-            img: {},
           }}
         >
           {thumbs.map((thumb, index) => {
             return (
-              <>
-                <GalleryImage
-                  src={thumb}
-                  onClick={() => handleThumbClick(index)}
-                  alt=""
-                  order={orientation}
-                  isActive={index === thumbActive}
-                  css={slidesCSS}
-                />
-              </>
+              <GalleryImage
+                key={`${generateHash()}-${index}`}
+                src={thumb}
+                onClick={() => handleThumbClick(index)}
+                alt=""
+                order={orientation}
+                isActive={index === thumbActive}
+                css={slidesCSS}
+              />
             );
           })}
         </Flex>

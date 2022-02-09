@@ -45,10 +45,25 @@ const Radio = ({
       registerField({
         name: fieldName,
         ref: radioRef,
-        getValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? ref.current.value : '',
-        setValue: (ref: RefObject<HTMLInputElement>, value: string) =>
-          ref.current ? (ref.current.value = value) : value,
+        getValue: (ref: RefObject<HTMLInputElement>) => {
+          if (ref.current) {
+            if (ref.current.checked === true) {
+              return ref.current.value;
+            }
+
+            return '';
+          }
+          return '';
+        },
+        setValue: (ref: RefObject<HTMLInputElement>, value: string) => {
+          if (ref.current) {
+            if (ref.current.checked) {
+              return (ref.current.value = value);
+            }
+            return value;
+          }
+          return value;
+        },
         clearValue: (ref: RefObject<HTMLInputElement>) =>
           ref.current ? (ref.current.value = '') : '',
       });

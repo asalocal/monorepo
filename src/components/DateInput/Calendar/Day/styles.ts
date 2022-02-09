@@ -5,10 +5,12 @@ export const DayButtonContainer = styled(Button, {
   opacity: '0.5',
   backgroundColor: 'transparent',
   color: '$gray11',
+  borderRadius: '0',
 
   '&:hover': {
     opacity: 1,
     color: '$gray12 !important',
+    backgroundColor: 'rgba(255, 92, 0, 0.4) !important',
   },
 
   variants: {
@@ -20,7 +22,7 @@ export const DayButtonContainer = styled(Button, {
 
         '&:hover': {
           color: '$gray1 !important',
-          backgroundColor: '$primaryHover !important',
+          backgroundColor: 'rgba(255, 92, 0, 0.4) !important',
           opacity: 1,
         },
       },
