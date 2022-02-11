@@ -12,6 +12,7 @@ function CalendarHeader() {
     <Flex alignItems="center" justifyContent="center">
       <Button
         variant="ghost"
+        disabled={new Date().getMonth() === currentMonth}
         onClick={handlePrevMonth}
         css={{ width: 'fit-content' }}
       >

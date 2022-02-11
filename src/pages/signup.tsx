@@ -4,7 +4,7 @@ import { Form } from '@unform/web';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { FormHandles } from '@unform/core';
 import { verifyPasswordStrenght } from 'utils/verifyPasswordStrenght';
 import Link from 'next/link';
@@ -52,55 +52,57 @@ function SignUp({
     query: { soft, url },
   },
 }: ServerPropsData) {
+  const [emailValue, setEmailValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState('');
+
   const formRef = useRef<FormHandles>(null);
   const { back, push } = useRouter();
   const { addToast } = useToast();
 
   const { signIn } = useAuth();
 
-  const handleSubmit = useCallback(
-    async ({ email, password }: SignUpFormData) => {
-      try {
-        formRef.current?.setErrors({});
-        const { strength } = verifyPasswordStrenght(password);
+  const handleSubmit = useCallback(async ({}: SignUpFormData) => {}, []);
 
-        if (strength === 'weak') {
-          formRef.current?.setErrors({
-            password:
-              'Senha é considerada fraca, escolha uma senha de uma força regular para cima',
-          });
-          return;
-        }
+  const handleSoftSubmit = useCallback(async () => {
+    try {
+      formRef.current?.setErrors({});
+      const { strength } = verifyPasswordStrenght(passwordValue);
 
-        await api.post('/users/create/soft', {
-          email,
-          password,
+      if (strength === 'weak') {
+        formRef.current?.setErrors({
+          password:
+            'Senha é considerada fraca, escolha uma senha de uma força regular para cima',
         });
-
-        signIn({ email, password });
-
-        if (url) {
-          push(url);
-          return;
-        }
-
-        push('/');
-      } catch (err) {
-        if (err instanceof yup.ValidationError) {
-          const errors = getValidationErrors(err);
-          formRef.current?.setErrors(errors);
-          return;
-        }
-
-        addToast({
-          title: 'Something has gone wrong',
-          message: 'Please, try again later',
-          type: 'error',
-        });
+        return;
       }
-    },
-    [addToast, push, signIn, url]
-  );
+
+      await api.post('/users/create/soft', {
+        email: emailValue,
+        password: passwordValue,
+      });
+
+      signIn({ email: emailValue, password: passwordValue });
+
+      if (url) {
+        push(url);
+        return;
+      }
+
+      push('/');
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+        return;
+      }
+
+      addToast({
+        title: 'Something has gone wrong',
+        message: 'Please, try again later',
+        type: 'error',
+      });
+    }
+  }, [addToast, push, signIn, passwordValue, emailValue, url]);
 
   const handleChange = useCallback(() => {
     formRef.current?.setErrors({});
@@ -116,7 +118,7 @@ function SignUp({
           <ContentWrapper>
             <img src="/assets/logo.svg" alt="Build your trip" />
             {soft === 'true' || url ? (
-              <Form ref={formRef} onSubmit={handleSubmit}>
+              <>
                 <Input
                   onChange={handleChange}
                   name="email"
@@ -131,6 +133,9 @@ function SignUp({
                   type="password"
                   verifyPassword
                   label="Password"
+                  css={{
+                    marginTop: '10px',
+                  }}
                 />
                 <Flex
                   css={{
@@ -142,20 +147,27 @@ function SignUp({
                   <Button
                     type="button"
                     variant="alternative"
+                    disabled={emailValue && passwordValue ? true : false}
                     onClick={() => back()}
                   >
                     Back
                   </Button>
-                  <Button variant="secondary" type="submit">
+                  <Button
+                    variant="secondary"
+                    onClick={handleSoftSubmit}
+                    type="submit"
+                  >
                     Sign Up
                   </Button>
                 </Flex>
                 <Checkbox name="acceptTerms">
                   I accept the terms of use
                 </Checkbox>
-              </Form>
+              </>
             ) : (
-              <HardRegistration />
+              <Form onSubmit={handleSubmit}>
+                <HardRegistration />
+              </Form>
             )}
             <span>
               Have an account? <Link href="/signin">Sign In</Link>
@@ -167,5 +179,4 @@ function SignUp({
   );
 }
 
-SignUp.isAuthenticated = false;
 export default SignUp;

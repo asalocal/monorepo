@@ -1,17 +1,22 @@
 import Flex from 'components/Flex';
 import Text from 'components/Text';
+import generateHash from 'utils/generateHash';
 
 interface WeekdaysProps {
   weekdays: string[];
 }
 
-function Weekdays({ weekdays }: WeekdaysProps) {
+function Weekdays({ weekdays, ...props }: WeekdaysProps) {
   return (
     <>
-      <Flex justifyContent="spaceBetween" css={{ marginTop: '10px' }}>
+      <Flex
+        justifyContent="spaceBetween"
+        css={{ marginTop: '10px' }}
+        {...props}
+      >
         {weekdays.map((day, index) => (
           <Text
-            key={`${day}-${index}`}
+            key={`${day}-${generateHash()}`}
             css={{
               display: 'flex',
               justifyContent: 'center',

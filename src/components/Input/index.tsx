@@ -49,7 +49,7 @@ function Input({
   const [value, setValue] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
 
-  const { fieldName, registerField, error } = useField(name);
+  const { fieldName, registerField, error } = useField(namec);
 
   const { disabled } = props;
 
@@ -101,7 +101,7 @@ function Input({
   }, [controlledValue]);
 
   useEffect(() => {
-    if (inputRef.current && registerField) {
+    if (inputRef.current && registerField && fieldName) {
       registerField({
         name: fieldName,
         ref: inputRef,

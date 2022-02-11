@@ -32,7 +32,6 @@ export const CollapseItemTrigger = styled('button', {
 
     variant: {
       special: {
-        background: 'rgba(218, 218, 218, 0.4)',
         borderRadius: '10px',
         border: '1px solid #c4c4c4',
       },

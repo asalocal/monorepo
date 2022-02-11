@@ -2,6 +2,7 @@ import { styled, keyframes } from '../../../styles/Theme.provider';
 
 export const Container = styled('div', {
   display: 'flex',
+  marginTop: '10px',
 
   '.strength-container': {
     width: '100%',

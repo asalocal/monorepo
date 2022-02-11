@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import Day from './Day';
 import Weekdays from './Weekdays';
 import CalendarHeader from './CalendarHeader';
+import generateHash from 'utils/generateHash';
 
 interface DayProps {
   day: number;
@@ -20,7 +21,6 @@ function Calendar() {
     currentMonth,
     value,
     days,
-
     handleCalendar,
     year,
   } = useDateInputContext();
@@ -37,6 +37,7 @@ function Calendar() {
     },
     [handleMonthValue]
   );
+
   useEffect(() => {
     function handleMouseDown(event: MouseEvent) {
       if (calendarRef.current) {
@@ -103,6 +104,7 @@ function Calendar() {
             <Flex direction="row" flexWrap="wrap" css={{ paddingTop: '5px' }}>
               {[...Array(days[0].UTCdate)].map((_, index) => (
                 <Flex
+                  key={`${index}-${generateHash()}`}
                   css={{ maxWidth: '37px', width: '100%', height: '40px' }}
                 ></Flex>
               ))}
@@ -110,14 +112,21 @@ function Calendar() {
               {days.map(({ day, month: dayMonth }, index) => {
                 if (currentMonth === 1 && day > 28) {
                   return (
-                    <Flex css={{ maxWidth: '37px', width: '100%' }}></Flex>
+                    <Flex
+                      key={`${index}-${generateHash()}`}
+                      css={{ maxWidth: '37px', width: '100%' }}
+                    ></Flex>
                   );
                 }
 
                 return (
                   <>
                     <Day
-                      key={`${day}-${index}`}
+                      key={`${day}-${generateHash()}`}
+                      disabled={
+                        day < new Date().getDay() &&
+                        new Date().getMonth() === currentMonth
+                      }
                       onClick={() => handleDayClick({ day, month: dayMonth })}
                       active={value.day === day && currentMonth === dayMonth}
                     >

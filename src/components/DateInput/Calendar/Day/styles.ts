@@ -7,6 +7,10 @@ export const DayButtonContainer = styled(Button, {
   color: '$gray11',
   borderRadius: '0',
 
+  '&:disabled': {
+    opacity: '1',
+  },
+
   '&:hover': {
     opacity: 1,
     color: '$gray12 !important',
