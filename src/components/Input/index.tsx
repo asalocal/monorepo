@@ -49,7 +49,7 @@ function Input({
   const [value, setValue] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
 
-  const { fieldName, registerField, error } = useField(namec);
+  const { fieldName, registerField, error } = useField(name);
 
   const { disabled } = props;
 
