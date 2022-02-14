@@ -72,7 +72,7 @@
     "commitizen": "^4.2.4",
     "commitlint": "^13.2.1",
     "cz-conventional-changelog": "3.3.0",
-    "eslint": "^7.5.0",
+    "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
@@ -86,7 +86,7 @@
     "husky": "^7.0.0",
     "install-peerdeps": "^3.0.3",
     "lint-staged": ">=10",
-    "prettier": "^2.4.1"
+    "prettier": "^2.5.1"
   },
   "config": {
     "commitizen": {
