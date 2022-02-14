@@ -45,7 +45,7 @@ function Gallery({
         <Flex
           direction={orientation === 'vertical' ? 'column' : 'row'}
           css={{
-            marginRight: '15px',
+            marginLeft: '5px',
             marginTop: orientation === 'vertical' ? '0' : '10px',
           }}
         >

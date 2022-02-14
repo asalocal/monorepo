@@ -200,17 +200,13 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
       handleDay(day);
       const date = new Date();
 
-      console.log('Day', day);
-      console.log('month', month);
-      console.log('year', String(date.getFullYear()));
-      console.log('Year year', year);
       date.setDate(day);
       date.setMonth(month);
 
       setYear(String(date.getFullYear()));
       setCurrentMonth(date.getMonth());
     },
-    [handleDay, year]
+    [handleDay]
   );
 
   const handleCalendar = useCallback((value?: boolean) => {

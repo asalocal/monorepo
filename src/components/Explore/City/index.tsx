@@ -26,7 +26,7 @@ function City({ trip, view = 'list' }: CityProps) {
         <Flex
           direction="column"
           css={{
-            margin: view === 'grid' ? '10px 0' : '0',
+            margin: view === 'grid' ? '10px 0 ' : '0 15px',
           }}
         >
           <Text as="h2">{trip.name}</Text>
