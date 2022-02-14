@@ -4,27 +4,33 @@ import Text from 'components/Text';
 import { FiMapPin } from 'react-icons/fi';
 import { ITrips } from 'types/Trips';
 import Gallery from 'components/Gallery';
-import ProfileCard from 'components/ProfileCard';
-import Image from 'components/Image';
 import TripUser from './TripUser';
 interface CityProps {
   trip: ITrips;
+  view?: 'grid' | 'list';
 }
 
-function City({ trip }: CityProps) {
+function City({ trip, view = 'list' }: CityProps) {
   return (
     <>
       <Flex
         key={`${Date.now()}-${trip.id}`}
+        direction={view === 'list' ? 'row' : 'column'}
         css={{
-          marginTop: '20px',
-          padding: '10px 5px 10px 0',
+          maxWidth: `${view === 'list' ? '100%' : '280px'}`,
+          padding: '15px',
+          marginLeft: view === 'grid' ? '4px' : 0,
         }}
       >
         <Gallery orientation="vertical" thumbs={trip.thumbs} />
-        <Flex direction="column">
+        <Flex
+          direction="column"
+          css={{
+            margin: view === 'grid' ? '10px 0' : '0',
+          }}
+        >
           <Text as="h2">{trip.name}</Text>
-          <Flex>
+          <Flex direction={view === 'grid' ? 'column' : 'row'}>
             <Text
               as="span"
               css={{
@@ -43,7 +49,7 @@ function City({ trip }: CityProps) {
             <Flex
               alignItems="center"
               css={{
-                marginLeft: '40px',
+                marginLeft: view === 'grid' ? '0' : '10px',
                 img: {
                   height: '20px',
                   width: '20px',

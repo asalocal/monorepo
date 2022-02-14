@@ -133,7 +133,6 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
 
   const getAllDaysInTheMonth = useCallback(() => {
     const date = new Date();
-
     date.setMonth(currentMonth);
 
     let value = 0;
@@ -199,15 +198,19 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
     ({ month, day }: { month: number; day: number }) => {
       setMonthValue(month);
       handleDay(day);
-
       const date = new Date();
 
+      console.log('Day', day);
+      console.log('month', month);
+      console.log('year', String(date.getFullYear()));
+      console.log('Year year', year);
       date.setDate(day);
       date.setMonth(month);
 
+      setYear(String(date.getFullYear()));
       setCurrentMonth(date.getMonth());
     },
-    [handleDay]
+    [handleDay, year]
   );
 
   const handleCalendar = useCallback((value?: boolean) => {

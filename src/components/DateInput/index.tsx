@@ -58,14 +58,22 @@ function DateInputWrapper({
   const [hasValue, setHasValue] = useState(false);
   const [inputValue, setInputValue] = useState<string | readonly string[]>('');
 
-  const { registerPositions, calendarOpen, setYear, handleCalendar, value } =
-    useDateInputContext();
+  const {
+    registerPositions,
+    calendarOpen,
+    setYear,
+    handleValue,
+    handleCalendar,
+    value,
+  } = useDateInputContext();
 
   const { fieldName, registerField, error } = useField(name);
 
   const divContainerRef = useRef<HTMLDivElement>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const valueDateRegex = /(?=[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4})/gm;
 
   const handleChange = useCallback(
     (ev: ChangeEvent<HTMLInputElement>) => {
@@ -76,10 +84,25 @@ function DateInputWrapper({
         value: ev.target.value,
       });
 
+      if (valueDateRegex.test(valueMasked)) {
+        const valueSplitted = valueMasked.split('/');
+        const day = Number(valueSplitted[0]);
+        const month = valueSplitted[1];
+        const year = valueSplitted[2];
+
+        handleValue({
+          day,
+          month,
+          year,
+          formatted: valueMasked,
+        });
+      }
+
       setInputValue(valueMasked);
+
       onChange && onChange(ev);
     },
-    [onChange]
+    [onChange, handleValue, valueDateRegex]
   );
 
   const setFocus = useCallback(

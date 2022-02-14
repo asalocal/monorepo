@@ -17,6 +17,7 @@ import DateInput from 'components/DateInput';
 import routesAPI from 'api/routesAPI';
 import { useCallback, useEffect, useState } from 'react';
 import CitySkeleton from 'components/Explore/CitySkeleton';
+import { ViewButton } from 'styles/Explore.styles';
 
 interface ExploreProps {
   filter: {
@@ -60,6 +61,7 @@ function Explore({
 }: ExploreProps) {
   const [trips, setTrips] = useState<ITrips[]>([]);
   const [loading, setLoading] = useState(false);
+  const [view, setView] = useState<'grid' | 'list'>('list');
 
   const getAllTrips = useCallback(async () => {
     setLoading(true);
@@ -84,7 +86,7 @@ function Explore({
         </Row>
         <Container>
           <Row css={{ marginTop: '130px' }}>
-            <Col sm={12} md={6} lg={8}>
+            <Col sm={12} md={6} lg={9}>
               <Form onSubmit={(data) => console.log}>
                 <Flex
                   css={{
@@ -127,39 +129,20 @@ function Explore({
                   </Text>
 
                   <Flex>
-                    <Button
-                      css={{
-                        opacity: 0.5,
-
-                        svg: {
-                          margin: 0,
-                        },
-
-                        '&:hover': {
-                          opacity: 1,
-                          boxShadow: '0 0 10px 2px rgba(255, 103, 56, 0.2)',
-                        },
-                      }}
+                    <ViewButton
+                      active={view === 'list'}
                       variant="ghost"
+                      onClick={() => setView('list')}
                     >
                       <FiList />
-                    </Button>
-                    <Button
-                      css={{
-                        opacity: 0.5,
-                        svg: {
-                          margin: 0,
-                        },
-
-                        '&:hover': {
-                          opacity: 1,
-                          boxShadow: '0 0 10px 2px rgba(255, 103, 56, 0.2)',
-                        },
-                      }}
+                    </ViewButton>
+                    <ViewButton
+                      active={view === 'grid'}
+                      onClick={() => setView('grid')}
                       variant="ghost"
                     >
                       <FiGrid />
-                    </Button>
+                    </ViewButton>
                   </Flex>
                 </Flex>
               </Form>
@@ -171,14 +154,18 @@ function Explore({
                   </Col>
                 ) : (
                   <Col sm={12} md={12} lg={12}>
-                    {trips.map((trip) => (
-                      <City key={trip.id} trip={trip} />
-                    ))}
+                    <Container>
+                      <Row>
+                        {trips.map((trip) => {
+                          return <City view={view} key={trip.id} trip={trip} />;
+                        })}
+                      </Row>
+                    </Container>
                   </Col>
                 )}
               </Row>
             </Col>
-            <Col sm={12} md={6} lg={4}>
+            <Col sm={12} md={6} lg={3}>
               <Collapse
                 type="special"
                 css={{ border: '1px solid #c1c1c1' }}

@@ -27,7 +27,7 @@ function Gallery({
   return (
     <>
       <Flex direction={orientation === 'vertical' ? 'row' : 'column'}>
-        <Flex>
+        <Flex css={{ maxWidth: '250px', width: '100%' }}>
           <Image
             src={thumbs[thumbActive]}
             alt=""
