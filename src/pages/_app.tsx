@@ -4,6 +4,7 @@ import { AuthProvider } from 'context/AuthContext';
 import { NavbarProvider } from 'context/NavbarContext';
 import { ToastProvider } from 'context/ToastContext';
 import Page from 'components/Page';
+import { ScheduleProvider } from 'context/ScheduleContext';
 
 interface MyAppProps extends AppProps {
   Component: AppProps['Component'] & { isAuthenticated: boolean };
@@ -16,13 +17,15 @@ function MyApp({ Component, pageProps }: MyAppProps) {
       <AuthProvider>
         <ToastProvider>
           <NavbarProvider>
-            {!Component.isAuthenticated ? (
-              <Component {...pageProps} />
-            ) : (
-              <Page>
+            <ScheduleProvider>
+              {!Component.isAuthenticated ? (
                 <Component {...pageProps} />
-              </Page>
-            )}
+              ) : (
+                <Page>
+                  <Component {...pageProps} />
+                </Page>
+              )}
+            </ScheduleProvider>
           </NavbarProvider>
         </ToastProvider>
       </AuthProvider>

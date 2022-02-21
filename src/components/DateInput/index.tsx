@@ -105,19 +105,16 @@ function DateInputWrapper({
     [onChange, handleValue, valueDateRegex]
   );
 
-  const setFocus = useCallback(
-    (ev) => {
-      handleCalendar();
+  const setFocus = useCallback(() => {
+    handleCalendar();
 
-      if (hasValue) {
-        setIsFocused(true);
-        return;
-      }
+    if (hasValue) {
+      setIsFocused(true);
+      return;
+    }
 
-      setIsFocused((prevState) => !prevState);
-    },
-    [handleCalendar, hasValue]
-  );
+    setIsFocused((prevState) => !prevState);
+  }, [handleCalendar, hasValue]);
 
   const handleBlur = useCallback(() => {
     if (hasValue) {

@@ -5,7 +5,7 @@ export const GalleryImage = styled(Image, {
   width: '35px',
   height: '35px',
   borderRadius: '5px',
-
+  objectFit: 'cover',
   transition: 'all 0.2s ease',
 
   '&:hover': {

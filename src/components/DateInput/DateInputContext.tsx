@@ -17,6 +17,7 @@ interface IDays {
   day: number;
   month: number;
   UTCdate: number;
+  year: number;
 }
 interface IDateInputContext {
   registerPositions: (positions: IPositions) => void;
@@ -153,6 +154,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
             day: date.getDate(),
             month: date.getMonth(),
             UTCdate: date.getDay(),
+            year: date.getFullYear(),
           };
         }
       }
@@ -161,6 +163,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
         day: date.getDate(),
         month: date.getMonth(),
         UTCdate: date.getDay(),
+        year: date.getFullYear(),
       };
     });
 

@@ -32,20 +32,21 @@ function Gallery({
             src={thumbs[thumbActive]}
             alt=""
             css={{
-              ...thumbCSS,
               borderRadius: '10px',
               height: '200px',
               width: '200px',
               objectFit: 'cover',
               marginRight: '10px',
+              ...thumbCSS,
             }}
           />
         </Flex>
 
         <Flex
           direction={orientation === 'vertical' ? 'column' : 'row'}
+          justifyContent="spaceBetween"
           css={{
-            marginLeft: '5px',
+            marginLeft: orientation === 'vertical' ? '5px' : '0',
             marginTop: orientation === 'vertical' ? '0' : '10px',
           }}
         >

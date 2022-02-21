@@ -5,24 +5,63 @@ import { FiMapPin } from 'react-icons/fi';
 import { ITrips } from 'types/Trips';
 import Gallery from 'components/Gallery';
 import TripUser from './TripUser';
+import { useSchedule } from 'context/ScheduleContext';
+import { useCallback } from 'react';
+import { useRouter } from 'next/router';
+import { useToast } from 'context/ToastContext';
 interface CityProps {
   trip: ITrips;
   view?: 'grid' | 'list';
 }
 
 function City({ trip, view = 'list' }: CityProps) {
+  const { addCity, schedule, createSchedule } = useSchedule();
+  const { query } = useRouter();
+  const handleButtonClick = useCallback(() => {
+    if (!schedule.id) {
+      createSchedule({
+        city: {
+          name: trip.name,
+          id: trip.id,
+          location: trip.subtitle,
+        },
+        departure: String(query.departure),
+        dateOfReturn: String(query.dateOfReturn),
+      });
+      return;
+    } else {
+      console.log('Adding city');
+      addCity({
+        city: {
+          name: trip.name,
+          location: trip.subtitle,
+        },
+      });
+    }
+  }, [schedule]);
+
   return (
     <>
       <Flex
         key={`${Date.now()}-${trip.id}`}
         direction={view === 'list' ? 'row' : 'column'}
         css={{
-          maxWidth: `${view === 'list' ? '100%' : '280px'}`,
+          maxWidth: `${view === 'list' ? '100%' : '290px'}`,
           padding: '15px',
-          marginLeft: view === 'grid' ? '4px' : 0,
         }}
       >
-        <Gallery orientation="vertical" thumbs={trip.thumbs} />
+        <Gallery
+          thumbCSS={{
+            width: view === 'list' ? '200px' : '260px !important',
+            height: view === 'list' ? '200px' : '260px !important',
+          }}
+          slidesCSS={{
+            width: view === 'list' ? '35px' : '40px !important',
+            height: view === 'list' ? '35px' : '40px !important',
+          }}
+          orientation={view === 'list' ? 'vertical' : 'horizontal'}
+          thumbs={trip.thumbs}
+        />
         <Flex
           direction="column"
           css={{
@@ -97,7 +136,9 @@ function City({ trip, view = 'list' }: CityProps) {
             >
               See more details
             </Button>
-            <Button css={{ width: '200px' }}>Add to the schedule</Button>
+            <Button onClick={handleButtonClick} css={{ width: '200px' }}>
+              Add to the schedule
+            </Button>
           </Flex>
         </Flex>
       </Flex>

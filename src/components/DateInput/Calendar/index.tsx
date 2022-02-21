@@ -109,7 +109,7 @@ function Calendar() {
                 ></Flex>
               ))}
 
-              {days.map(({ day, month: dayMonth }, index) => {
+              {days.map(({ day, month: dayMonth, year: fullYear }, index) => {
                 if (currentMonth === 1 && day > 28) {
                   return (
                     <Flex
@@ -119,6 +119,8 @@ function Calendar() {
                   );
                 }
 
+                console.log(day, dayMonth, fullYear);
+                console.log('CURRENT YEAR', year);
                 return (
                   <>
                     <Day
@@ -128,7 +130,11 @@ function Calendar() {
                         new Date().getMonth() === currentMonth
                       }
                       onClick={() => handleDayClick({ day, month: dayMonth })}
-                      active={value.day === day && currentMonth === dayMonth}
+                      active={
+                        value.day === day &&
+                        currentMonth === dayMonth &&
+                        fullYear === Number(year)
+                      }
                     >
                       {day}
                     </Day>

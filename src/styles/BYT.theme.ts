@@ -12,6 +12,7 @@ const BYT = {
 
     primaryHover: 'rgba(255, 152, 0, 1)',
     text: '#333333',
+    textAlternative: '#C4C4C4',
     textLight: '#fff',
     ...green,
     ...orange,

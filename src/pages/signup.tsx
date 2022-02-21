@@ -118,7 +118,7 @@ function SignUp({
           <ContentWrapper>
             <img src="/assets/logo.svg" alt="Build your trip" />
             {soft === 'true' || url ? (
-              <>
+              <Form onSubmit={console.log}>
                 <Input
                   onChange={handleChange}
                   name="email"
@@ -163,7 +163,7 @@ function SignUp({
                 <Checkbox name="acceptTerms">
                   I accept the terms of use
                 </Checkbox>
-              </>
+              </Form>
             ) : (
               <Form onSubmit={handleSubmit}>
                 <HardRegistration />

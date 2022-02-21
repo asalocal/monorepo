@@ -26,35 +26,18 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
 
   const { registerPositions } = useProfileCard();
 
-  const handleProfileHover = useCallback((hover: boolean) => {
-    if (hover === true) {
-      setTimeout(() => {
-        setIsProfileHovered(true);
-      }, 1000);
-      return;
+  const handleMouseEnter = useCallback((ev: MouseEvent<HTMLDivElement>) => {
+    if (
+      containerRef.current &&
+      containerRef.current.contains(ev.target as Node)
+    ) {
+      setIsProfileHovered(true);
     }
-
-    setIsProfileHovered(false);
   }, []);
 
-  const handleMouseEnter = useCallback(
-    (ev: MouseEvent<HTMLDivElement>) => {
-      if (
-        containerRef.current &&
-        containerRef.current.contains(ev.target as Node)
-      ) {
-        handleProfileHover(true);
-      }
-    },
-    [handleProfileHover]
-  );
-
-  const handleMouseLeave = useCallback(
-    (ev: MouseEvent<HTMLDivElement>) => {
-      handleProfileHover(false);
-    },
-    [handleProfileHover]
-  );
+  const handleMouseLeave = useCallback((ev: MouseEvent<HTMLDivElement>) => {
+    setIsProfileHovered(false);
+  }, []);
 
   useEffect(() => {
     if (containerRef.current) {

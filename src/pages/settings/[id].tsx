@@ -33,13 +33,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const cookies = nookies.get(context);
 
-    const userData = await (
-      await api.get(`/users/${id}`, {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      })
-    ).data;
+    const userData = {
+      id: '12312312wsdasd-1231312asdas',
+      name: 'John Doe',
+      email: 'johndoe@gmail.com',
+      birth_date: new Date(),
+      password: '123123123',
+      isincomplete: false,
+      createdat: '2020-08-20T19:00:00.000Z',
+      updatedat: '2020-08-20T19:00:00.000Z',
+      cellphone: '+5511999999999',
+    };
 
     return {
       props: {
