@@ -29,7 +29,15 @@ function ToastItem({ message, title, id, type = 'success' }: ToastItemProps) {
             {title && <strong>{title}</strong>}
             {message && <p>{message}</p>}
           </Flex>
-          <Flex>
+          <Flex
+            css={{
+              svg: {
+                '&:hover': {
+                  cursor: 'pointer',
+                },
+              },
+            }}
+          >
             <FiX onClick={() => removeToast(id)} />
           </Flex>
         </Flex>

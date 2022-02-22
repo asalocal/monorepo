@@ -53,8 +53,8 @@ export const trips: ITrips[] = [
   },
   {
     id: crypto.createHash('md5').update('5134123123').digest('hex'),
-    name: 'Orlando',
-    subtitle: 'Florida, USA',
+    name: 'New Jersey',
+    subtitle: 'New York, USA',
     thumbs: [
       'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmV3JTIweW9ya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
       'https://images.unsplash.com/photo-1492666673288-3c4b4576ad9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bmV3JTIweW9ya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
@@ -77,8 +77,8 @@ export const trips: ITrips[] = [
   },
   {
     id: crypto.createHash('md5').update('1432341312').digest('hex'),
-    name: 'Orlando',
-    subtitle: 'Florida, USA',
+    name: 'Los Angeles',
+    subtitle: 'California, USA',
     thumbs: [
       'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmV3JTIweW9ya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
       'https://images.unsplash.com/photo-1492666673288-3c4b4576ad9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bmV3JTIweW9ya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
@@ -101,8 +101,8 @@ export const trips: ITrips[] = [
   },
   {
     id: crypto.createHash('md5').update('1231231313').digest('hex'),
-    name: 'Orlando',
-    subtitle: 'Florida, USA',
+    name: 'San Diego',
+    subtitle: 'California, USA',
     thumbs: [
       'https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmV3JTIweW9ya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
       'https://images.unsplash.com/photo-1492666673288-3c4b4576ad9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8bmV3JTIweW9ya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',

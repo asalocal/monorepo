@@ -1,10 +1,17 @@
 import Text from 'components/Text';
 import Flex from 'components/Flex';
 import { FiMapPin } from 'react-icons/fi';
-import { createContext, useCallback, useContext, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import generateHash from 'utils/generateHash';
 import { useToast } from './ToastContext';
-
+import { setCookie, parseCookies } from 'nookies';
+import SchedulePop from 'components/Schedule/Pop';
 interface ICity {
   id: string;
   name: string;
@@ -52,6 +59,8 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         cities: [city],
       };
 
+      setCookie(null, 'schedule', JSON.stringify(newSchedule));
+
       setSchedule(newSchedule);
     },
     []
@@ -75,12 +84,21 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         cities: [...schedule.cities, { ...city, id: generateHash() }],
       };
 
-      console.log('Adding city', addingCity);
+      setCookie(null, 'schedule', JSON.stringify(addingCity));
 
       setSchedule(addingCity);
     },
     [schedule, addToast]
   );
+
+  useEffect(() => {
+    const cookies = parseCookies();
+
+    if (cookies.schedule) {
+      setSchedule(JSON.parse(cookies.schedule));
+    }
+  }, []);
+
   return (
     <>
       <ScheduleContext.Provider
@@ -91,102 +109,7 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         }}
       >
         {children}
-        {schedule.cities && (
-          <Flex
-            alignItems="center"
-            justifyContent="spaceBetween"
-            css={{
-              backgroundColor: '$gray1',
-              boxShadow: '0 0 5px 5px rgba(0,0,0, 0.2)',
-              position: 'fixed',
-              bottom: '10px',
-              right: '10px',
-              maxWidth: '400px',
-              width: '100%',
-              padding: '15px',
-              borderRadius: '5px',
-            }}
-          >
-            <Flex direction="column">
-              <Text as="h5" css={{ color: '$text' }}>
-                🛬 You're planning to go to {schedule.cities[0].location}
-              </Text>
-
-              <Text
-                as="p"
-                css={{
-                  fontSize: '12px',
-                  marginTop: '5px',
-                  color: '$textAlternative',
-                }}
-              >
-                Your current trip includes {schedule.cities.length}{' '}
-                {schedule.cities.length > 1 ? 'cities' : 'city'}
-              </Text>
-
-              <Flex css={{ marginTop: '15px', color: '$text' }}>
-                {schedule.cities.map(({ name }, index) => {
-                  if (index === schedule.cities.length - 1) {
-                    return (
-                      <>
-                        <Text
-                          as="h4"
-                          css={{
-                            '& + &': {
-                              marginLeft: '5px',
-                            },
-                          }}
-                        >
-                          {name}
-                        </Text>
-                      </>
-                    );
-                  }
-                  return (
-                    <>
-                      <Text
-                        as="h4"
-                        css={{
-                          '& + &': {
-                            marginLeft: '5px',
-                          },
-                        }}
-                      >
-                        {name},
-                      </Text>
-                    </>
-                  );
-                })}
-              </Flex>
-            </Flex>
-            <Flex
-              css={{
-                svg: {
-                  fontSize: '30px',
-                  marginRight: '15px',
-                },
-              }}
-            >
-              <FiMapPin />
-              <Flex
-                alignItems="center"
-                justifyContent="center"
-                css={{
-                  position: 'absolute',
-                  width: '25px',
-                  height: '25px',
-                  marginTop: -10,
-                  marginLeft: '-10px',
-                  borderRadius: '50%',
-                  backgroundColor: 'red',
-                  color: '$gray1',
-                }}
-              >
-                {schedule.cities.length}
-              </Flex>
-            </Flex>
-          </Flex>
-        )}
+        {schedule.cities && <SchedulePop />}
       </ScheduleContext.Provider>
     </>
   );

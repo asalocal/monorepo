@@ -16,16 +16,14 @@ const ToastContext = createContext<ToastContextData>({} as ToastContextData);
 export const ToastProvider = ({ children }: ToastProviderProps) => {
   const [messages, setMessages] = useState<ToastMessage[]>([]);
 
-  const addToast = useCallback(
-    (message: Omit<ToastMessage, 'id'>) => {
-      const toast = {
-        id: generateHash(),
-        ...message,
-      };
-      setMessages([...messages, toast]);
-    },
-    [messages]
-  );
+  const addToast = useCallback((message: Omit<ToastMessage, 'id'>) => {
+    const toast = {
+      id: generateHash(),
+      ...message,
+    };
+
+    setMessages((prevState) => [...prevState, toast]);
+  }, []);
 
   const removeToast = useCallback(
     (id: string) => {
@@ -37,7 +35,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
     <ToastContext.Provider value={{ addToast, removeToast }}>
       {children}
-      <Toast messages={messages} />
+      {messages.length > 0 && <Toast messages={messages} />}
     </ToastContext.Provider>
   );
 };

@@ -8,7 +8,7 @@ import TripUser from './TripUser';
 import { useSchedule } from 'context/ScheduleContext';
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
-import { useToast } from 'context/ToastContext';
+
 interface CityProps {
   trip: ITrips;
   view?: 'grid' | 'list';
@@ -17,6 +17,7 @@ interface CityProps {
 function City({ trip, view = 'list' }: CityProps) {
   const { addCity, schedule, createSchedule } = useSchedule();
   const { query } = useRouter();
+
   const handleButtonClick = useCallback(() => {
     if (!schedule.id) {
       createSchedule({
@@ -28,9 +29,9 @@ function City({ trip, view = 'list' }: CityProps) {
         departure: String(query.departure),
         dateOfReturn: String(query.dateOfReturn),
       });
+
       return;
     } else {
-      console.log('Adding city');
       addCity({
         city: {
           name: trip.name,
