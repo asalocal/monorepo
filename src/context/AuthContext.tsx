@@ -26,7 +26,7 @@ export interface UserComplete {
 export interface User {
   email: string;
   id: string;
-  name: string;
+  name?: string;
   username?: string;
   isIncomplete: boolean;
 }
@@ -39,12 +39,6 @@ interface ICredentials {
 interface IUserData {
   user: User;
   token: string;
-  refreshToken: {
-    id: string;
-    userId: string;
-    token: string;
-    expiresIn: number;
-  };
 }
 
 interface IAuthContext {
@@ -68,7 +62,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
       return {
         token,
         user: JSON.parse(user),
-        refreshToken: JSON.parse(refresh_token),
       } as IUserData;
     }
 
@@ -97,9 +90,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
   const signIn = useCallback(async (credentials: ICredentials) => {
     const response = await api.post('/sessions', credentials);
 
-    console.log(response);
-
-    const { user, token, refreshToken } = response.data as IUserData;
+    const { user, token } = response.data as IUserData;
 
     const userFormatted = {
       id: user.id,
@@ -111,8 +102,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
     setCookie(null, 'token', token);
     setCookie(null, 'user', JSON.stringify(userFormatted));
-    setCookie(null, 'refresh_token', JSON.stringify(refreshToken));
-    setData({ user: userFormatted, token, refreshToken });
+    setData({ user: userFormatted, token });
   }, []);
 
   const signOut = useCallback(async () => {
@@ -132,7 +122,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
       setData({
         user: JSON.parse(user),
         token,
-        refreshToken: JSON.parse(refresh_token),
       });
       return;
     }

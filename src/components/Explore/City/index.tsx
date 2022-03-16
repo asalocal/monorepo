@@ -8,6 +8,7 @@ import TripUser from './TripUser';
 import { useSchedule } from 'context/ScheduleContext';
 import { useCallback } from 'react';
 import { useRouter } from 'next/router';
+import Tooltip from 'components/Tooltip';
 
 interface CityProps {
   trip: ITrips;

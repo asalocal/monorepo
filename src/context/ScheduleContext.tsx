@@ -109,7 +109,6 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         }}
       >
         {children}
-        {schedule.cities && <SchedulePop />}
       </ScheduleContext.Provider>
     </>
   );

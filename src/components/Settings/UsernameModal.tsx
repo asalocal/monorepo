@@ -22,9 +22,9 @@ function UsernameModal({ userData, isOpen }: UsernameModalProps) {
   const { push } = useRouter();
 
   const updateUsername = useCallback(
-    async (data: { username: string }) => {
+    async (data: { username: string; name: string }) => {
       const updatedUser: AxiosResponse<UserComplete> = await api.put(
-        `/users/username/${userData.id}`,
+        `/users/${userData.id}`,
         data,
         {
           headers: {
@@ -36,9 +36,8 @@ function UsernameModal({ userData, isOpen }: UsernameModalProps) {
       setUsername(updatedUser.data?.username || '');
 
       if (updatedUser.status === 200) {
+        push(`/settings/${userData.id || username}`);
       }
-
-      push(`/settings/${userData.id || username}`);
     },
     [push, userData.id, username]
   );
@@ -60,16 +59,29 @@ function UsernameModal({ userData, isOpen }: UsernameModalProps) {
             To continue with your experience, you need to insert your username
           </Text>
           <Form onSubmit={updateUsername}>
+            {!userData.name && (
+              <Input
+                type="text"
+                placeholder="Ex.: John Doe"
+                label="Name"
+                name="name"
+                id="name"
+                css={{ marginBottom: '15px' }}
+              />
+            )}
             <Input
               type="text"
-              placeholder="Ex.: @john_doe"
+              placeholder="Ex.: john_doe"
               label="Username"
               name="username"
               id="username"
             />
+
             <Flex css={{ marginTop: '20px' }}>
               <Button
                 variant="alternative"
+                type="button"
+                onClick={() => (window.location.href = '/')}
                 css={{
                   marginRight: '10px',
                   color: '$primary !important',

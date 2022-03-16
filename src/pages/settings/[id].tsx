@@ -33,21 +33,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const cookies = nookies.get(context);
 
-    const userData = {
-      id: '12312312wsdasd-1231312asdas',
-      name: 'John Doe',
-      email: 'johndoe@gmail.com',
-      birth_date: new Date(),
-      password: '123123123',
-      isincomplete: false,
-      createdat: '2020-08-20T19:00:00.000Z',
-      updatedat: '2020-08-20T19:00:00.000Z',
-      cellphone: '+5511999999999',
-    };
+    const userData = await api.get(`/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${cookies.token}`,
+      },
+    });
 
     return {
       props: {
-        user: userData,
+        user: userData.data,
       },
     };
   } catch (err: any) {
@@ -55,6 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         user: {
           name: 'Error',
+          message: err.message,
         },
         error: {
           statusCode: err.response.status || 500,
@@ -121,14 +116,14 @@ function Settings({ user }: ProfileProps) {
   );
 
   useEffect(() => {
-    const dateBirth = new Date(user.birth_date);
-    const dateBirthFormatted = new Intl.DateTimeFormat('pt-BR').format(
-      dateBirth
-    );
-
     setCellphone(user.cellphone || '');
-    setDateOfBirth(dateBirthFormatted || '');
-  }, [user.birth_date, user.cellphone]);
+  }, []);
+
+  useEffect(() => {
+    if (user.isincomplete) {
+      setModalOpen(true);
+    }
+  }, [user]);
 
   return (
     <>

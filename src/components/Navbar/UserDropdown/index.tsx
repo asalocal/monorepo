@@ -27,7 +27,7 @@ function UserDropdown() {
   const { push } = useRouter();
   const { id, username } = user;
 
-  const usernameQuery = username ? `@${username}` : id;
+  const usernameQuery = username ? `${username}` : id;
 
   const handleSettingsClick = async () => {
     if (user.isIncomplete) {
@@ -60,7 +60,7 @@ function UserDropdown() {
   }, [getData, user]);
 
   return (
-    <Dropdown label={<UserInfo name={data.name} />}>
+    <Dropdown label={<UserInfo name={data.name || 'Client'} />}>
       <Content>
         <DropdownLink href="/my-trips">My trips</DropdownLink>
         <DropdownLink href="/logout">Info</DropdownLink>

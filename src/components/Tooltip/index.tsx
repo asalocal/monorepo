@@ -1,64 +1,46 @@
 import { IconProps } from '@modulz/radix-icons/dist/types';
 import Flex from 'components/Flex';
 import Icon from 'components/Icon';
-import Text from 'components/Text';
+import { useState } from 'react';
+
+import { FiAnchor } from 'react-icons/fi';
+
 import { IconBaseProps } from 'react-icons/lib';
+import { TooltipWrapper } from './styles';
 
 interface TooltipProps {
   children: React.ReactNode;
-  icon: (props: IconProps) => JSX.Element | React.ReactElement<IconBaseProps>;
+  icon?: (props: IconProps) => JSX.Element | React.ReactElement<IconBaseProps>;
 }
 
-function Tooltip({ children, icon }: TooltipProps) {
+function Tooltip({ children, icon = FiAnchor }: TooltipProps) {
+  const [active, setActive] = useState(false);
   return (
     <Flex
       direction="column"
       justifyContent="center"
       alignItems="center"
       css={{
-        padding: '10px',
-        width: '100%',
         position: 'relative',
-
-        '&:hover span': {
-          opacity: 1,
-          visibility: 'visible',
-        },
+        padding: 10,
       }}
     >
-      <Text
-        as="span"
-        css={{
-          boxShadow: '0 0 10px 2px rgba(0,0,0, 0.2)',
-          width: 'fit-content',
-          padding: '8px 12px',
-          borderRadius: '5px',
-          fontSize: '13px',
-          zIndex: 1,
-          position: 'absolute',
-          backgroundColor: '#fff',
-          bottom: 'calc(60% + 10px)',
-
-          opacity: 0,
-          visibility: 'hidden',
-          transition: 'all 0.2s ease-in-out',
-
-          '&::before': {
-            content: '',
-            borderStyle: 'solid',
-            borderColor: '#ffff transparent',
-            borderWidth: '6px 6px 0 6px',
-            bottom: '-5px',
-            position: 'absolute',
-            transform: 'translateX(-50%)',
-            left: '50%',
-          },
-        }}
-      >
+      <TooltipWrapper as="span" active={active}>
         {children}
-      </Text>
+      </TooltipWrapper>
 
-      <Icon icon={icon} />
+      <Flex
+        css={{
+          padding: 5,
+          backgroundColor: '$primary',
+          color: '$gray1',
+          borderRadius: '40px',
+        }}
+        onMouseOver={() => setActive(true)}
+        onMouseLeave={() => setActive(false)}
+      >
+        <Icon icon={icon} />
+      </Flex>
     </Flex>
   );
 }

@@ -18,7 +18,7 @@ function TabsItem({
 
   useEffect(() => {
     addTrigger({ id, value });
-  }, [addTrigger, id, value]);
+  }, [addTrigger, value]);
 
   return (
     <TabsItemContainer active={activeTab === value}>

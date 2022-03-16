@@ -63,46 +63,46 @@ function SignUp({
 
   const handleSubmit = useCallback(async ({}: SignUpFormData) => {}, []);
 
-  const handleSoftSubmit = useCallback(async () => {
-    try {
-      formRef.current?.setErrors({});
-      const { strength } = verifyPasswordStrenght(passwordValue);
+  const handleSoftSubmit = useCallback(
+    async ({ email, password }: { email: string; password: string }) => {
+      try {
+        formRef.current?.setErrors({});
+        const { strength } = verifyPasswordStrenght(passwordValue);
 
-      if (strength === 'weak') {
-        formRef.current?.setErrors({
-          password:
-            'Senha é considerada fraca, escolha uma senha de uma força regular para cima',
+        if (strength === 'weak') {
+          formRef.current?.setErrors({
+            password:
+              'Senha é considerada fraca, escolha uma senha de uma força regular para cima',
+          });
+          return;
+        }
+
+        await api.post('/users/create/soft', { email, password });
+
+        signIn({ email, password });
+
+        if (url) {
+          push(url);
+          return;
+        }
+
+        push('/');
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current?.setErrors(errors);
+          return;
+        }
+
+        addToast({
+          title: 'Something has gone wrong',
+          message: 'Please, try again later',
+          type: 'error',
         });
-        return;
       }
-
-      await api.post('/users/create/soft', {
-        email: emailValue,
-        password: passwordValue,
-      });
-
-      signIn({ email: emailValue, password: passwordValue });
-
-      if (url) {
-        push(url);
-        return;
-      }
-
-      push('/');
-    } catch (err) {
-      if (err instanceof yup.ValidationError) {
-        const errors = getValidationErrors(err);
-        formRef.current?.setErrors(errors);
-        return;
-      }
-
-      addToast({
-        title: 'Something has gone wrong',
-        message: 'Please, try again later',
-        type: 'error',
-      });
-    }
-  }, [addToast, push, signIn, passwordValue, emailValue, url]);
+    },
+    [addToast, push, signIn, passwordValue, emailValue, url]
+  );
 
   const handleChange = useCallback(() => {
     formRef.current?.setErrors({});
@@ -118,7 +118,7 @@ function SignUp({
           <ContentWrapper>
             <img src="/assets/logo.svg" alt="Build your trip" />
             {soft === 'true' || url ? (
-              <Form onSubmit={console.log}>
+              <Form onSubmit={handleSoftSubmit}>
                 <Input
                   onChange={handleChange}
                   name="email"
@@ -152,11 +152,7 @@ function SignUp({
                   >
                     Back
                   </Button>
-                  <Button
-                    variant="secondary"
-                    onClick={handleSoftSubmit}
-                    type="submit"
-                  >
+                  <Button variant="secondary" type="submit">
                     Sign Up
                   </Button>
                 </Flex>

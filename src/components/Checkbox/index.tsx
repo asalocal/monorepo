@@ -45,14 +45,14 @@ function Checkbox({ children, name, ...props }: CheckboxProps) {
           {isChecked && <CheckIcon />}
         </CheckboxBox>
         <CheckboxLabel>{children}</CheckboxLabel>
+        <input
+          type="checkbox"
+          style={{ display: 'none' }}
+          ref={checkboxRef}
+          name={name}
+          {...props}
+        />
       </CheckboxContainer>
-      <input
-        type="checkbox"
-        style={{ display: 'none' }}
-        ref={checkboxRef}
-        name={name}
-        {...props}
-      />
     </>
   );
 }

@@ -18,7 +18,6 @@ import Calendar from './Calendar';
 import { DateInputProvider, useDateInputContext } from './DateInputContext';
 import maskCreation from 'utils/inputMaskCreation';
 import { useField } from '@unform/core';
-
 interface DateInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
@@ -146,6 +145,19 @@ function DateInputWrapper({
       setIsFocused(true);
     }
   }, [placeholder, defaultValue]);
+
+  useEffect(() => {
+    if (defaultValue) {
+      const splittedDate = defaultValue.split('/');
+
+      handleValue({
+        day: Number(splittedDate[0]),
+        month: splittedDate[1],
+        year: splittedDate[2],
+        formatted: defaultValue,
+      });
+    }
+  }, []);
 
   useEffect(() => {
     setYear('2021');

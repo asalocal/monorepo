@@ -119,8 +119,6 @@ function Calendar() {
                   );
                 }
 
-                console.log(day, dayMonth, fullYear);
-                console.log('CURRENT YEAR', year);
                 return (
                   <>
                     <Day

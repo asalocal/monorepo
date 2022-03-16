@@ -18,6 +18,7 @@ import routesAPI from 'api/routesAPI';
 import { useCallback, useEffect, useState } from 'react';
 import CitySkeleton from 'components/Explore/CitySkeleton';
 import { ViewButton } from 'styles/Explore.styles';
+import SchedulePop from 'components/Schedule/Pop';
 
 interface ExploreProps {
   filter: {
@@ -173,11 +174,12 @@ function Explore({
                 defaultValue="country"
               >
                 <CollapseItem value="country" title="Country">
-                  <Form onSubmit={() => console.log('Submit')}>
-                    <Checkbox name="country">United States</Checkbox>
-                    <Checkbox name="country">Brasil</Checkbox>
-                    <Checkbox name="country">Canada</Checkbox>
-                    <Checkbox name="country">Germany</Checkbox>
+                  <Form onSubmit={(data) => console.log(data)}>
+                    <Checkbox name="unitedStates">United States</Checkbox>
+                    <Checkbox name="brasil">Brasil</Checkbox>
+                    <Checkbox name="canada">Canada</Checkbox>
+                    <Checkbox name="germany">Germany</Checkbox>
+                    <Button>Teste</Button>
                   </Form>
                 </CollapseItem>
                 <CollapseItem value="type" title="Type">
@@ -197,6 +199,7 @@ function Explore({
             </Col>
           </Row>
         </Container>
+        <SchedulePop />
       </Container>
     </>
   );
