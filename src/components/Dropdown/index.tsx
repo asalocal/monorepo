@@ -4,6 +4,7 @@ import { DropdownContainer, DropdownTrigger } from './styles';
 import DropdownContent from './DropdownContent';
 import { BYTCSS } from 'styles/Theme.provider';
 import { DropdownProvider, useDropdown } from './DropdownContext';
+import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
 
 interface DropdownProps {
   label: string | JSX.Element;
@@ -45,7 +46,7 @@ function DropdownWrapper({ label, children, css }: DropdownProps) {
       window.removeEventListener('scroll', handleCloseDropdownOnScroll);
   }, [isOpen]);
 
-  useEffect(() => {
+  useLayoutEffectSSR(() => {
     if (isOpen && triggerRef.current) {
       const heightCalculated =
         triggerRef.current?.getBoundingClientRect().y +

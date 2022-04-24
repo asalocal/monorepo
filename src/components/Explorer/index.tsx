@@ -23,6 +23,10 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import Input from 'components/Input';
 import DateInput from 'components/DateInput';
+import InputAutocomplete, {
+  AutocompleteOption,
+} from 'components/InputAutocomplete';
+import searchOptions from 'mocks/searchOptions';
 
 const passengersOptions = [
   { value: 'One passanger', label: 'One passanger' },
@@ -118,6 +122,28 @@ function Explorer() {
                 </Select>
               </TripOptionsContainer>
               <InputContainers>
+                <InputAutocomplete
+                  type="text"
+                  label="Testing from"
+                  name="leavingFrom"
+                  onAutocomplete={(inputValue, options) => {
+                    const filteredOptions = options.filter(
+                      (option) =>
+                        option.toLowerCase().search(inputValue.toLowerCase()) >=
+                        0
+                    );
+
+                    return filteredOptions;
+                  }}
+                  onChange={handleInputChange}
+                  id="leavingFrom"
+                >
+                  {searchOptions.map((option) => (
+                    <AutocompleteOption value={option.value}>
+                      {option.value}
+                    </AutocompleteOption>
+                  ))}
+                </InputAutocomplete>
                 <Input
                   type="text"
                   label="Leaving from"

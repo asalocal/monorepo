@@ -1,8 +1,9 @@
 import Flex from 'components/Flex';
 import Portal from 'components/Portal';
-import { MouseEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useCallback, useRef, useState } from 'react';
 import { ProfileCardProvider, useProfileCard } from './ProfileCardContext';
 import Card from './Card';
+import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
 
 interface IProfileCardProps {
   label: string | React.ReactNode;
@@ -39,7 +40,7 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
     setIsProfileHovered(false);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffectSSR(() => {
     if (containerRef.current) {
       const { x, y } = containerRef.current.getBoundingClientRect();
 

@@ -8,7 +8,10 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useImperativeHandle,
   useState,
+  forwardRef,
+  ForwardRefExoticComponent,
 } from 'react';
 import { BYTCSS } from 'styles/Theme.provider';
 
@@ -23,27 +26,29 @@ import {
   InputContent,
 } from './styles';
 
-type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   verifyPassword?: boolean;
   name: string;
-  label: string;
+  label: string | React.ReactNode;
   theme?: 'light' | 'primary';
   css?: BYTCSS;
-};
+}
 
-function Input({
-  type = 'text',
-  placeholder,
-  verifyPassword = false,
-  name,
-  defaultValue,
-  value: controlledValue,
-  label,
-  css,
-  theme = 'primary',
-  onChange,
-  ...props
-}: InputProps) {
+const Input = forwardRef((inputProps: InputProps, ref) => {
+  const {
+    type = 'text',
+    placeholder,
+    verifyPassword = false,
+    name,
+    defaultValue,
+    value: controlledValue,
+    label,
+    css,
+    theme = 'primary',
+    onChange,
+    ...props
+  } = inputProps;
+
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [isShowingMessage, setIsShowingMessage] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
@@ -54,6 +59,8 @@ function Input({
   const { disabled } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useImperativeHandle(ref, () => inputRef.current);
 
   const handleInputFocus = useCallback((): void => {
     const newState = !isFocus;
@@ -72,7 +79,9 @@ function Input({
       setValue(e.target.value);
 
       placeholder ? setIsFilled(true) : setIsFilled(!!e.target.value);
-      onChange && onChange(e);
+      if (onChange) {
+        onChange(e);
+      }
     },
     [onChange, placeholder]
   );
@@ -157,6 +166,6 @@ function Input({
       )}
     </>
   );
-}
+});
 
 export default Input;

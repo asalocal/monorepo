@@ -414,6 +414,21 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
+"@kaiju-ui/collapse@^0.0.4-alpha":
+  version "0.0.4-alpha"
+  resolved "https://registry.yarnpkg.com/@kaiju-ui/collapse/-/collapse-0.0.4-alpha.tgz#07cbb425e998fb8a3eebd61e2a50941d94e169ad"
+  integrity sha512-sMK3YnoVVuz29Abtzds179KkT1t2GAXbAVtvmrFiuj3rrrHzNvFIXu3V2KWqNYRh6Su2E3BCcv/9kKgPCZj1uQ==
+  dependencies:
+    "@kaiju-ui/theme" "0.0.1-alpha"
+
+"@kaiju-ui/theme@0.0.1-alpha":
+  version "0.0.1-alpha"
+  resolved "https://registry.yarnpkg.com/@kaiju-ui/theme/-/theme-0.0.1-alpha.tgz#231771b2e9ebef5eed4d7b49a0bdc892a934f004"
+  integrity sha512-TyEMX4/+H5J9OB5FYk95k59F5Hce80h97GFAbbTLXnqFth/hewD1G7Ofm7sLODia1wxx6oldvbsearlS/z9JIg==
+  dependencies:
+    "@radix-ui/colors" "^0.1.8"
+    "@stitches/react" "^1.2.6"
+
 "@modulz/radix-icons@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@modulz/radix-icons/-/radix-icons-4.0.0.tgz#628a7826a4569dd2e3331e266d8d2e26c7d6753c"
@@ -583,7 +598,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@radix-ui/colors@^0.1.7":
+"@radix-ui/colors@^0.1.7", "@radix-ui/colors@^0.1.8":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@radix-ui/colors/-/colors-0.1.8.tgz#b08c62536fc462a87632165fb28e9b18f9bd047e"
   integrity sha512-jwRMXYwC0hUo0mv6wGpuw254Pd9p/R6Td5xsRpOmaWkUHlooNWqVcadgyzlRumMq3xfOTXwJReU0Jv+EIy4Jbw==
@@ -592,6 +607,11 @@
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/@stitches/react/-/react-1.2.6.tgz#61f2a3d1110334ecd33bcb7463650127d42470cb"
   integrity sha512-gRVITYj8W4jJmoiVxWDv72yCvd12VvtUUAnTzs07EqmtvGCVgKZu3Dx0x5KVCcb0b6tfgvvNH2L84YrzdM4Mag==
+
+"@stitches/react@^1.2.6":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@stitches/react/-/react-1.2.7.tgz#aea2403fac726db66d1740d29557e3910b1a1dc7"
+  integrity sha512-6AxpUag7OW55ANzRnuy7R15FEyQeZ66fytVo3BBilFIU0mfo3t49CAMcEAL/A1SbhSj/FCdWkn/XrbjGBTJTzg==
 
 "@swc/cli@^0.1.26":
   version "0.1.55"

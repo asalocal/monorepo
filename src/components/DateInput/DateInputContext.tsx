@@ -24,13 +24,14 @@ interface IDateInputContext {
   positions: IPositions;
   handleCalendar: (value?: boolean) => void;
   calendarOpen: boolean;
-  handleDay: (day: number) => void;
+  handleDay: (day: number, month?: number) => void;
   optionDay: number;
   days: IDays[];
   year: string;
   months: string[];
   value: DateInputValue;
   handleNextMonth: () => void;
+  monthVisualization: number;
   handlePrevMonth: () => void;
   currentMonth: number;
   monthValue: number;
@@ -74,6 +75,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [optionDay, setOptionDay] = useState(1);
   const [value, setValue] = useState<DateInputValue>({} as DateInputValue);
+  const [monthVisualization, setMonthVisualization] = useState(0);
   const [currentMonth, setCurrentMonth] = useState(0);
   const [monthValue, setMonthValue] = useState(0);
   const [year, setYear] = useState('');
@@ -82,7 +84,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   const date = useMemo(() => new Date(), []);
 
   const handleNextMonth = useCallback(() => {
-    setCurrentMonth((prevState) => {
+    setMonthVisualization((prevState) => {
       if (prevState === 11) {
         const date = new Date();
 
@@ -96,7 +98,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   }, [year]);
 
   const handlePrevMonth = useCallback(() => {
-    setCurrentMonth((prevState) => {
+    setMonthVisualization((prevState) => {
       if (prevState === 0) {
         const date = new Date();
 
@@ -134,11 +136,11 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
 
   const getAllDaysInTheMonth = useCallback(() => {
     const date = new Date();
-    date.setMonth(currentMonth);
+    date.setMonth(monthVisualization);
 
     let value = 0;
 
-    const quantityOfDays = getQuantityOfDays(currentMonth, Number(year));
+    const quantityOfDays = getQuantityOfDays(monthVisualization, Number(year));
 
     const days = [...Array(quantityOfDays)].map((_, i) => {
       value = i + 1;
@@ -168,17 +170,19 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
     });
 
     setDays(days);
-  }, [currentMonth, year]);
+  }, [monthVisualization, year]);
 
   const handleDay = useCallback(
-    (day: number) => {
+    (day: number, month?: number) => {
       if (!day) {
         return;
       }
 
       const date = new Date();
 
-      date.setMonth(currentMonth);
+      if (month) {
+        date.setMonth(month || currentMonth);
+      }
 
       setOptionDay(day);
       const formattedDay = day < 10 ? `0${day}` : day;
@@ -200,7 +204,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   const handleMonthValue = useCallback(
     ({ month, day }: { month: number; day: number }) => {
       setMonthValue(month);
-      handleDay(day);
+      handleDay(day, month);
       const date = new Date();
 
       date.setDate(day);
@@ -235,6 +239,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   }, [getAllDaysInTheMonth]);
 
   useEffect(() => {
+    setMonthVisualization(date.getMonth());
     setCurrentMonth(date.getMonth());
   }, [date]);
 
@@ -248,6 +253,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
         handleNextMonth,
         handlePrevMonth,
         monthValue,
+        monthVisualization,
         setYear,
         year,
         days,

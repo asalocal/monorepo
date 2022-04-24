@@ -1,14 +1,18 @@
 import { OptionHTMLAttributes } from 'react';
+import { BYTCSS } from 'styles/Theme.provider';
 import { OptionWrapper } from '../styles';
 
 interface OptionProps extends OptionHTMLAttributes<HTMLOptionElement> {
   children: React.ReactNode;
+  css?: BYTCSS;
 }
 
-function Option({ children, ...props }: OptionProps) {
+function Option({ children, css, ...props }: OptionProps) {
   return (
     <>
-      <OptionWrapper {...props}>{children}</OptionWrapper>
+      <OptionWrapper css={css} {...props}>
+        {children}
+      </OptionWrapper>
     </>
   );
 }

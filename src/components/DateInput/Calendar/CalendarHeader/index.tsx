@@ -5,14 +5,14 @@ import Flex from 'components/Flex';
 import Text from 'components/Text';
 
 function CalendarHeader() {
-  const { handleNextMonth, handlePrevMonth, months, currentMonth } =
+  const { handleNextMonth, handlePrevMonth, months, monthVisualization } =
     useDateInputContext();
 
   return (
     <Flex alignItems="center" justifyContent="center">
       <Button
         variant="ghost"
-        disabled={new Date().getMonth() === currentMonth}
+        disabled={new Date().getMonth() === monthVisualization}
         onClick={handlePrevMonth}
         css={{ width: 'fit-content' }}
       >
@@ -29,7 +29,7 @@ function CalendarHeader() {
           justifyContent: 'center',
         }}
       >
-        {months[currentMonth]}
+        {months[monthVisualization]}
       </Text>
 
       <Button

@@ -15,57 +15,57 @@ export const Wrapper = styled('div', {
       },
       11: {
         '@sm': {
-          width: 'calc(12 / 11)',
+          width: 'calc(12 / (12 /11))',
         },
       },
       10: {
         '@sm': {
-          width: 'calc(12 / 10)',
+          width: 'calc(12 / (12 /10))',
         },
       },
       9: {
         '@sm': {
-          width: 'calc(12 / 9)',
+          width: 'calc(12 / (12 /9))',
         },
       },
       8: {
         '@sm': {
-          width: 'calc(12 / 8)',
+          width: 'calc(12 / (12 /8))',
         },
       },
       7: {
         '@sm': {
-          width: 'calc(12 / 7)',
+          width: 'calc(12 / (12 /7))',
         },
       },
       6: {
         '@sm': {
-          width: 'calc(12 / 6)',
+          width: 'calc(12 / (12 / 6))',
         },
       },
       5: {
         '@sm': {
-          width: 'calc(12 / 5)',
+          width: 'calc(12 / (12 / 5))',
         },
       },
       4: {
         '@sm': {
-          width: 'calc(12 / 4)',
+          width: 'calc(12 / (12 / 4))',
         },
       },
       3: {
         '@sm': {
-          width: 'calc(12 / 3)',
+          width: 'calc(12 / (12 / 3))',
         },
       },
       2: {
         '@sm': {
-          width: 'calc(12 / 2)',
+          width: 'calc(12 / (12 / 2))',
         },
       },
       1: {
         '@sm': {
-          width: 'calc(12 / 1)',
+          width: 'calc(12 / 12)',
         },
       },
     },
@@ -139,57 +139,57 @@ export const Wrapper = styled('div', {
       },
       11: {
         '@lg': {
-          width: 'calc(100% / (12 / 11))',
+          width: 'calc(100% / (12 / 11)) !important',
         },
       },
       10: {
         '@lg': {
-          width: 'calc(100% / (12 / 10))',
+          width: 'calc(100% / (12 / 10)) !important',
         },
       },
       9: {
         '@lg': {
-          width: 'calc(100% / (12 / 9))',
+          width: 'calc(100% / (12 / 9)) !important',
         },
       },
       8: {
         '@lg': {
-          width: 'calc(100% / (12 / 8))',
+          width: 'calc(100% / (12 / 8)) !important',
         },
       },
       7: {
         '@lg': {
-          width: 'calc(100% / (12 / 7))',
+          width: 'calc(100% / (12 / 7)) !important',
         },
       },
       6: {
         '@lg': {
-          width: 'calc(100% / (12 / 6))',
+          width: 'calc(100% / (12 / 6)) !important',
         },
       },
       5: {
         '@lg': {
-          width: 'calc(100% / (12 / 5))',
+          width: 'calc(100% / (12 / 5)) !important',
         },
       },
       4: {
         '@lg': {
-          width: 'calc(100% / (12 /4))',
+          width: 'calc(100% / (12 /4)) !important',
         },
       },
       3: {
         '@lg': {
-          width: 'calc(100% / (12 /3))',
+          width: 'calc(100% / (12 /3)) !important',
         },
       },
       2: {
         '@lg': {
-          width: 'calc(100% / (12 /2))',
+          width: 'calc(100% / (12 /2)) !important',
         },
       },
       1: {
         '@lg': {
-          width: 'calc(100% / (12 /1))',
+          width: 'calc(100% / 12) !important',
         },
       },
     },

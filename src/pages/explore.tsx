@@ -7,8 +7,7 @@ import { GetServerSideProps } from 'next';
 import Text from 'components/Text';
 import Flex from 'components/Flex';
 import Button from 'components/Button';
-import Collapse from 'components/Collapse/Collapse';
-import CollapseItem from 'components/Collapse/CollapseItem';
+import Collapse, { CollapseItem } from '@kaiju-ui/collapse';
 import Checkbox from 'components/Checkbox';
 import Head from 'next/head';
 import City from 'components/Explore/City';
@@ -168,32 +167,39 @@ function Explore({
             </Col>
             <Col sm={12} md={6} lg={3}>
               <Collapse
-                type="special"
                 css={{ border: '1px solid #c1c1c1' }}
                 collapseTitle="Filters"
+                isMultiple
+                isSpecial
                 defaultValue="country"
               >
                 <CollapseItem value="country" title="Country">
-                  <Form onSubmit={(data) => console.log(data)}>
-                    <Checkbox name="unitedStates">United States</Checkbox>
-                    <Checkbox name="brasil">Brasil</Checkbox>
-                    <Checkbox name="canada">Canada</Checkbox>
-                    <Checkbox name="germany">Germany</Checkbox>
-                    <Button>Teste</Button>
-                  </Form>
+                  <Flex direction="column" css={{ padding: '10px' }}>
+                    <Form onSubmit={(data) => console.log(data)}>
+                      <Checkbox name="unitedStates">United States</Checkbox>
+                      <Checkbox name="brasil">Brasil</Checkbox>
+                      <Checkbox name="canada">Canada</Checkbox>
+                      <Checkbox name="germany">Germany</Checkbox>
+                      <Button>Teste</Button>
+                    </Form>
+                  </Flex>
                 </CollapseItem>
                 <CollapseItem value="type" title="Type">
-                  <Form onSubmit={() => console.log('Submit')}>
-                    <Checkbox name="type">Two Way Trip</Checkbox>
-                    <Checkbox name="type">Three or more stops</Checkbox>
-                  </Form>
+                  <Flex direction="column" css={{ padding: '10px' }}>
+                    <Form onSubmit={() => console.log('Submit')}>
+                      <Checkbox name="type">Two Way Trip</Checkbox>
+                      <Checkbox name="type">Three or more stops</Checkbox>
+                    </Form>
+                  </Flex>
                 </CollapseItem>
                 <CollapseItem value="kids" title="Kids">
-                  <Form onSubmit={() => console.log('Submit')}>
-                    <Checkbox name="kids">No kids</Checkbox>
-                    <Checkbox name="kids">One kids</Checkbox>
-                    <Checkbox name="kids">More than two kids</Checkbox>
-                  </Form>
+                  <Flex direction="column" css={{ padding: '10px' }}>
+                    <Form onSubmit={() => console.log('Submit')}>
+                      <Checkbox name="kids">No kids</Checkbox>
+                      <Checkbox name="kids">One kids</Checkbox>
+                      <Checkbox name="kids">More than two kids</Checkbox>
+                    </Form>
+                  </Flex>
                 </CollapseItem>
               </Collapse>
             </Col>

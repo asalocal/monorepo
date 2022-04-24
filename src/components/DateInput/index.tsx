@@ -18,6 +18,7 @@ import Calendar from './Calendar';
 import { DateInputProvider, useDateInputContext } from './DateInputContext';
 import maskCreation from 'utils/inputMaskCreation';
 import { useField } from '@unform/core';
+import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
 interface DateInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
@@ -128,7 +129,7 @@ function DateInputWrapper({
     setHasValue(!!value.formatted);
   }, [value]);
 
-  useEffect(() => {
+  useLayoutEffectSSR(() => {
     const xPosition = divContainerRef.current?.getBoundingClientRect().left;
     const yPosition = divContainerRef.current?.getBoundingClientRect().top;
 

@@ -9,11 +9,12 @@ import {
   useCallback,
 } from 'react';
 import Overlay from 'components/Overlay';
-import { SelectWrapper, OptionsContainer } from './styles';
+import { SelectWrapper, OptionsContainer, OpenIcon } from './styles';
 import Portal from 'components/Portal';
 import Flex from 'components/Flex';
 
 import Option from './Option';
+import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
 
 interface IOption {
   children: React.ReactNode | string;
@@ -29,6 +30,7 @@ interface SelectProps extends InputHTMLAttributes<HTMLInputElement> {
 interface IPositions {
   x: number;
   y: number;
+  width: number;
 }
 
 function Select({
@@ -42,6 +44,7 @@ function Select({
   const [active, setActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [positions, setPositions] = useState<IPositions>({} as IPositions);
+  const [show, setShow] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { fieldName, registerField } = useField(name);
@@ -66,6 +69,10 @@ function Select({
     }
   }, [children]);
 
+  useEffect(() => {
+    setShow(true);
+  }, []);
+
   const handleCloseSelectOnScroll = useCallback(() => {
     setIsOpen(false);
     setActive(false);
@@ -80,11 +87,12 @@ function Select({
       window.removeEventListener('scroll', handleCloseSelectOnScroll);
   }, [isOpen, handleCloseSelectOnScroll]);
 
-  useEffect(() => {
+  useLayoutEffectSSR(() => {
     if (triggerRef.current) {
       setPositions({
         x: triggerRef.current.getBoundingClientRect().x,
         y: triggerRef.current.getBoundingClientRect().y,
+        width: triggerRef.current.getBoundingClientRect().width,
       });
     }
   }, [triggerRef, isOpen]);
@@ -117,14 +125,18 @@ function Select({
         active={active}
         onClick={handleOpen}
       >
-        {selected} {isOpen ? <TriangleUpIcon /> : <TriangleDownIcon />}
+        {selected}
+        <OpenIcon isOpen={isOpen}>
+          <TriangleDownIcon />
+        </OpenIcon>
       </SelectWrapper>
       <Portal>
         {isOpen && (
           <Overlay onClick={handleOpen}>
             <OptionsContainer
               css={{
-                transform: `translate(${positions.x}px, ${positions.y - 5}px)`,
+                transform: `translate(${positions.x}px, ${positions.y}px)`,
+                minWidth: positions.width,
               }}
               isSelecting={isOpen}
             >
@@ -135,6 +147,9 @@ function Select({
                     key={props.value}
                     value={props.value}
                     onClick={() => handleSelect(props.value)}
+                    css={{
+                      minWidth: positions.width,
+                    }}
                   >
                     {props.children}
                   </Option>

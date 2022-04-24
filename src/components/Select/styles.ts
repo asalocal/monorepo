@@ -38,6 +38,17 @@ export const SelectWrapper = styled('button', {
   },
 });
 
+export const OpenIcon = styled('div', {
+  transition: 'all 0.2s ease-in-out',
+  variants: {
+    isOpen: {
+      true: {
+        transform: 'rotate(180deg) translateY(1px)',
+      },
+    },
+  },
+});
+
 export const OptionsContainer = styled('div', {
   boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.25)',
   position: 'absolute',
@@ -47,6 +58,14 @@ export const OptionsContainer = styled('div', {
   zIndex: '9999',
   minWidth: '90px',
   width: 'fit-content',
+
+  'option:first-child': {
+    borderRadius: '5px 5px 0 0 !important',
+  },
+
+  'option:last-child': {
+    borderRadius: '0 0 5px 5px !important',
+  },
 
   variants: {
     isSelecting: {
@@ -73,7 +92,6 @@ export const OptionWrapper = styled('option', {
   display: 'flex',
   padding: '10px',
   fontSize: '11px',
-  borderRadius: '5px',
   transition: 'all 0.2s ease',
 
   '&:hover': {

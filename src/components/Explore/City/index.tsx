@@ -48,14 +48,14 @@ function City({ trip, view = 'list' }: CityProps) {
         key={`${Date.now()}-${trip.id}`}
         direction={view === 'list' ? 'row' : 'column'}
         css={{
-          maxWidth: `${view === 'list' ? '100%' : '290px'}`,
+          width: `${view === 'list' ? '100%' : '290px'}`,
           padding: '15px',
         }}
       >
         <Gallery
           thumbCSS={{
-            width: view === 'list' ? '200px' : '260px !important',
-            height: view === 'list' ? '200px' : '260px !important',
+            width: view === 'list' ? '200px !important' : '260px !important',
+            height: view === 'list' ? '200px !important' : '260px !important',
           }}
           slidesCSS={{
             width: view === 'list' ? '35px' : '40px !important',

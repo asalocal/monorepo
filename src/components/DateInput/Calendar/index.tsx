@@ -22,6 +22,7 @@ function Calendar() {
     value,
     days,
     handleCalendar,
+    monthVisualization,
     year,
   } = useDateInputContext();
 
@@ -69,7 +70,9 @@ function Calendar() {
           ref={calendarRef}
           css={{
             zIndex: 99999,
-            transform: `translate(${positions.x}px, ${positions.y + 70}px)`,
+            transform: `translate(${positions.x - 25}px, ${
+              positions.y + 65
+            }px)`,
           }}
         >
           <Text
@@ -125,7 +128,7 @@ function Calendar() {
                       key={`${day}-${generateHash()}`}
                       disabled={
                         day < new Date().getDay() &&
-                        new Date().getMonth() === currentMonth
+                        new Date().getMonth() === monthVisualization
                       }
                       onClick={() => handleDayClick({ day, month: dayMonth })}
                       active={
