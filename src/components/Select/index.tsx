@@ -6,7 +6,6 @@ import {
   InputHTMLAttributes,
   useRef,
   RefObject,
-  useCallback,
 } from 'react';
 import Overlay from 'components/Overlay';
 import { SelectWrapper, OptionsContainer, OpenIcon } from './styles';
@@ -15,6 +14,7 @@ import Flex from 'components/Flex';
 
 import Option from './Option';
 import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
+import { SelectProvider, useSelect } from './SelectContext';
 
 interface IOption {
   children: React.ReactNode | string;
@@ -39,53 +39,45 @@ function Select({
   variant = 'default',
   ...props
 }: SelectProps) {
-  const [selected, setSelected] = useState<string | React.ReactNode>('');
-  const [option, setOption] = useState<string | number>('');
-  const [active, setActive] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <SelectProvider>
+      <SelectComponent name={name} variant={variant} {...props}>
+        {children}
+      </SelectComponent>
+    </SelectProvider>
+  );
+}
+
+function SelectComponent({
+  children,
+  name,
+  variant = 'default',
+  ...props
+}: SelectProps) {
   const [positions, setPositions] = useState<IPositions>({} as IPositions);
-  const [show, setShow] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const {
+    active,
+    handleOpen,
+    handleSelected,
+    handleSelect,
+    handleOption,
+    isOpen,
+    option,
+    selected,
+  } = useSelect();
 
   const { fieldName, registerField } = useField(name);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  const handleOpen = useCallback(() => {
-    setIsOpen(!isOpen);
-    setActive(!active);
-  }, [isOpen, active]);
-
-  const handleSelect = useCallback((value: string | number) => {
-    setSelected(value);
-    setOption(value);
-    setIsOpen(false);
-    setActive((prevState) => !prevState);
-  }, []);
-
   useEffect(() => {
     if (children) {
-      setSelected(children[0].props.children);
+      handleSelected(children[0].props.children);
+      handleOption(children[0].props.value);
     }
   }, [children]);
-
-  useEffect(() => {
-    setShow(true);
-  }, []);
-
-  const handleCloseSelectOnScroll = useCallback(() => {
-    setIsOpen(false);
-    setActive(false);
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      window.addEventListener('scroll', handleCloseSelectOnScroll);
-    }
-
-    return () =>
-      window.removeEventListener('scroll', handleCloseSelectOnScroll);
-  }, [isOpen, handleCloseSelectOnScroll]);
 
   useLayoutEffectSSR(() => {
     if (triggerRef.current) {
@@ -103,18 +95,14 @@ function Select({
         name: fieldName,
         ref: inputRef,
         getValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? ref.current.checked : false,
-        setValue: (ref: RefObject<HTMLInputElement>, value: boolean) =>
-          ref.current ? (ref.current.checked = value) : value,
+          ref.current ? ref.current.value : '',
+        setValue: (ref: RefObject<HTMLInputElement>, value: string) =>
+          ref.current ? (ref.current.value = value) : value,
         clearValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? (ref.current.checked = false) : false,
+          ref.current ? (ref.current.value = '') : '',
       });
     }
   }, [fieldName, registerField]);
-
-  useEffect(() => {
-    setOption(children[0].props.value);
-  }, [children]);
 
   return (
     <Flex direction="column">

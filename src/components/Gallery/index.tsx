@@ -27,7 +27,7 @@ function Gallery({
   return (
     <>
       <Flex direction={orientation === 'vertical' ? 'row' : 'column'}>
-        <Flex css={{ maxWidth: '250px', width: '100%' }}>
+        <Flex css={{ width: '100%' }}>
           <Image
             src={thumbs[thumbActive]}
             alt=""
@@ -35,8 +35,7 @@ function Gallery({
               borderRadius: '10px',
               height: '200px',
               width: '200px',
-              objectFit: 'cover',
-              marginRight: '10px',
+              objectFit: 'fill',
               ...thumbCSS,
             }}
           />

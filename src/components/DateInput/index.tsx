@@ -165,11 +165,11 @@ function DateInputWrapper({
   }, [setYear]);
 
   useEffect(() => {
-    if (value.formatted) {
+    if (!!value.formatted) {
       setInputValue(value.formatted);
       setIsFocused(true);
     }
-  }, [value.formatted]);
+  }, [value]);
 
   useEffect(() => {
     if (defaultValue) {

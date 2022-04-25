@@ -1,8 +1,16 @@
 import Flex from 'components/Flex';
 import Input, { InputProps } from 'components/Input';
+import Overlay from 'components/Overlay';
 import Portal from 'components/Portal';
 import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import AutocompleteOption, {
   AutocompleteOptionProps,
 } from './AutocompleteOption';
@@ -28,10 +36,13 @@ function InputAutocomplete({
   const [positions, setPositions] = useState<any>({} as any);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const allOptions = useMemo(() => {
+    return children.map((child) => child.props.value);
+  }, [children]);
+
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setShowOptions(true);
-
-    const options = onAutocomplete(event.target.value, inputOptions);
+    const options = onAutocomplete(event.target.value, allOptions);
 
     setInputOptions(options);
     setInputValue(event.target.value);
@@ -62,27 +73,29 @@ function InputAutocomplete({
       />
       {showOptions && (
         <Portal>
-          <OptionsContainer
-            direction="column"
-            css={{
-              minWidth: `${positions.width}px`,
-              transform: `translate(${positions.x}px, ${positions.y + 50}px)`,
-            }}
-          >
-            {inputOptions &&
-              inputOptions.map((child) => (
-                <AutocompleteOption
-                  key={child}
-                  value={child}
-                  onClick={() => {
-                    setInputValue(child);
-                    setShowOptions(false);
-                  }}
-                >
-                  {child}
-                </AutocompleteOption>
-              ))}
-          </OptionsContainer>
+          <Overlay onClick={() => setShowOptions(false)}>
+            <OptionsContainer
+              direction="column"
+              css={{
+                minWidth: `${positions.width}px`,
+                transform: `translate(${positions.x}px, ${positions.y + 50}px)`,
+              }}
+            >
+              {inputOptions &&
+                inputOptions.map((child) => (
+                  <AutocompleteOption
+                    key={child}
+                    value={child}
+                    onClick={() => {
+                      setInputValue(child);
+                      setShowOptions(false);
+                    }}
+                  >
+                    {child}
+                  </AutocompleteOption>
+                ))}
+            </OptionsContainer>
+          </Overlay>
         </Portal>
       )}
     </>

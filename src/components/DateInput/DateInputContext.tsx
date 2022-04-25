@@ -174,10 +174,6 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
 
   const handleDay = useCallback(
     (day: number, month?: number) => {
-      if (!day) {
-        return;
-      }
-
       const date = new Date();
 
       if (month) {
@@ -195,6 +191,8 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
       setValue((prevState) => ({
         ...prevState,
         day,
+        month: months[date.getMonth()],
+        year: String(date.getFullYear()),
         formatted: `${formattedDay}/${monthFormatted}/${year}`,
       }));
     },

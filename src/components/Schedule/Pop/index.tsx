@@ -35,7 +35,7 @@ function SchedulePop() {
                 css={{ marginTop: '15px', color: '$text', width: '100%' }}
               >
                 {schedule.cities.map(({ name }, index) => {
-                  if (index === 3) {
+                  if (index >= 3) {
                     return (
                       <>
                         <Text as="h5" css={{ marginLeft: '5px' }}>

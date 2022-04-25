@@ -124,7 +124,7 @@ function Explorer() {
               <InputContainers>
                 <InputAutocomplete
                   type="text"
-                  label="Testing from"
+                  label="Leaving from"
                   name="leavingFrom"
                   onAutocomplete={(inputValue, options) => {
                     const filteredOptions = options.filter(
@@ -139,26 +139,36 @@ function Explorer() {
                   id="leavingFrom"
                 >
                   {searchOptions.map((option) => (
-                    <AutocompleteOption value={option.value}>
+                    <AutocompleteOption key={option.value} value={option.value}>
                       {option.value}
                     </AutocompleteOption>
                   ))}
                 </InputAutocomplete>
-                <Input
-                  type="text"
-                  label="Leaving from"
-                  name="leavingFrom"
-                  onChange={handleInputChange}
-                  id="leavingFrom"
-                />
+
                 <WidthIcon width="120px" />
-                <Input
+                <InputAutocomplete
                   type="text"
-                  onChange={handleInputChange}
-                  label="Going to"
+                  label="Going To"
                   name="goingTo"
+                  onAutocomplete={(inputValue, options) => {
+                    const filteredOptions = options.filter(
+                      (option) =>
+                        option.toLowerCase().search(inputValue.toLowerCase()) >=
+                        0
+                    );
+
+                    return filteredOptions;
+                  }}
+                  onChange={handleInputChange}
                   id="goingTo"
-                />
+                >
+                  {searchOptions.map((option) => (
+                    <AutocompleteOption key={option.value} value={option.value}>
+                      {option.value}
+                    </AutocompleteOption>
+                  ))}
+                </InputAutocomplete>
+
                 <DateInput
                   onChange={handleInputChange}
                   label="Departure"

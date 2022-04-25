@@ -3,7 +3,7 @@ import Text from 'components/Text';
 import Portal from '../../Portal';
 import { useDateInputContext } from '../DateInputContext';
 import { CalendarContainer } from './styles';
-import { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import Day from './Day';
 import Weekdays from './Weekdays';
 import CalendarHeader from './CalendarHeader';
@@ -123,9 +123,8 @@ function Calendar() {
                 }
 
                 return (
-                  <>
+                  <React.Fragment key={`${day}-${generateHash()}`}>
                     <Day
-                      key={`${day}-${generateHash()}`}
                       disabled={
                         day < new Date().getDay() &&
                         new Date().getMonth() === monthVisualization
@@ -139,7 +138,7 @@ function Calendar() {
                     >
                       {day}
                     </Day>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </Flex>

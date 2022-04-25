@@ -59,7 +59,7 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         cities: [city],
       };
 
-      setCookie(null, 'schedule', JSON.stringify(newSchedule));
+      localStorage.setItem('schedule', JSON.stringify(newSchedule));
 
       setSchedule(newSchedule);
     },
@@ -84,7 +84,7 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         cities: [...schedule.cities, { ...city, id: generateHash() }],
       };
 
-      setCookie(null, 'schedule', JSON.stringify(addingCity));
+      localStorage.setItem('schedule', JSON.stringify(addingCity));
 
       setSchedule(addingCity);
     },
@@ -92,11 +92,13 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
   );
 
   useEffect(() => {
-    const cookies = parseCookies();
+    const schedule = localStorage.getItem('schedule');
 
-    if (cookies.schedule) {
-      setSchedule(JSON.parse(cookies.schedule));
+    if (!schedule) {
+      return;
     }
+
+    setSchedule(JSON.parse(schedule));
   }, []);
 
   return (
