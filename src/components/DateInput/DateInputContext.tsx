@@ -19,6 +19,13 @@ interface IDays {
   UTCdate: number;
   year: number;
 }
+
+interface IValidationDate {
+  day: number;
+  month: number;
+  year: number;
+}
+
 interface IDateInputContext {
   registerPositions: (positions: IPositions) => void;
   positions: IPositions;
@@ -35,6 +42,8 @@ interface IDateInputContext {
   handlePrevMonth: () => void;
   currentMonth: number;
   monthValue: number;
+  validationDate: IValidationDate;
+  handleValidationDate: (date: string) => void;
   setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
   setYear: React.Dispatch<React.SetStateAction<string>>;
   handleValue: (value: DateInputValue) => void;
@@ -80,8 +89,23 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   const [monthValue, setMonthValue] = useState(0);
   const [year, setYear] = useState('');
   const [days, setDays] = useState<IDays[]>([]);
+  const [validationDate, setValidationDate] = useState<IValidationDate>(
+    {} as IValidationDate
+  );
 
-  const date = useMemo(() => new Date(), []);
+  const handleValidationDate = useCallback((date: string) => {
+    const dateSplitted = date.split('/');
+
+    const day = Number(dateSplitted[0]);
+    const month = Number(dateSplitted[1]);
+    const year = Number(dateSplitted[2]);
+
+    setValidationDate({
+      day,
+      month,
+      year,
+    });
+  }, []);
 
   const handleNextMonth = useCallback(() => {
     setMonthVisualization((prevState) => {
@@ -237,20 +261,24 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   }, [getAllDaysInTheMonth]);
 
   useEffect(() => {
+    const date = new Date();
     setMonthVisualization(date.getMonth());
     setCurrentMonth(date.getMonth());
-  }, [date]);
+  }, []);
 
   useEffect(() => {
+    const date = new Date();
     setYear(date.getFullYear().toString());
-  }, [date]);
+  }, []);
 
   return (
     <DateInputContext.Provider
       value={{
+        validationDate,
         handleNextMonth,
         handlePrevMonth,
         monthValue,
+        handleValidationDate,
         monthVisualization,
         setYear,
         year,

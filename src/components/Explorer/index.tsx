@@ -3,7 +3,7 @@ import {
   MagnifyingGlassIcon,
   WidthIcon,
 } from '@modulz/radix-icons';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Button from 'components/Button';
 import Select from 'components/Select';
 import Option from 'components/Select/Option';
@@ -51,11 +51,15 @@ interface ExploreFormData {
 
 function Explorer() {
   const [wrapperContent, setWrapperContent] = useState(0);
-
+  const [departureValue, setDepartureValue] = useState('');
   const formRef = useRef<FormHandles>(null);
 
   const handleInputChange = useCallback(() => {
     formRef.current?.setErrors({});
+  }, []);
+
+  const handleDepartureValue = useCallback((value) => {
+    setDepartureValue(value);
   }, []);
 
   const handleExploreSubmit = useCallback(
@@ -170,9 +174,13 @@ function Explorer() {
                 </InputAutocomplete>
 
                 <DateInput
-                  onChange={handleInputChange}
+                  onChange={(ev) => {
+                    handleInputChange();
+                    setDepartureValue(ev.target.value);
+                  }}
                   label="Departure"
                   name="departure"
+                  onDateChange={handleDepartureValue}
                   id="departure"
                 />
 
@@ -180,6 +188,8 @@ function Explorer() {
 
                 <DateInput
                   type="text"
+                  onChange={handleInputChange}
+                  validationDate={departureValue}
                   label="Return"
                   name="dateOfReturn"
                   id="dateOfReturn"

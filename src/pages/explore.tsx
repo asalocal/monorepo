@@ -86,7 +86,7 @@ function Explore({
         </Row>
         <Container>
           <Row css={{ marginTop: '130px' }}>
-            <Col sm={12} md={6} lg={9}>
+            <Col sm={12} md={12} lg={9}>
               <Form onSubmit={(data) => console.log}>
                 <Flex
                   css={{
@@ -165,7 +165,7 @@ function Explore({
                 )}
               </Row>
             </Col>
-            <Col sm={12} md={6} lg={3}>
+            <Col sm={12} md={12} lg={3}>
               <Collapse
                 css={{ border: '1px solid #c1c1c1' }}
                 collapseTitle="Filters"

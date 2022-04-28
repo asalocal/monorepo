@@ -9,12 +9,16 @@ import Weekdays from './Weekdays';
 import CalendarHeader from './CalendarHeader';
 import generateHash from 'utils/generateHash';
 
+interface CalendarProps {
+  onDateChange?: (date: string) => void;
+}
+
 interface DayProps {
   day: number;
   month: number;
 }
 
-function Calendar() {
+function Calendar({ onDateChange }: CalendarProps) {
   const {
     positions,
     handleMonthValue,
@@ -23,6 +27,7 @@ function Calendar() {
     days,
     handleCalendar,
     monthVisualization,
+    validationDate,
     year,
   } = useDateInputContext();
 
@@ -32,12 +37,9 @@ function Calendar() {
     handleCalendar(false);
   }, [handleCalendar]);
 
-  const handleDayClick = useCallback(
-    ({ day, month }: DayProps) => {
-      handleMonthValue({ month, day });
-    },
-    [handleMonthValue]
-  );
+  const handleDayClick = ({ day, month }: DayProps) => {
+    handleMonthValue({ month, day });
+  };
 
   useEffect(() => {
     function handleMouseDown(event: MouseEvent) {
@@ -122,18 +124,35 @@ function Calendar() {
                   );
                 }
 
+                console.log('Validation:', validationDate);
+                console.log('dayMonth', dayMonth);
+                console.log(validationDate.month === dayMonth);
+
                 return (
                   <React.Fragment key={`${day}-${generateHash()}`}>
                     <Day
+                      validation={validationDate.day < day && value.day > day}
                       disabled={
-                        day < new Date().getDay() &&
-                        new Date().getMonth() === monthVisualization
+                        (validationDate.day > day &&
+                          new Date().getMonth() === monthVisualization) ||
+                        (day < new Date().getDate() &&
+                          new Date().getMonth() === monthVisualization)
                       }
-                      onClick={() => handleDayClick({ day, month: dayMonth })}
+                      onClick={() => {
+                        handleDayClick({ day, month: dayMonth });
+
+                        if (onDateChange) {
+                          onDateChange(value.formatted);
+                        }
+                      }}
                       active={
-                        value.day === day &&
-                        currentMonth === dayMonth &&
-                        fullYear === Number(year)
+                        (validationDate.day === day &&
+                          validationDate.month === dayMonth + 1 &&
+                          monthVisualization === dayMonth &&
+                          currentMonth === dayMonth) ||
+                        (value.day === day &&
+                          currentMonth === dayMonth &&
+                          fullYear === Number(year))
                       }
                     >
                       {day}

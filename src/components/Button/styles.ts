@@ -67,8 +67,8 @@ export const Container = styled('button', {
       },
       alternative: {
         backgroundColor: 'transparent',
-        border: '1px solid $gray1 !important',
-        color: '$gray1 !important',
+        border: '1px solid $primary  !important',
+        color: '$primary !important',
 
         '&:hover': {
           backgroundColor: 'rgba(255, 103, 56, 0.1) !important',

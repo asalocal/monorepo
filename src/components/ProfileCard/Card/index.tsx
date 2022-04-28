@@ -1,21 +1,24 @@
 import Flex from 'components/Flex';
 import Text from 'components/Text';
+import { forwardRef, HTMLAttributes } from 'react';
 import { useProfileCard } from '../ProfileCardContext';
 import { CardContainer } from './styles';
 
-interface ICardProps {
+interface ICardProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-function Card({ children }: ICardProps) {
+const Card = forwardRef(({ children, ...props }: ICardProps, ref) => {
   const { positions } = useProfileCard();
   return (
     <>
       <CardContainer
         direction="column"
+        ref={ref}
         css={{
           transform: `translate(${positions.x / 1.2}px, ${positions.y + 30}px)`,
         }}
+        {...props}
       >
         <Flex
           css={{
@@ -32,6 +35,6 @@ function Card({ children }: ICardProps) {
       </CardContainer>
     </>
   );
-}
+});
 
 export default Card;

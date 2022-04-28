@@ -77,7 +77,7 @@ function SelectComponent({
       handleSelected(children[0].props.children);
       handleOption(children[0].props.value);
     }
-  }, [children]);
+  }, []);
 
   useLayoutEffectSSR(() => {
     if (triggerRef.current) {

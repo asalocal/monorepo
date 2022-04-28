@@ -23,13 +23,17 @@ interface DateInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
   placeholder?: string;
+  validationDate?: string;
+  onDateChange?: (date: string) => void;
   defaultValue?: string;
 }
 
 function DateInput({
   label,
   placeholder,
+  validationDate,
   name,
+  onDateChange,
   defaultValue,
   ...props
 }: DateInputProps) {
@@ -37,9 +41,11 @@ function DateInput({
     <DateInputProvider>
       <DateInputWrapper
         label={label}
+        validationDate={validationDate}
         placeholder={placeholder}
         name={name}
         defaultValue={defaultValue}
+        onDateChange={onDateChange}
         {...props}
       />
     </DateInputProvider>
@@ -50,7 +56,9 @@ function DateInputWrapper({
   label,
   name,
   placeholder,
+  validationDate,
   defaultValue,
+  onDateChange,
   onChange,
   ...props
 }: DateInputProps) {
@@ -64,6 +72,7 @@ function DateInputWrapper({
     setYear,
     handleValue,
     handleCalendar,
+    handleValidationDate,
     value,
   } = useDateInputContext();
 
@@ -116,22 +125,20 @@ function DateInputWrapper({
     setIsFocused((prevState) => !prevState);
   }, [handleCalendar, hasValue]);
 
-  const handleBlur = useCallback(() => {
-    if (hasValue) {
-      setIsFocused(true);
-      return;
-    }
-
-    setIsFocused((prevState) => !prevState);
-  }, [hasValue]);
-
   useEffect(() => {
     setHasValue(!!value.formatted);
+    onDateChange && onDateChange(value.formatted);
   }, [value]);
 
+  useEffect(() => {
+    if (validationDate) {
+      handleValidationDate(validationDate);
+    }
+  }, [validationDate]);
+
   useLayoutEffectSSR(() => {
-    const xPosition = divContainerRef.current?.getBoundingClientRect().left;
-    const yPosition = divContainerRef.current?.getBoundingClientRect().top;
+    const xPosition = divContainerRef.current?.getBoundingClientRect().x;
+    const yPosition = divContainerRef.current?.getBoundingClientRect().y;
 
     if (xPosition && yPosition) {
       registerPositions({
@@ -139,7 +146,7 @@ function DateInputWrapper({
         y: yPosition,
       });
     }
-  }, [registerPositions]);
+  }, [registerPositions, divContainerRef.current]);
 
   useEffect(() => {
     if (placeholder || defaultValue) {
@@ -165,7 +172,24 @@ function DateInputWrapper({
   }, [setYear]);
 
   useEffect(() => {
-    if (!!value.formatted) {
+    document.addEventListener('click', (ev) => {
+      if (ev.target !== inputRef.current) {
+        if (hasValue || !!inputRef.current?.value) {
+          setIsFocused(true);
+          return;
+        }
+
+        setIsFocused(false);
+      }
+    });
+
+    return () => {
+      document.removeEventListener('click', () => {});
+    };
+  }, [hasValue, inputRef.current]);
+
+  useEffect(() => {
+    if (value.formatted) {
       setInputValue(value.formatted);
       setIsFocused(true);
     }
@@ -209,7 +233,6 @@ function DateInputWrapper({
           <InputWrapper
             onChange={handleChange}
             onFocus={setFocus}
-            onBlur={handleBlur}
             name={name}
             id={name}
             maxLength={10}
@@ -219,7 +242,7 @@ function DateInputWrapper({
           />
           <CalendarIcon />
         </InputContent>
-        {calendarOpen && <Calendar />}
+        {calendarOpen && <Calendar onDateChange={onDateChange} />}
       </InputContainer>
     </>
   );

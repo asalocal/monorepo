@@ -31,5 +31,11 @@ export const DayButtonContainer = styled(Button, {
         },
       },
     },
+    dayValidation: {
+      true: {
+        backgroundColor: 'rgba(255, 92, 0, 0.2) !important',
+        color: '$gray12 !important',
+      },
+    },
   },
 });

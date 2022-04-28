@@ -46,8 +46,11 @@ export const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   position: 'fixed',
+  height: '90px',
+
   left: '0',
   alignItems: 'center',
+  justifyContent: 'center',
   width: '100%',
   transition: 'all 0.2s ease',
   backgroundColor: 'transparent',
@@ -56,6 +59,7 @@ export const Container = styled('div', {
   variants: {
     scrolled: {
       true: {
+        height: '60px',
         backgroundColor: '$primary',
       },
     },
@@ -71,7 +75,7 @@ export const WrapperContainer = styled('div', {
   display: 'flex',
   alignItems: 'space-between',
   width: '400px',
-  padding: '20px',
+  height: '100%',
 
   '> svg': {
     position: 'absolute',
@@ -82,7 +86,7 @@ export const WrapperContainer = styled('div', {
   },
 
   img: {
-    width: '40%',
+    width: '30%',
   },
 
   variants: {

@@ -24,20 +24,17 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
   const [isProfileHovered, setIsProfileHovered] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-
+  const cardRef = useRef<HTMLDivElement>(null);
   const { registerPositions } = useProfileCard();
 
   const handleMouseEnter = useCallback((ev: MouseEvent<HTMLDivElement>) => {
-    if (
-      containerRef.current &&
-      containerRef.current.contains(ev.target as Node)
-    ) {
-      setIsProfileHovered(true);
-    }
+    setIsProfileHovered(true);
   }, []);
 
   const handleMouseLeave = useCallback((ev: MouseEvent<HTMLDivElement>) => {
-    setIsProfileHovered(false);
+    if (cardRef.current && cardRef.current.contains(ev.target as Node)) {
+      setIsProfileHovered(false);
+    }
   }, []);
 
   useLayoutEffectSSR(() => {
@@ -70,7 +67,13 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
       </Flex>
       {isProfileHovered && (
         <Portal>
-          <Card>{children}</Card>
+          <Card
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            ref={cardRef}
+          >
+            {children}
+          </Card>
         </Portal>
       )}
     </>
