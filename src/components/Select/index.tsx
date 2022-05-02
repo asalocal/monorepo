@@ -87,7 +87,7 @@ function SelectComponent({
         width: triggerRef.current.getBoundingClientRect().width,
       });
     }
-  }, [triggerRef, isOpen]);
+  }, [triggerRef.current, isOpen]);
 
   useEffect(() => {
     if (inputRef.current) {

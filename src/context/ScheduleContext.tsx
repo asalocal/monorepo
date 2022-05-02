@@ -15,7 +15,7 @@ import SchedulePop from 'components/Schedule/Pop';
 import routesAPI from '../api/routesAPI';
 import { ITrips } from 'types/Trips';
 import { createObjectStore, updateDataObject } from 'database/indexdb';
-interface ICity {
+export interface ICity {
   id: string;
   name: string;
   location: string;

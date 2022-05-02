@@ -6,7 +6,6 @@ interface IRadioGroupProps {
 }
 
 const RadioGroup = ({ children }: IRadioGroupProps) => {
-  console.log(children);
   return (
     <>
       <RadioGroupProvider>

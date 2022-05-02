@@ -49,7 +49,6 @@ function UserDropdown() {
     async function getUserData() {
       if (user.isIncomplete) {
         const userData = await getData();
-        console.log(userData);
         return setData(userData);
       }
 

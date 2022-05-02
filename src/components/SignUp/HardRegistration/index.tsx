@@ -68,8 +68,6 @@ function HardRegistration() {
           password,
         });
 
-        console.log(data);
-
         push('/');
       } catch (err) {
         if (err instanceof yup.ValidationError) {

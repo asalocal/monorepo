@@ -48,6 +48,18 @@ function InputAutocomplete({
     setInputValue(event.target.value);
   };
 
+  useEffect(() => {
+    document.addEventListener('scroll', () => {
+      setShowOptions(false);
+    });
+
+    return () => {
+      document.removeEventListener('scroll', () => {
+        setShowOptions(false);
+      });
+    };
+  }, []);
+
   useLayoutEffectSSR(() => {
     if (inputRef.current) {
       const { x, y, width } = inputRef.current.getBoundingClientRect();

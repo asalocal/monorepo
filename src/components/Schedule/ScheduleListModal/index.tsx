@@ -3,7 +3,7 @@ import Button from 'components/Button';
 import Flex from 'components/Flex';
 import Modal from 'components/Modal';
 import Text from 'components/Text';
-import { useSchedule } from 'context/ScheduleContext';
+import { ICity, useSchedule } from 'context/ScheduleContext';
 import { trips } from 'mocks/trips';
 import { useEffect, useState } from 'react';
 import { FiMapPin } from 'react-icons/fi';
@@ -21,7 +21,7 @@ function ScheduleListModal({ open, onCloseModal }: IScheduleListModalProps) {
   const { schedule, removeCity, deleteSchedule } = useSchedule();
 
   const handleRemoveCity = (name: string) => {
-    if (schedule.cities.length === 1) {
+    if (schedule.cities?.length === 1) {
       deleteSchedule();
 
       if (onCloseModal) {
@@ -48,11 +48,16 @@ function ScheduleListModal({ open, onCloseModal }: IScheduleListModalProps) {
 
   useEffect(() => {
     if (schedule.cities.length > 0) {
-      const filteredCities = trips.filter((trip) => {
-        return schedule.cities.find((city) => city.name === trip.name);
+      let cities: ITrips[] = [];
+
+      schedule.cities.forEach((city: ICity) => {
+        cities = [
+          ...cities,
+          ...trips.filter((trip: ITrips) => trip.name === city.name),
+        ];
       });
 
-      setCities(filteredCities);
+      setCities(cities);
     }
   }, [schedule.cities]);
 
@@ -92,7 +97,7 @@ function ScheduleListModal({ open, onCloseModal }: IScheduleListModalProps) {
           css={{ height: '100%' }}
         >
           <Flex direction="column" css={{ height: '100%' }}>
-            {cities.map((city) => (
+            {cities?.map((city) => (
               <Flex
                 key={`${city.name}-${city.id}`}
                 alignItems="center"

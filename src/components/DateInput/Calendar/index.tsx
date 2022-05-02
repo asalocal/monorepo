@@ -65,11 +65,6 @@ function Calendar({ onDateChange }: CalendarProps) {
     return () => document.removeEventListener('scroll', handleScroll);
   }, [handleClickOnOverlay]);
 
-  useEffect(() => {
-    console.log(value);
-    console.log(currentMonth);
-  }, [value, currentMonth]);
-
   return (
     <>
       <Portal>
