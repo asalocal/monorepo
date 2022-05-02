@@ -53,7 +53,7 @@ export const Label = styled('label', {
   opacity: 0.5,
   pointerEvents: 'auto',
   cursor: 'text',
-
+  fontWeight: 'bold',
   svg: {
     marginRight: 10,
   },
@@ -61,7 +61,7 @@ export const Label = styled('label', {
   variants: {
     isFocused: {
       true: {
-        opacity: 1,
+        opacity: 0.7,
         transform: 'translateY(-20px) translateX(-10px) scale(0.8)',
       },
     },
@@ -82,7 +82,7 @@ export const Label = styled('label', {
         svg: {
           color: '$primary',
         },
-        color: '$gray12',
+        color: '$gray11',
       },
     },
   },

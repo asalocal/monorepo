@@ -8,7 +8,7 @@ export const DayButtonContainer = styled(Button, {
   borderRadius: '0',
 
   '&:disabled': {
-    opacity: '1',
+    opacity: '0.45',
   },
 
   '&:hover': {
@@ -33,9 +33,10 @@ export const DayButtonContainer = styled(Button, {
     },
     dayValidation: {
       true: {
-        backgroundColor: 'rgba(255, 92, 0, 0.2) !important',
+        backgroundColor: 'rgba(255, 92, 0, 0.3) !important',
         color: '$gray12 !important',
       },
+      false: {},
     },
   },
 });

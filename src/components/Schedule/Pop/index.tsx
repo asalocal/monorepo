@@ -1,11 +1,17 @@
+import React from 'react';
+import { TrashIcon } from '@modulz/radix-icons';
 import Button from 'components/Button';
 import Flex from 'components/Flex';
+import Modal from 'components/Modal';
 import Text from 'components/Text';
 import { useSchedule } from 'context/ScheduleContext';
+import { useState } from 'react';
 import { FiMapPin } from 'react-icons/fi';
+import ScheduleListModal from '../ScheduleListModal';
 import { LocationBadge, LocationButton, PopContainer } from './styles';
 
 function SchedulePop() {
+  const [isOpen, setIsOpen] = useState(false);
   const { schedule } = useSchedule();
 
   return (
@@ -35,19 +41,11 @@ function SchedulePop() {
                 css={{ marginTop: '15px', color: '$text', width: '100%' }}
               >
                 {schedule.cities.map(({ name }, index) => {
-                  if (index >= 3) {
-                    return (
-                      <>
-                        <Text as="h5" css={{ marginLeft: '5px' }}>
-                          and more...
-                        </Text>
-                      </>
-                    );
-                  }
+                  if (index > 2) return;
 
-                  return (
-                    <>
-                      {index < 2 && (
+                  if (index > 1 && index < schedule.cities.length - 1) {
+                    return (
+                      <React.Fragment key={`${index}-${name}`}>
                         <Text
                           as="h5"
                           css={{
@@ -56,21 +54,41 @@ function SchedulePop() {
                             },
                           }}
                         >
-                          {name},
+                          and more...
                         </Text>
-                      )}
-                    </>
+                      </React.Fragment>
+                    );
+                  }
+
+                  return (
+                    <React.Fragment key={`${index}-${name}`}>
+                      <Text
+                        as="h5"
+                        css={{
+                          '& + &': {
+                            marginLeft: '5px',
+                          },
+                        }}
+                      >
+                        {name}
+                        {schedule.cities.length - 1 === index ? '' : ', '}
+                      </Text>
+                    </React.Fragment>
                   );
                 })}
               </Flex>
             </Flex>
-            <LocationButton variant="ghost">
+            <LocationButton onClick={() => setIsOpen(true)} variant="ghost">
               <FiMapPin />
               <LocationBadge alignItems="center" justifyContent="center">
                 {schedule.cities.length}
               </LocationBadge>
             </LocationButton>
           </PopContainer>
+          <ScheduleListModal
+            open={isOpen}
+            onCloseModal={() => setIsOpen(false)}
+          />
         </>
       )}
     </>

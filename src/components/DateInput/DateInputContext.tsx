@@ -47,6 +47,7 @@ interface IDateInputContext {
   setCurrentMonth: React.Dispatch<React.SetStateAction<number>>;
   setYear: React.Dispatch<React.SetStateAction<string>>;
   handleValue: (value: DateInputValue) => void;
+  handleDefaultValue: (value: DateInputValue) => void;
   handleMonthValue: (data: { day: number; month: number }) => void;
 }
 
@@ -71,7 +72,7 @@ type IMonth =
 export interface DateInputValue {
   formatted: string;
   day: number;
-  month: string;
+  month: number;
   year: string;
 }
 
@@ -87,6 +88,9 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   const [monthVisualization, setMonthVisualization] = useState(0);
   const [currentMonth, setCurrentMonth] = useState(0);
   const [monthValue, setMonthValue] = useState(0);
+  const [defaultValue, setDefaultValue] = useState<DateInputValue>(
+    {} as DateInputValue
+  );
   const [year, setYear] = useState('');
   const [days, setDays] = useState<IDays[]>([]);
   const [validationDate, setValidationDate] = useState<IValidationDate>(
@@ -158,23 +162,34 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
     setValue(value);
   }, []);
 
+  const handleDefaultValue = useCallback((value: DateInputValue) => {
+    setValue(value);
+    setDefaultValue(value);
+  }, []);
+
   const getAllDaysInTheMonth = useCallback(() => {
     const date = new Date();
     date.setMonth(monthVisualization);
 
-    let value = 0;
+    let increment = 0;
 
-    const quantityOfDays = getQuantityOfDays(monthVisualization, Number(year));
+    let monthToGet = monthVisualization;
+
+    if (defaultValue.month && defaultValue.month !== monthVisualization + 1) {
+      monthToGet = defaultValue.month;
+    }
+
+    const quantityOfDays = getQuantityOfDays(monthToGet, Number(year));
 
     const days = [...Array(quantityOfDays)].map((_, i) => {
-      value = i + 1;
-      date.setDate(value);
+      increment = i + 1;
+      date.setDate(increment);
 
       if (date.getMonth() === 1) {
         if (date.getDate() > 28) {
-          value = 0 + 1;
+          increment = 0 + 1;
 
-          date.setMonth(2, value);
+          date.setMonth(2, increment);
 
           return {
             day: date.getDate(),
@@ -194,7 +209,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
     });
 
     setDays(days);
-  }, [monthVisualization, year]);
+  }, [monthVisualization, defaultValue, year]);
 
   const handleDay = useCallback(
     (day: number, month?: number) => {
@@ -215,7 +230,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
       setValue((prevState) => ({
         ...prevState,
         day,
-        month: months[date.getMonth()],
+        month: date.getMonth() + 1,
         year: String(date.getFullYear()),
         formatted: `${formattedDay}/${monthFormatted}/${year}`,
       }));
@@ -295,6 +310,7 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
         handleCalendar,
         calendarOpen,
         positions,
+        handleDefaultValue,
       }}
     >
       {children}

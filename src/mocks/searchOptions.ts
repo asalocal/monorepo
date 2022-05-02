@@ -1,20 +1,7 @@
-const searchOptions = [
-  {
-    value: 'Florida',
-    date: '21/12/2019',
-  },
-  {
-    value: 'New York',
-    date: '25/12/2019',
-  },
-  {
-    value: 'California',
-    date: '28/12/2019',
-  },
-  {
-    value: 'Texas',
-    date: '01/01/2020',
-  },
-];
+import { trips } from './trips';
+
+const searchOptions = trips.map((trip) => ({
+  value: trip.name,
+}));
 
 export default searchOptions;

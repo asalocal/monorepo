@@ -1,16 +1,35 @@
-import Flex from 'components/Flex';
+import Button from 'components/Button';
 import Overlay from 'components/Overlay';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Portal from '../Portal';
+import { ModalContainer, ModalHeader } from './styles';
 
-interface ModalProps {
+export interface ModalProps {
   children: React.ReactNode;
   onHide?: () => void;
+  title: string | React.ReactNode;
   isOpen: boolean;
+  onCloseModal?: (handleOpen: (state: boolean) => void) => void;
+  position?: 'top' | 'bottom' | 'left' | 'right' | 'middle';
 }
 
-function Modal({ children, isOpen, onHide }: ModalProps) {
+function Modal({
+  children,
+  isOpen,
+  title,
+  onCloseModal,
+  position = 'middle',
+  onHide,
+}: ModalProps) {
   const [open, setOpen] = useState(false);
+
+  const handleCloseModal = useCallback(() => {
+    setOpen(false);
+
+    if (onCloseModal) {
+      onCloseModal(setOpen);
+    }
+  }, [onCloseModal]);
 
   useEffect(() => {
     setOpen(isOpen);
@@ -21,19 +40,25 @@ function Modal({ children, isOpen, onHide }: ModalProps) {
       {open && (
         <Portal>
           <Overlay visible>
-            <Flex
-              alignItems="center"
-              justifyContent="center"
-              css={{
-                width: '100%',
-                height: '100%',
-              }}
+            <ModalContainer
+              position={position}
+              direction="column"
               onClick={() => {
                 onHide && onHide();
               }}
             >
+              <ModalHeader alignItems="center" justifyContent="spaceBetween">
+                {title}
+                <Button
+                  variant="ghost"
+                  css={{ width: 'fit-content' }}
+                  onClick={handleCloseModal}
+                >
+                  X
+                </Button>
+              </ModalHeader>
               {children}
-            </Flex>
+            </ModalContainer>
           </Overlay>
         </Portal>
       )}

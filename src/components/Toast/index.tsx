@@ -1,4 +1,9 @@
-import { ToastContainer } from './styles';
+import {
+  ToastBottomContainer,
+  ToastContainer,
+  ToastLeftContainer,
+  ToastRightContainer,
+} from './styles';
 import ToastItem from './ToastItem';
 
 export interface ToastMessage {
@@ -6,6 +11,7 @@ export interface ToastMessage {
   title: string;
   message?: string;
   type?: 'success' | 'error';
+  position?: 'bottom' | 'left' | 'right';
 }
 
 export interface ToastMessagesProps {
@@ -14,18 +20,52 @@ export interface ToastMessagesProps {
 
 function Toast({ messages }: ToastMessagesProps) {
   return (
-    <ToastContainer>
-      {messages &&
-        messages.map((message) => (
-          <ToastItem
-            key={message.id}
-            id={message.id}
-            message={message.message}
-            title={message.title}
-            type={message.type}
-          ></ToastItem>
-        ))}
-    </ToastContainer>
+    <>
+      <ToastBottomContainer>
+        {messages
+          .filter((message) => message.position === 'bottom')
+          .map((item) => (
+            <ToastItem
+              key={item.id}
+              id={item.id}
+              position={item.position}
+              message={item.message}
+              title={item.title}
+              type={item.type}
+            ></ToastItem>
+          ))}
+      </ToastBottomContainer>
+
+      <ToastLeftContainer>
+        {messages
+          .filter((message) => message.position === 'left')
+          .map((item) => (
+            <ToastItem
+              key={item.id}
+              id={item.id}
+              position={item.position}
+              message={item.message}
+              title={item.title}
+              type={item.type}
+            ></ToastItem>
+          ))}
+      </ToastLeftContainer>
+
+      <ToastRightContainer>
+        {messages
+          .filter((message) => message.position === 'right')
+          .map((item) => (
+            <ToastItem
+              key={item.id}
+              id={item.id}
+              position={item.position}
+              message={item.message}
+              title={item.title}
+              type={item.type}
+            ></ToastItem>
+          ))}
+      </ToastRightContainer>
+    </>
   );
 }
 

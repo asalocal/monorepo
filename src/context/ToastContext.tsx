@@ -1,3 +1,5 @@
+import Flex from 'components/Flex';
+import Portal from 'components/Portal';
 import Toast, { ToastMessage } from 'components/Toast';
 import { createContext, useCallback, useContext, useState } from 'react';
 import generateHash from 'utils/generateHash';
@@ -19,6 +21,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   const addToast = useCallback((message: Omit<ToastMessage, 'id'>) => {
     const toast = {
       id: generateHash(),
+      position: message.position || 'right',
       ...message,
     };
 
@@ -35,7 +38,11 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
     <ToastContext.Provider value={{ addToast, removeToast }}>
       {children}
-      {messages.length > 0 && <Toast messages={messages} />}
+      {messages.length > 0 && (
+        <Portal>
+          <Toast messages={messages} />
+        </Portal>
+      )}
     </ToastContext.Provider>
   );
 };

@@ -71,6 +71,7 @@ function DateInputWrapper({
     calendarOpen,
     setYear,
     handleValue,
+    handleDefaultValue,
     handleCalendar,
     handleValidationDate,
     value,
@@ -96,7 +97,7 @@ function DateInputWrapper({
       if (valueDateRegex.test(valueMasked)) {
         const valueSplitted = valueMasked.split('/');
         const day = Number(valueSplitted[0]);
-        const month = valueSplitted[1];
+        const month = Number(valueSplitted[1]);
         const year = valueSplitted[2];
 
         handleValue({
@@ -158,9 +159,9 @@ function DateInputWrapper({
     if (defaultValue) {
       const splittedDate = defaultValue.split('/');
 
-      handleValue({
+      handleDefaultValue({
         day: Number(splittedDate[0]),
-        month: splittedDate[1],
+        month: Number(splittedDate[1]),
         year: splittedDate[2],
         formatted: defaultValue,
       });

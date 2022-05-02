@@ -12,6 +12,9 @@ import generateHash from 'utils/generateHash';
 import { useToast } from './ToastContext';
 import { setCookie, parseCookies } from 'nookies';
 import SchedulePop from 'components/Schedule/Pop';
+import routesAPI from '../api/routesAPI';
+import { ITrips } from 'types/Trips';
+import { createObjectStore, updateDataObject } from 'database/indexdb';
 interface ICity {
   id: string;
   name: string;
@@ -22,6 +25,7 @@ interface ICreateSchedule {
   dateOfReturn: string;
   departure: string;
   city: ICity;
+  name: string;
 }
 
 interface IAddCity {
@@ -29,6 +33,7 @@ interface IAddCity {
 }
 interface ISchedule {
   id: string;
+  name: string;
   cities: ICity[];
   departure: string;
   dateOfReturn: string;
@@ -36,6 +41,8 @@ interface ISchedule {
 interface IScheduleContext {
   schedule: ISchedule;
   addCity: (city: IAddCity) => void;
+  deleteSchedule: () => void;
+  removeCity: (name: string) => void;
   createSchedule: (schedule: ICreateSchedule) => void;
 }
 
@@ -50,14 +57,108 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
 
   const { addToast } = useToast();
 
+  const deleteSchedule = useCallback(async () => {
+    setSchedule({} as ISchedule);
+
+    localStorage.removeItem('schedule');
+
+    addToast({
+      type: 'success',
+      title: 'Schedule deleted',
+      message: 'Your schedule has been deleted',
+    });
+  }, [addToast]);
+
+  const removeCity = useCallback(
+    (name: string) => {
+      const findCity = schedule.cities.find((city) => city.name === name);
+
+      if (!findCity) {
+        throw new Error('City not found');
+      }
+
+      const newCities = schedule.cities.filter((city) => city.name !== name);
+
+      const newSchedule = {
+        ...schedule,
+        cities: newCities,
+      };
+
+      updateDataObject({
+        database: {
+          name: 'schedule',
+          version: 2,
+        },
+        data: newSchedule,
+        objectStore: {
+          name: 'schedule',
+        },
+      });
+
+      localStorage.setItem('schedule', JSON.stringify(newSchedule));
+
+      setSchedule(newSchedule);
+
+      addToast({
+        type: 'success',
+        title: 'City removed',
+        position: 'bottom',
+        message: `${name} removed from your schedule`,
+      });
+    },
+    [schedule]
+  );
+
   const createSchedule = useCallback(
-    ({ departure, dateOfReturn, city }: ICreateSchedule) => {
+    async ({ departure, dateOfReturn, name, city }: ICreateSchedule) => {
+      const { data } = await routesAPI.get<ITrips[]>('/trips');
+
       const newSchedule = {
         id: generateHash(),
+        name,
         departure,
         dateOfReturn,
         cities: [city],
       };
+
+      createObjectStore({
+        database: {
+          name: 'schedule',
+          version: 2,
+        },
+        store: [
+          {
+            name: 'cities',
+            keyPath: 'cities',
+            isUnique: false,
+          },
+          {
+            name: 'dateOfReturn',
+            keyPath: 'dateOfReturn',
+            isUnique: false,
+          },
+          {
+            name: 'departure',
+            keyPath: 'departure',
+            isUnique: false,
+          },
+          {
+            name: 'name',
+            keyPath: 'name',
+            isUnique: false,
+          },
+          {
+            name: 'id',
+            keyPath: 'id',
+            isUnique: true,
+          },
+        ],
+        objectStore: {
+          name: 'schedule',
+          keyPath: 'id',
+        },
+        data: newSchedule,
+      });
 
       localStorage.setItem('schedule', JSON.stringify(newSchedule));
 
@@ -84,9 +185,26 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         cities: [...schedule.cities, { ...city, id: generateHash() }],
       };
 
+      updateDataObject({
+        database: {
+          name: 'schedule',
+          version: 2,
+        },
+        data: addingCity,
+        objectStore: {
+          name: 'schedule',
+        },
+      });
+
       localStorage.setItem('schedule', JSON.stringify(addingCity));
 
       setSchedule(addingCity);
+
+      addToast({
+        type: 'success',
+        title: 'City added',
+        message: `${city.name} added to your schedule`,
+      });
     },
     [schedule, addToast]
   );
@@ -105,7 +223,9 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
     <>
       <ScheduleContext.Provider
         value={{
+          deleteSchedule,
           schedule,
+          removeCity,
           addCity,
           createSchedule,
         }}

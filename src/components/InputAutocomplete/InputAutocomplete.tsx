@@ -67,6 +67,7 @@ function InputAutocomplete({
       <Input
         ref={inputRef}
         {...props}
+        onFocus={() => setShowOptions(true)}
         onChange={onChange}
         value={inputValue}
         label={label}

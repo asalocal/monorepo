@@ -18,7 +18,7 @@ import { useCallback, useEffect, useState } from 'react';
 import CitySkeleton from 'components/Explore/CitySkeleton';
 import { ViewButton } from 'styles/Explore.styles';
 import SchedulePop from 'components/Schedule/Pop';
-
+import { MagnifyingGlassIcon } from '@modulz/radix-icons';
 interface ExploreProps {
   filter: {
     goingTo: string;
@@ -89,6 +89,7 @@ function Explore({
             <Col sm={12} md={12} lg={9}>
               <Form onSubmit={(data) => console.log}>
                 <Flex
+                  alignItems="center"
                   css={{
                     [`div + div`]: {
                       margin: '0 10px',
@@ -119,6 +120,19 @@ function Explore({
                     label="Date of Return"
                     defaultValue={dateOfReturn}
                   />
+                  <Button
+                    css={{
+                      width: 'fit-content',
+                      svg: {
+                        fontSize: '15px',
+                        margin: '0',
+                        width: '65px',
+                        height: '65px',
+                      },
+                    }}
+                  >
+                    <MagnifyingGlassIcon />
+                  </Button>
                 </Flex>
                 <Flex alignItems="center" justifyContent="spaceBetween">
                   <Text
@@ -157,7 +171,14 @@ function Explore({
                     <Container>
                       <Row>
                         {trips.map((trip) => {
-                          return <City view={view} key={trip.id} trip={trip} />;
+                          return (
+                            <City
+                              view={view}
+                              goingTo={goingTo}
+                              key={trip.id}
+                              trip={trip}
+                            />
+                          );
                         })}
                       </Row>
                     </Container>
@@ -180,7 +201,6 @@ function Explore({
                       <Checkbox name="brasil">Brasil</Checkbox>
                       <Checkbox name="canada">Canada</Checkbox>
                       <Checkbox name="germany">Germany</Checkbox>
-                      <Button>Teste</Button>
                     </Form>
                   </Flex>
                 </CollapseItem>

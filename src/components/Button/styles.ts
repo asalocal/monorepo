@@ -35,6 +35,7 @@ export const Container = styled('button', {
 
   '&:disabled': {
     pointerEvents: 'none',
+    cursor: 'not-allowed',
   },
 
   variants: {
@@ -51,8 +52,12 @@ export const Container = styled('button', {
         color: '$gray1',
 
         '&:hover': {
-          backgroundColor: '$primaryHover !important',
+          backgroundColor: 'rgb(215, 78, 0) !important',
           boxShadow: '0 0 5px 1px rgba(255, 103, 56, 0.3) ',
+        },
+
+        '&:disabled': {
+          backgroundColor: '$gray8 !important',
         },
       },
       secondary: {
@@ -64,6 +69,10 @@ export const Container = styled('button', {
           backgroundColor: 'rgba(201, 201, 201, 1)',
           boxShadow: '0 0 5px 1px rgba(255, 103, 56, 0.3) ',
         },
+
+        '&:disabled': {
+          color: '$gray8 !important',
+        },
       },
       alternative: {
         backgroundColor: 'transparent',
@@ -73,6 +82,11 @@ export const Container = styled('button', {
         '&:hover': {
           backgroundColor: 'rgba(255, 103, 56, 0.1) !important',
           boxShadow: '0 0 2px 1px rgba(255, 103, 56, 0.2) ',
+        },
+
+        '&:disabled': {
+          border: '1px solid $gray8 !important',
+          color: '$gray8 !important',
         },
       },
       ghost: {

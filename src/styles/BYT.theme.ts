@@ -10,7 +10,7 @@ const BYT = {
     backgroundPrimary: '#FF5C00',
     backgroundSecondary: '#FF5C00',
 
-    primaryHover: 'rgba(255, 152, 0, 1)',
+    primaryHover: '#a6440d',
     text: '#333333',
     textAlternative: '#C4C4C4',
     textLight: '#fff',

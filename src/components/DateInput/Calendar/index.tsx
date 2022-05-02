@@ -65,6 +65,11 @@ function Calendar({ onDateChange }: CalendarProps) {
     return () => document.removeEventListener('scroll', handleScroll);
   }, [handleClickOnOverlay]);
 
+  useEffect(() => {
+    console.log(value);
+    console.log(currentMonth);
+  }, [value, currentMonth]);
+
   return (
     <>
       <Portal>
@@ -124,14 +129,21 @@ function Calendar({ onDateChange }: CalendarProps) {
                   );
                 }
 
-                console.log('Validation:', validationDate);
-                console.log('dayMonth', dayMonth);
-                console.log(validationDate.month === dayMonth);
+                const isValidatingDate = () => {
+                  const validateDay =
+                    validationDate.day < value.day &&
+                    validationDate.day < day &&
+                    day < value.day &&
+                    validationDate.day !== day &&
+                    value.month === dayMonth + 1;
+
+                  return validateDay;
+                };
 
                 return (
                   <React.Fragment key={`${day}-${generateHash()}`}>
                     <Day
-                      validation={validationDate.day < day && value.day > day}
+                      validation={isValidatingDate()}
                       disabled={
                         (validationDate.day > day &&
                           new Date().getMonth() === monthVisualization) ||
@@ -146,13 +158,9 @@ function Calendar({ onDateChange }: CalendarProps) {
                         }
                       }}
                       active={
+                        (value.day === day && value.month === dayMonth + 1) ||
                         (validationDate.day === day &&
-                          validationDate.month === dayMonth + 1 &&
-                          monthVisualization === dayMonth &&
-                          currentMonth === dayMonth) ||
-                        (value.day === day &&
-                          currentMonth === dayMonth &&
-                          fullYear === Number(year))
+                          validationDate.month === dayMonth + 1)
                       }
                     >
                       {day}

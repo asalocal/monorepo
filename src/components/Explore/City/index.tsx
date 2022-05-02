@@ -6,30 +6,29 @@ import { ITrips } from 'types/Trips';
 import Gallery from 'components/Gallery';
 import TripUser from './TripUser';
 import { useSchedule } from 'context/ScheduleContext';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import Tooltip from 'components/Tooltip';
+import Modal from 'components/Modal';
+import Input from 'components/Input';
+import { Form } from '@unform/web';
+import { useToast } from 'context/ToastContext';
+import CreateModalSchedule from 'components/Schedule/CreateModalSchedule';
 
 interface CityProps {
   trip: ITrips;
   view?: 'grid' | 'list';
+  goingTo: string;
 }
 
-function City({ trip, view = 'list' }: CityProps) {
-  const { addCity, schedule, createSchedule } = useSchedule();
+function City({ trip, goingTo, view = 'list' }: CityProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const { addCity, schedule } = useSchedule();
   const { query } = useRouter();
 
-  const handleButtonClick = useCallback(() => {
+  const handleOpenModal = useCallback(() => {
     if (!schedule.id) {
-      createSchedule({
-        city: {
-          name: trip.name,
-          id: trip.id,
-          location: trip.subtitle,
-        },
-        departure: String(query.departure),
-        dateOfReturn: String(query.dateOfReturn),
-      });
+      setIsOpen(true);
 
       return;
     } else {
@@ -40,7 +39,7 @@ function City({ trip, view = 'list' }: CityProps) {
         },
       });
     }
-  }, [schedule]);
+  }, [schedule, isOpen]);
 
   return (
     <>
@@ -138,12 +137,21 @@ function City({ trip, view = 'list' }: CityProps) {
             >
               See more details
             </Button>
-            <Button onClick={handleButtonClick} css={{ width: '200px' }}>
+            <Button onClick={handleOpenModal} css={{ width: '200px' }}>
               Add to the schedule
             </Button>
           </Flex>
         </Flex>
       </Flex>
+
+      <CreateModalSchedule
+        open={isOpen}
+        closeModal={() => setIsOpen(false)}
+        goingTo={goingTo}
+        dateOfReturn={String(query.dateOfReturn)}
+        departure={String(query.departure)}
+        trip={trip}
+      />
     </>
   );
 }

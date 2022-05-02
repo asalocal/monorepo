@@ -33,7 +33,7 @@ export const LocationBadge = styled(Flex, {
   width: '25px',
   height: '25px',
   marginTop: -15,
-  marginLeft: '5px',
+  marginLeft: '10px',
   borderRadius: '50%',
   backgroundColor: 'red',
   color: '$gray1',

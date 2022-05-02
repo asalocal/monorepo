@@ -8,9 +8,16 @@ interface ToastItemProps extends ToastItemVariants {
   title: string;
   id: string;
   type?: 'success' | 'error';
+  position?: 'bottom' | 'left' | 'right';
 }
 
-function ToastItem({ message, title, id, type = 'success' }: ToastItemProps) {
+function ToastItem({
+  message,
+  title,
+  id,
+  type = 'success',
+  position = 'right',
+}: ToastItemProps) {
   const { removeToast } = useToast();
 
   useEffect(() => {
@@ -23,7 +30,7 @@ function ToastItem({ message, title, id, type = 'success' }: ToastItemProps) {
 
   return (
     <>
-      <ToastItemContainer type={type}>
+      <ToastItemContainer position={position} type={type}>
         <Flex justifyContent="spaceBetween">
           <Flex direction="column" css={{ marginRight: '10px' }}>
             {title && <strong>{title}</strong>}

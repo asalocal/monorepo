@@ -38,7 +38,7 @@ function Inspiration() {
               left: 0,
               width: '100%',
               height: '100%',
-              background: 'rgba(0,0,0, 0.2)',
+              background: 'rgba(0,0,0, 0.5)',
               borderRadius: '10px',
             },
           }}
@@ -69,6 +69,8 @@ function Inspiration() {
                 padding: '15px 25px',
                 fontWeight: '400',
                 fontSize: '18px',
+                borderColor: '$gray1 !important',
+                color: '$gray1 !important',
                 marginTop: '50px',
               }}
             >
@@ -96,7 +98,7 @@ function Inspiration() {
               left: 0,
               width: '100%',
               height: '100%',
-              background: 'rgba(0,0,0, 0.2)',
+              background: 'rgba(0,0,0, 0.5)',
               borderRadius: '10px',
             },
           }}
@@ -126,6 +128,8 @@ function Inspiration() {
                 width: 'fit-content',
                 padding: '15px 25px',
                 fontWeight: '400',
+                borderColor: '$gray1 !important',
+                color: '$gray1 !important',
                 fontSize: '18px',
                 marginTop: '50px',
               }}
@@ -141,7 +145,7 @@ function Inspiration() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             borderRadius: '10px',
-            boxShadow: '0 0 7px 2px rgba(0,0,0, 0.2)',
+            boxShadow: '0 0 7px 2px rgba(0,0,0, 0.5)',
             position: 'relative',
             minHeight: '500px',
             height: '100%',
@@ -184,6 +188,8 @@ function Inspiration() {
               css={{
                 width: 'fit-content',
                 padding: '15px 25px',
+                borderColor: '$gray1 !important',
+                color: '$gray1 !important',
                 fontSize: '18px',
                 fontWeight: '400',
                 marginTop: '50px',

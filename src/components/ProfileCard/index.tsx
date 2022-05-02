@@ -32,7 +32,10 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
   }, []);
 
   const handleMouseLeave = useCallback((ev: MouseEvent<HTMLDivElement>) => {
-    if (cardRef.current && cardRef.current.contains(ev.target as Node)) {
+    if (
+      (cardRef.current && cardRef.current.contains(ev.target as Node)) ||
+      (containerRef.current && containerRef.current.contains(ev.target as Node))
+    ) {
       setIsProfileHovered(false);
     }
   }, []);
@@ -46,7 +49,7 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
         y,
       });
     }
-  }, [registerPositions, containerRef]);
+  }, [registerPositions, containerRef.current]);
 
   return (
     <>
