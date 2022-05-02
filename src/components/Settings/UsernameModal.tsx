@@ -44,7 +44,7 @@ function UsernameModal({ userData, isOpen }: UsernameModalProps) {
 
   return (
     <>
-      <Modal isOpen={isOpen}>
+      <Modal title="Update Username data" isOpen={isOpen}>
         <Flex
           direction="column"
           css={{
