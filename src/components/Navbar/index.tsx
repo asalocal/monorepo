@@ -13,6 +13,7 @@ import { useNavbar } from 'context/NavbarContext';
 import { useAuth } from 'context/AuthContext';
 import UserDropdown from './UserDropdown';
 import HamburguerMenu from './HamburguerMenu';
+import { useSession } from 'next-auth/react';
 
 interface NavbarProps {
   orientation?: 'horizontal' | 'vertical';
@@ -27,7 +28,7 @@ function Navbar({
 }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const { handleNavbarVisibility, navbarVisibility } = useNavbar();
-  const { user } = useAuth();
+  const { data } = useSession();
 
   const showNavbarVisibility = useMemo(
     () => (navbarVisibility ? ChevronRightIcon : ChevronLeftIcon),
@@ -82,7 +83,7 @@ function Navbar({
               FAQ
             </NavItem>
 
-            {user ? (
+            {data?.token ? (
               <UserDropdown />
             ) : (
               <NavItem

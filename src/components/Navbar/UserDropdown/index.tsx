@@ -1,7 +1,10 @@
 import { PersonIcon, ExitIcon, MixerHorizontalIcon } from '@modulz/radix-icons';
+import api from 'api/api';
 import Dropdown from 'components/Dropdown';
 import Icon from 'components/Icon';
 import { useAuth, User } from 'context/AuthContext';
+import { getToken } from 'next-auth/jwt';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -22,15 +25,15 @@ function UserInfo({ name }: { name: string }) {
 
 function UserDropdown() {
   const [data, setData] = useState<User>({} as User);
-  const { user, signOut, getData } = useAuth();
+  const { data: session } = useSession();
 
   const { push } = useRouter();
-  const { id, username } = user;
+  const { username, id } = session?.token as any;
 
   const usernameQuery = username ? `${username}` : id;
 
   const handleSettingsClick = async () => {
-    if (user.isIncomplete) {
+    if (!username) {
       const getUserData = await getData();
 
       const userString = getUserData?.username
@@ -46,17 +49,22 @@ function UserDropdown() {
   };
 
   useEffect(() => {
+    console.log(session);
+  }, [session]);
+
+  useEffect(() => {
     async function getUserData() {
-      if (user.isIncomplete) {
-        const userData = await getData();
-        return setData(userData);
+      if (!username) {
+        const response = await api.get(`/users/${id}`);
+
+        return setData(response.data);
       }
 
-      setData(user);
+      setData(session?.user as User);
     }
 
     getUserData();
-  }, [getData, user]);
+  }, []);
 
   return (
     <Dropdown label={<UserInfo name={data.name || 'Client'} />}>

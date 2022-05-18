@@ -24,7 +24,6 @@ export const DateInputLabel = styled('label', {
   left: 10,
   transform: 'translateY(0) translateX(0) scale(1)',
   opacity: 0.5,
-  fontWeight: 'bold',
   color: '$gray11',
   svg: {
     marginRight: 5,

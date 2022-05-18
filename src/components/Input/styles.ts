@@ -53,7 +53,7 @@ export const Label = styled('label', {
   opacity: 0.5,
   pointerEvents: 'auto',
   cursor: 'text',
-  fontWeight: 'bold',
+
   svg: {
     marginRight: 10,
   },

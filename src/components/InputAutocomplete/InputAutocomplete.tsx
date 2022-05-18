@@ -2,15 +2,7 @@ import Flex from 'components/Flex';
 import Input, { InputProps } from 'components/Input';
 import Overlay from 'components/Overlay';
 import Portal from 'components/Portal';
-import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
-import {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import AutocompleteOption, {
   AutocompleteOptionProps,
 } from './AutocompleteOption';
@@ -60,13 +52,13 @@ function InputAutocomplete({
     };
   }, []);
 
-  useLayoutEffectSSR(() => {
+  useEffect(() => {
     if (inputRef.current) {
       const { x, y, width } = inputRef.current.getBoundingClientRect();
 
       setPositions({ x, y, width });
     }
-  }, [inputRef.current]);
+  }, [inputRef.current, showOptions]);
 
   useEffect(() => {
     if (inputValue.length === 0) {

@@ -23,11 +23,15 @@ interface CityProps {
 
 function City({ trip, goingTo, view = 'list' }: CityProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { addCity, schedule } = useSchedule();
+
+  const {
+    addCity,
+    schedule: { id },
+  } = useSchedule();
   const { query } = useRouter();
 
   const handleOpenModal = useCallback(() => {
-    if (!schedule.id) {
+    if (!id) {
       setIsOpen(true);
 
       return;
@@ -39,7 +43,7 @@ function City({ trip, goingTo, view = 'list' }: CityProps) {
         },
       });
     }
-  }, [schedule, isOpen]);
+  }, [id]);
 
   return (
     <>

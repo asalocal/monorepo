@@ -1,5 +1,6 @@
 import BYTGlobalCSS from 'styles/BYT.global';
 import { AppProps } from 'next/app';
+import { SessionProvider } from 'next-auth/react';
 import { AuthProvider } from 'context/AuthContext';
 import { NavbarProvider } from 'context/NavbarContext';
 import { ToastProvider } from 'context/ToastContext';
@@ -11,12 +12,15 @@ interface MyAppProps extends AppProps {
   Component: AppProps['Component'] & { isAuthenticated: boolean };
 }
 
-function MyApp({ Component, pageProps }: MyAppProps) {
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: MyAppProps) {
   BYTGlobalCSS();
   return (
     <>
       <ErrorBoundary>
-        <AuthProvider>
+        <SessionProvider session={session}>
           <ToastProvider>
             <NavbarProvider>
               <ScheduleProvider>
@@ -30,7 +34,7 @@ function MyApp({ Component, pageProps }: MyAppProps) {
               </ScheduleProvider>
             </NavbarProvider>
           </ToastProvider>
-        </AuthProvider>
+        </SessionProvider>
       </ErrorBoundary>
     </>
   );

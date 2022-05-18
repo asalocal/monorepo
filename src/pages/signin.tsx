@@ -1,13 +1,12 @@
 import { Form } from '@unform/web';
 import Button from 'components/Button';
 import Input from 'components/Input';
-import { useAuth } from 'context/AuthContext';
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Container, Content, ContentWrapper } from '../styles/SignIn.styles';
 import Flex from 'components/Flex';
-
+import { signIn } from 'next-auth/react';
 import Head from 'next/head';
 import { useToast } from 'context/ToastContext';
 import { darkTheme } from 'styles/Theme.provider';
@@ -15,7 +14,7 @@ import { darkTheme } from 'styles/Theme.provider';
 function SignIn() {
   const [loading, setLoading] = useState(false);
   const { back } = useRouter();
-  const { signIn } = useAuth();
+
   const { addToast } = useToast();
 
   const handleSubmit = useCallback(
@@ -23,7 +22,7 @@ function SignIn() {
       try {
         setLoading(true);
 
-        await signIn(data);
+        await signIn('default', data);
 
         window.location.href = '/';
 
