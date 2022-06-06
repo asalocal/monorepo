@@ -38,11 +38,6 @@ export const ContentWrapper = styled('div', {
     marginTop: 20,
   },
 
-  img: {
-    width: '60%',
-    marginBottom: 40,
-  },
-
   span: {
     color: '$textLight',
     marginTop: 30,

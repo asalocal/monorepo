@@ -2,6 +2,7 @@ import { IconProps } from '@modulz/radix-icons/dist/types';
 import Icon from 'components/Icon';
 import { useNavbar } from 'context/NavbarContext';
 import { useMemo } from 'react';
+import { BYTCSS } from 'styles/Theme.provider';
 import { NavLinkContainer } from './styles';
 
 interface NavItemProps {
@@ -9,7 +10,8 @@ interface NavItemProps {
   to: string;
   icon?: (props: IconProps) => JSX.Element;
   orientation?: 'horizontal' | 'vertical';
-  type?: 'link' | 'button';
+  type?: 'link' | 'button' | 'primary';
+  css?: BYTCSS;
 }
 
 function NavItem({
@@ -18,6 +20,7 @@ function NavItem({
   icon,
   orientation,
   type = 'button',
+  css,
 }: NavItemProps) {
   const { navbarVisibility } = useNavbar();
 
@@ -33,6 +36,7 @@ function NavItem({
         orientation={orientation}
         visible={navbarVisibility}
         type={type}
+        css={css}
         href={to}
       >
         {icon && <Icon icon={icon} />}

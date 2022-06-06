@@ -31,27 +31,29 @@ function CreateModalSchedule({
 
   const handleCreateSchedule = useCallback(
     (data) => {
-      createSchedule({
-        city: {
-          name: trip.name,
-          id: trip.id,
-          location: trip.subtitle,
-        },
-        name: data.scheduleName,
-        departure: String(departure),
-        dateOfReturn: String(dateOfReturn),
-      });
+      try {
+        createSchedule({
+          city: {
+            name: trip.name,
+            id: trip.id,
+            location: trip.subtitle,
+          },
+          name: data.scheduleName,
+          departure: String(departure),
+          dateOfReturn: String(dateOfReturn),
+        });
 
-      addToast({
-        title: 'Trip created with success',
-        message: 'Now you can add more cities to your trip',
-        type: 'success',
-      });
+        setIsOpen(false);
 
-      setIsOpen(false);
-
-      if (closeModal) {
-        closeModal();
+        if (closeModal) {
+          closeModal();
+        }
+      } catch (err: any) {
+        addToast({
+          title: 'Error creating trip',
+          message: err.message,
+          type: 'error',
+        });
       }
     },
     [closeModal]

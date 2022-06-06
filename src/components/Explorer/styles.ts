@@ -118,10 +118,6 @@ export const InputContainers = styled('div', {
     marginLeft: '0',
   },
 
-  div: {
-    margin: '0 20px',
-  },
-
   padding: '10px 0',
   marginTop: '20px',
 });

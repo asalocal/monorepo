@@ -20,6 +20,9 @@ import maskCreation from 'utils/inputMaskCreation';
 import { AxiosResponse } from 'axios';
 import { UserComplete } from 'context/AuthContext';
 import UsernameModal from 'components/Settings/UsernameModal';
+import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
+import routesAPI from 'api/routesAPI';
 
 interface ProfileProps {
   user: UserComplete;
@@ -31,13 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } = context;
 
   try {
-    const cookies = nookies.get(context);
-
-    const userData = await api.get(`/users/${id}`, {
-      headers: {
-        Authorization: `Bearer ${cookies.token}`,
-      },
-    });
+    const userData = await routesAPI.get(`/user`);
 
     return {
       props: {

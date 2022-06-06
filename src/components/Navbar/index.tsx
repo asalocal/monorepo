@@ -14,6 +14,7 @@ import { useAuth } from 'context/AuthContext';
 import UserDropdown from './UserDropdown';
 import HamburguerMenu from './HamburguerMenu';
 import { useSession } from 'next-auth/react';
+import Text from 'components/Text';
 
 interface NavbarProps {
   orientation?: 'horizontal' | 'vertical';
@@ -28,8 +29,7 @@ function Navbar({
 }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const { handleNavbarVisibility, navbarVisibility } = useNavbar();
-  const { data } = useSession();
-
+  const { user } = useAuth();
   const showNavbarVisibility = useMemo(
     () => (navbarVisibility ? ChevronRightIcon : ChevronLeftIcon),
     [navbarVisibility]
@@ -83,16 +83,29 @@ function Navbar({
               FAQ
             </NavItem>
 
-            {data?.token ? (
+            {user.id ? (
               <UserDropdown />
             ) : (
-              <NavItem
-                orientation="horizontal"
-                type="button"
-                to="/signup?soft=true"
-              >
-                Sign Up
-              </NavItem>
+              <>
+                <NavItem
+                  orientation="horizontal"
+                  type="primary"
+                  to="/signup?soft=true"
+                >
+                  Sign Up
+                </NavItem>
+
+                <Text css={{ margin: '0 15px', fontSize: '12px' }}>or</Text>
+
+                <NavItem
+                  orientation="horizontal"
+                  type="link"
+                  css={{ backgroundColor: 'transparent' }}
+                  to="/signin"
+                >
+                  Sign In
+                </NavItem>
+              </>
             )}
           </NavContainer>
         )}

@@ -15,6 +15,7 @@ import SchedulePop from 'components/Schedule/Pop';
 import routesAPI from '../api/routesAPI';
 import { ITrips } from 'types/Trips';
 import { createObjectStore, updateDataObject } from 'database/indexdb';
+import { useAuth } from './AuthContext';
 export interface ICity {
   id: string;
   name: string;
@@ -54,7 +55,6 @@ const ScheduleContext = createContext<IScheduleContext>({} as IScheduleContext);
 
 export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
   const [schedule, setSchedule] = useState<ISchedule>({} as ISchedule);
-
   const { addToast } = useToast();
 
   const deleteSchedule = useCallback(async () => {
@@ -113,6 +113,15 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
     async ({ departure, dateOfReturn, name, city }: ICreateSchedule) => {
       const { data } = await routesAPI.get<ITrips[]>('/trips');
 
+      if (!name) {
+        addToast({
+          title: 'Schedule name is required',
+          message: 'Please enter a name for your schedule',
+          type: 'error',
+        });
+        return;
+      }
+
       const newSchedule = {
         id: generateHash(),
         name,
@@ -161,6 +170,12 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
       });
 
       localStorage.setItem('schedule', JSON.stringify(newSchedule));
+
+      addToast({
+        title: 'Trip created with success',
+        message: 'Now you can add more cities to your trip',
+        type: 'success',
+      });
 
       setSchedule(newSchedule);
     },

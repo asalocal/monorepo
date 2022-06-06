@@ -1,15 +1,15 @@
+import '../config/wdyr';
 import BYTGlobalCSS from 'styles/BYT.global';
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { AuthProvider } from 'context/AuthContext';
 import { NavbarProvider } from 'context/NavbarContext';
 import { ToastProvider } from 'context/ToastContext';
-import Page from 'components/Page';
 import { ScheduleProvider } from 'context/ScheduleContext';
 import ErrorBoundary from 'components/ErrorBoundary';
 
 interface MyAppProps extends AppProps {
-  Component: AppProps['Component'] & { isAuthenticated: boolean };
+  Component: AppProps['Component'] & { Layout: React.ComponentType };
 }
 
 function MyApp({
@@ -22,17 +22,19 @@ function MyApp({
       <ErrorBoundary>
         <SessionProvider session={session}>
           <ToastProvider>
-            <NavbarProvider>
-              <ScheduleProvider>
-                {!Component.isAuthenticated ? (
-                  <Component {...pageProps} />
-                ) : (
-                  <Page>
+            <AuthProvider>
+              <NavbarProvider>
+                <ScheduleProvider>
+                  {Component.Layout ? (
+                    <Component.Layout>
+                      <Component {...pageProps} />
+                    </Component.Layout>
+                  ) : (
                     <Component {...pageProps} />
-                  </Page>
-                )}
-              </ScheduleProvider>
-            </NavbarProvider>
+                  )}
+                </ScheduleProvider>
+              </NavbarProvider>
+            </AuthProvider>
           </ToastProvider>
         </SessionProvider>
       </ErrorBoundary>

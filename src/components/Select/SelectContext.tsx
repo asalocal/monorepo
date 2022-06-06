@@ -1,3 +1,4 @@
+import useHandleScroll from 'hooks/useHandleScroll';
 import {
   createContext,
   useContext,
@@ -16,7 +17,8 @@ interface SelectContextData {
   active: boolean;
   isOpen: boolean;
   handleSelect: (value: string | number) => void;
-  handleOpen: () => void;
+  handleOpen: (state?: boolean) => void;
+  setIsOpen: (state: boolean) => void;
   handleOption: (value: string | number) => void;
   handleSelected: (value: string | React.ReactNode) => void;
 }
@@ -29,10 +31,13 @@ export const SelectProvider = ({ children }: SelectProviderProps) => {
   const [active, setActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpen = useCallback(() => {
-    setIsOpen(!isOpen);
-    setActive(!active);
-  }, [isOpen, active]);
+  const handleOpen = useCallback(
+    (state?: boolean) => {
+      setIsOpen(state ? state : !isOpen);
+      setActive(state ? state : !active);
+    },
+    [isOpen, active]
+  );
 
   const handleSelect = useCallback((value: string | number) => {
     setSelected(value);
@@ -54,14 +59,7 @@ export const SelectProvider = ({ children }: SelectProviderProps) => {
     setActive(false);
   }, []);
 
-  useEffect(() => {
-    if (isOpen) {
-      window.addEventListener('scroll', handleCloseSelectOnScroll);
-    }
-
-    return () =>
-      window.removeEventListener('scroll', handleCloseSelectOnScroll);
-  }, [isOpen, handleCloseSelectOnScroll]);
+  useHandleScroll(handleCloseSelectOnScroll);
 
   return (
     <SelectContext.Provider
@@ -72,6 +70,7 @@ export const SelectProvider = ({ children }: SelectProviderProps) => {
         active,
         isOpen,
         option,
+        setIsOpen,
         handleOpen,
         handleSelect,
       }}

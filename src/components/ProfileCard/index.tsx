@@ -1,9 +1,6 @@
 import Flex from 'components/Flex';
-import Portal from 'components/Portal';
 import { MouseEvent, useCallback, useRef, useState } from 'react';
-import { ProfileCardProvider, useProfileCard } from './ProfileCardContext';
 import Card from './Card';
-import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
 
 interface IProfileCardProps {
   label: string | React.ReactNode;
@@ -11,21 +8,10 @@ interface IProfileCardProps {
 }
 
 function ProfileCard({ children, label }: IProfileCardProps) {
-  return (
-    <>
-      <ProfileCardProvider>
-        <ProfileCardWrapper label={label}>{children}</ProfileCardWrapper>
-      </ProfileCardProvider>
-    </>
-  );
-}
-
-function ProfileCardWrapper({ children, label }: IProfileCardProps) {
   const [isProfileHovered, setIsProfileHovered] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const { registerPositions } = useProfileCard();
 
   const handleMouseEnter = useCallback((ev: MouseEvent<HTMLDivElement>) => {
     setIsProfileHovered(true);
@@ -40,17 +26,6 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
     }
   }, []);
 
-  useLayoutEffectSSR(() => {
-    if (containerRef.current) {
-      const { x, y } = containerRef.current.getBoundingClientRect();
-
-      registerPositions({
-        x,
-        y,
-      });
-    }
-  }, [registerPositions, containerRef.current]);
-
   return (
     <>
       <Flex
@@ -60,16 +35,14 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
         alignItems="center"
         css={{
           width: 'fit-content',
-
+          position: 'relative',
           '&:hover': {
             cursor: 'pointer',
           },
         }}
       >
         {label}
-      </Flex>
-      {isProfileHovered && (
-        <Portal>
+        {isProfileHovered && (
           <Card
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -77,8 +50,8 @@ function ProfileCardWrapper({ children, label }: IProfileCardProps) {
           >
             {children}
           </Card>
-        </Portal>
-      )}
+        )}
+      </Flex>
     </>
   );
 }

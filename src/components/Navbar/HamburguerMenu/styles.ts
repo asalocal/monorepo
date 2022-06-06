@@ -31,6 +31,7 @@ export const TopLineMenu = styled('div', {
 export const MiddleLineMenu = styled(TopLineMenu, {
   width: '70%',
   transition: 'all .2s ease',
+
   variants: {
     open: {
       true: {

@@ -1,6 +1,7 @@
 import Button from 'components/Button';
 import { Col, Container, Row } from 'components/layout';
 import Text from 'components/Text';
+import Image from 'next/image';
 
 function DashboardInfo() {
   return (
@@ -10,8 +11,8 @@ function DashboardInfo() {
         marginBottom: '100px',
       }}
     >
-      <Row>
-        <Col sm={3} md={4} lg={6}>
+      <Row css={{ justifyContent: 'center' }}>
+        <Col sm={12} md={5} lg={6}>
           <Text
             as="h1"
             css={{
@@ -40,10 +41,11 @@ function DashboardInfo() {
             See the dashboard
           </Button>
         </Col>
-        <Col sm={3} md={4} lg={6}>
-          <img
+        <Col sm={12} md={5} lg={6}>
+          <Image
+            width="600px"
+            height="450px"
             src="/assets/desktop.png"
-            style={{ width: '100%' }}
             alt="Dashboard example"
           />
         </Col>

@@ -1,31 +1,22 @@
 import Head from 'next/head';
-import Introduction from 'components/Home/Introduction';
-import DashboardInfo from 'components/Home/DashboardInfo';
+import dynamic from 'next/dynamic';
+const Introduction = dynamic(() => import('components/Home/Introduction'));
+const DashboardInfo = dynamic(() => import('components/Home/DashboardInfo'));
+const Inspiration = dynamic(() => import('components/Home/Inspiration'));
 import { HomeContainer } from '../styles/Home.styles';
-import Inspiration from 'components/Home/Inspiration';
-import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import Page from 'components/Page';
+import HeadSEO from 'components/HeadSEO';
 
-const Home = (): JSX.Element => {
-  const { data } = useSession();
+const Home = (): JSX.Element => (
+  <>
+    <HeadSEO title="Home" />
+    <HomeContainer>
+      <Introduction />
+      <DashboardInfo />
+      <Inspiration />
+    </HomeContainer>
+  </>
+);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  return (
-    <>
-      <Head>
-        <title>Home - Build Your Trip</title>
-      </Head>
-      <HomeContainer>
-        <Introduction />
-        <DashboardInfo />
-        <Inspiration />
-      </HomeContainer>
-    </>
-  );
-};
-
-Home.isAuthenticated = true;
+Home.Layout = Page;
 export default Home;

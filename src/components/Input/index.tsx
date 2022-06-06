@@ -1,5 +1,6 @@
 import { EyeClosedIcon, EyeOpenIcon } from '@modulz/radix-icons';
 import { useField } from '@unform/core';
+import Flex from 'components/Flex';
 import {
   ChangeEvent,
   InputHTMLAttributes,
@@ -46,6 +47,7 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
     css,
     theme = 'primary',
     onChange,
+    onFocus,
     ...props
   } = inputProps;
 
@@ -62,13 +64,22 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
 
   useImperativeHandle(ref, () => inputRef.current);
 
-  const handleInputFocus = useCallback((): void => {
-    const newState = !isFocus;
+  const handleInputFocus = useCallback(
+    (ev): void => {
+      const newState = !isFocus;
 
-    newState ? inputRef.current?.focus() : inputRef.current?.blur();
+      newState ? inputRef.current?.focus() : inputRef.current?.blur();
 
-    setIsFocus(newState);
-  }, [isFocus]);
+      setIsFocus(newState);
+
+      setIsFilled(!!ev.target.value);
+
+      if (onFocus) {
+        onFocus(ev);
+      }
+    },
+    [isFocus]
+  );
 
   const handleShowPassword = useCallback(() => {
     setIsShowingMessage(!isShowingMessage);
@@ -125,7 +136,7 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
   }, [fieldName, registerField]);
 
   return (
-    <>
+    <Flex direction="column" css={{ width: '100%' }}>
       <InputContent>
         <InputContainer hasError={!!false} css={css} theme={theme}>
           <Label
@@ -164,7 +175,7 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
       {type === 'password' && verifyPassword && (
         <StrenghtPassword password={value} />
       )}
-    </>
+    </Flex>
   );
 });
 

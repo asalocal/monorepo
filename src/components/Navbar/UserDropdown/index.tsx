@@ -1,10 +1,10 @@
 import { PersonIcon, ExitIcon, MixerHorizontalIcon } from '@modulz/radix-icons';
 import api from 'api/api';
+import routesAPI from 'api/routesAPI';
 import Dropdown from 'components/Dropdown';
 import Icon from 'components/Icon';
 import { useAuth, User } from 'context/AuthContext';
 import { getToken } from 'next-auth/jwt';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -24,21 +24,19 @@ function UserInfo({ name }: { name: string }) {
 }
 
 function UserDropdown() {
-  const [data, setData] = useState<User>({} as User);
-  const { data: session } = useSession();
+  const { user, signout } = useAuth();
 
   const { push } = useRouter();
-  const { username, id } = session?.token as any;
 
-  const usernameQuery = username ? `${username}` : id;
+  const usernameQuery = user.username ? `${user.username}` : user.id;
 
   const handleSettingsClick = async () => {
-    if (!username) {
-      const getUserData = await getData();
+    if (!user.username) {
+      const response: any = await routesAPI.get(`/users`);
 
-      const userString = getUserData?.username
-        ? getUserData.username
-        : getUserData.id;
+      const userString = response?.data.username
+        ? response.data.username
+        : response.data.id;
 
       push(`/settings/${userString}`);
 
@@ -48,26 +46,8 @@ function UserDropdown() {
     push(`/settings/${usernameQuery}`);
   };
 
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
-
-  useEffect(() => {
-    async function getUserData() {
-      if (!username) {
-        const response = await api.get(`/users/${id}`);
-
-        return setData(response.data);
-      }
-
-      setData(session?.user as User);
-    }
-
-    getUserData();
-  }, []);
-
   return (
-    <Dropdown label={<UserInfo name={data.name || 'Client'} />}>
+    <Dropdown label={<UserInfo name={user.name || 'Client'} />}>
       <Content>
         <DropdownLink href="/my-trips">My trips</DropdownLink>
         <DropdownLink href="/logout">Info</DropdownLink>
@@ -87,7 +67,7 @@ function UserDropdown() {
           <DropdownLink
             css={{ borderRadius: '50%' }}
             href="/"
-            onClick={() => signOut()}
+            onClick={() => signout()}
           >
             <ExitIcon />
           </DropdownLink>

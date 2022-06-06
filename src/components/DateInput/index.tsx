@@ -7,18 +7,12 @@ import {
   useRef,
   useState,
 } from 'react';
-import {
-  DateInputLabel,
-  InputContainer,
-  InputContent,
-  InputWrapper,
-} from './styles';
-import { CalendarIcon } from '@modulz/radix-icons';
+import { InputContainer } from './styles';
 import Calendar from './Calendar';
 import { DateInputProvider, useDateInputContext } from './DateInputContext';
 import maskCreation from 'utils/inputMaskCreation';
 import { useField } from '@unform/core';
-import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
+import Input from 'components/Input';
 interface DateInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
@@ -62,12 +56,9 @@ function DateInputWrapper({
   onChange,
   ...props
 }: DateInputProps) {
-  const [isFocused, setIsFocused] = useState(false);
-  const [hasValue, setHasValue] = useState(false);
   const [inputValue, setInputValue] = useState<string | readonly string[]>('');
 
   const {
-    registerPositions,
     calendarOpen,
     setYear,
     handleValue,
@@ -87,8 +78,6 @@ function DateInputWrapper({
 
   const handleChange = useCallback(
     (ev: ChangeEvent<HTMLInputElement>) => {
-      setIsFocused(!!ev.target.value);
-
       const valueMasked = maskCreation({
         type: 'date',
         value: ev.target.value,
@@ -115,19 +104,11 @@ function DateInputWrapper({
     [onChange, handleValue, valueDateRegex]
   );
 
-  const setFocus = useCallback(() => {
+  const setFocus = () => {
     handleCalendar();
-
-    if (hasValue) {
-      setIsFocused(true);
-      return;
-    }
-
-    setIsFocused((prevState) => !prevState);
-  }, [handleCalendar, hasValue]);
+  };
 
   useEffect(() => {
-    setHasValue(!!value.formatted);
     onDateChange && onDateChange(value.formatted);
   }, [value]);
 
@@ -136,24 +117,6 @@ function DateInputWrapper({
       handleValidationDate(validationDate);
     }
   }, [validationDate]);
-
-  useLayoutEffectSSR(() => {
-    const xPosition = divContainerRef.current?.getBoundingClientRect().x;
-    const yPosition = divContainerRef.current?.getBoundingClientRect().y;
-
-    if (xPosition && yPosition) {
-      registerPositions({
-        x: xPosition,
-        y: yPosition,
-      });
-    }
-  }, [registerPositions, divContainerRef.current]);
-
-  useEffect(() => {
-    if (placeholder || defaultValue) {
-      setIsFocused(true);
-    }
-  }, [placeholder, defaultValue]);
 
   useEffect(() => {
     if (defaultValue) {
@@ -173,39 +136,14 @@ function DateInputWrapper({
   }, [setYear]);
 
   useEffect(() => {
-    document.addEventListener('click', (ev) => {
-      if (ev.target !== inputRef.current) {
-        if (hasValue || !!inputRef.current?.value) {
-          setIsFocused(true);
-          return;
-        }
-
-        setIsFocused(false);
-      }
-    });
-
-    return () => {
-      document.removeEventListener('click', () => {});
-    };
-  }, [hasValue, inputRef.current]);
-
-  useEffect(() => {
     if (value.formatted) {
       setInputValue(value.formatted);
-      setIsFocused(true);
     }
   }, [value]);
 
   useEffect(() => {
     if (defaultValue) {
-      setHasValue(!!defaultValue);
       setInputValue(defaultValue);
-    }
-  }, [defaultValue]);
-
-  useEffect(() => {
-    if (defaultValue) {
-      setIsFocused(true);
     }
   }, [defaultValue]);
 
@@ -227,22 +165,18 @@ function DateInputWrapper({
   return (
     <>
       <InputContainer ref={divContainerRef}>
-        <InputContent>
-          <DateInputLabel isFocused={isFocused} htmlFor={name}>
-            {label}
-          </DateInputLabel>
-          <InputWrapper
-            onChange={handleChange}
-            onFocus={setFocus}
-            name={name}
-            id={name}
-            maxLength={10}
-            value={inputValue}
-            ref={inputRef}
-            {...props}
-          />
-          <CalendarIcon />
-        </InputContent>
+        <Input
+          label={label}
+          ref={inputRef}
+          onFocus={setFocus}
+          onChange={handleChange}
+          name={name}
+          id={name}
+          maxLength={10}
+          value={inputValue}
+          {...props}
+        />
+
         {calendarOpen && <Calendar onDateChange={onDateChange} />}
       </InputContainer>
     </>

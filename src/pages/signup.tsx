@@ -19,6 +19,9 @@ import HardRegistration from 'components/SignUp/HardRegistration';
 import { GetServerSideProps } from 'next';
 import { darkTheme } from 'styles/Theme.provider';
 import { useAuth } from 'context/AuthContext';
+import { getSession } from 'next-auth/react';
+import HeadSEO from 'components/HeadSEO';
+import Image from 'next/image';
 
 interface SignUpFormData {
   fullname: string;
@@ -38,6 +41,20 @@ interface ServerPropsData {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
 
+  const session = await getSession({
+    req: context.req,
+  });
+
+  if (session) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       initialData: {
@@ -52,22 +69,17 @@ function SignUp({
     query: { soft, url },
   },
 }: ServerPropsData) {
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-
   const formRef = useRef<FormHandles>(null);
   const { back, push } = useRouter();
   const { addToast } = useToast();
 
-  const { signIn } = useAuth();
-
-  const handleSubmit = useCallback(async ({}: SignUpFormData) => {}, []);
+  const { signin } = useAuth();
 
   const handleSoftSubmit = useCallback(
     async ({ email, password }: { email: string; password: string }) => {
       try {
         formRef.current?.setErrors({});
-        const { strength } = verifyPasswordStrenght(passwordValue);
+        const { strength } = verifyPasswordStrenght(password);
 
         if (strength === 'weak') {
           formRef.current?.setErrors({
@@ -79,7 +91,13 @@ function SignUp({
 
         await api.post('/users/create/soft', { email, password });
 
-        signIn({ email, password });
+        signin({
+          credentials: {
+            email,
+            password,
+          },
+          provider: 'default',
+        });
 
         if (url) {
           push(url);
@@ -101,7 +119,7 @@ function SignUp({
         });
       }
     },
-    [addToast, push, signIn, passwordValue, emailValue, url]
+    [addToast, push, signin, url]
   );
 
   const handleChange = useCallback(() => {
@@ -110,13 +128,16 @@ function SignUp({
 
   return (
     <>
-      <Head>
-        <title>Sign up - Build Your Trip</title>
-      </Head>
+      <HeadSEO title="Sign Up" />
       <Container className={darkTheme}>
         <Content>
           <ContentWrapper>
-            <img src="/assets/logo.svg" alt="Build your trip" />
+            <Image
+              src="/assets/logo.svg"
+              width="70px"
+              height="70px"
+              alt="Build your trip"
+            />
             {soft === 'true' || url ? (
               <Form onSubmit={handleSoftSubmit}>
                 <Input
@@ -147,7 +168,6 @@ function SignUp({
                   <Button
                     type="button"
                     variant="alternative"
-                    disabled={emailValue && passwordValue ? true : false}
                     onClick={() => back()}
                   >
                     Back
@@ -161,9 +181,7 @@ function SignUp({
                 </Checkbox>
               </Form>
             ) : (
-              <Form onSubmit={handleSubmit}>
-                <HardRegistration />
-              </Form>
+              <HardRegistration />
             )}
             <span>
               Have an account? <Link href="/signin">Sign In</Link>

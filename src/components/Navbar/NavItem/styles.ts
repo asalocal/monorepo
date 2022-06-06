@@ -54,6 +54,13 @@ export const NavLinkContainer = styled('a', {
       button: {
         backgroundColor: '$primary',
       },
+      primary: {
+        borderBottom: '2px solid $primary',
+
+        '&:hover': {
+          backgroundColor: '$primaryHover',
+        },
+      },
     },
   },
 });

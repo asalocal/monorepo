@@ -52,12 +52,11 @@ export const OpenIcon = styled('div', {
 export const OptionsContainer = styled('div', {
   boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.25)',
   position: 'absolute',
+  transform: 'translateY(40px)',
   backgroundColor: '$gray1',
-  marginTop: '40px',
   borderRadius: '5px',
   zIndex: '9999',
   minWidth: '90px',
-  width: 'fit-content',
 
   'option:first-child': {
     borderRadius: '5px 5px 0 0 !important',
@@ -98,10 +97,4 @@ export const OptionWrapper = styled('option', {
     cursor: 'pointer',
     backgroundColor: '$gray6',
   },
-});
-
-export const Overlay = styled('div', {
-  position: 'fixed',
-  width: '100%',
-  height: '100%',
 });

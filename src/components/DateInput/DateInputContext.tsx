@@ -27,9 +27,7 @@ interface IValidationDate {
 }
 
 interface IDateInputContext {
-  registerPositions: (positions: IPositions) => void;
-  positions: IPositions;
-  handleCalendar: (value?: boolean) => void;
+  handleCalendar: () => void;
   calendarOpen: boolean;
   handleDay: (day: number, month?: number) => void;
   optionDay: number;
@@ -81,7 +79,6 @@ const DateInputContext = createContext<IDateInputContext>(
 );
 
 export const DateInputProvider = ({ children }: DateInputProviderProps) => {
-  const [positions, setPositions] = useState<IPositions>({} as IPositions);
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [optionDay, setOptionDay] = useState(1);
   const [value, setValue] = useState<DateInputValue>({} as DateInputValue);
@@ -253,22 +250,8 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
     [handleDay]
   );
 
-  const handleCalendar = useCallback((value?: boolean) => {
-    setCalendarOpen((prevState) => {
-      if (value) {
-        return value;
-      }
-
-      return !prevState;
-    });
-  }, []);
-
-  const registerPositions = useCallback((positions: IPositions) => {
-    setPositions((prevState) => ({
-      ...prevState,
-      x: positions.x,
-      y: positions.y,
-    }));
+  const handleCalendar = useCallback(() => {
+    setCalendarOpen((prevState) => !prevState);
   }, []);
 
   useEffect(() => {
@@ -306,10 +289,8 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
         months,
         handleDay,
         optionDay,
-        registerPositions,
         handleCalendar,
         calendarOpen,
-        positions,
         handleDefaultValue,
       }}
     >

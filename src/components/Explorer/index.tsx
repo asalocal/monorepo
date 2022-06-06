@@ -172,6 +172,7 @@ function Explorer() {
                     </AutocompleteOption>
                   ))}
                 </InputAutocomplete>
+                <WidthIcon width="120px" />
 
                 <DateInput
                   onChange={(ev) => {
@@ -194,7 +195,11 @@ function Explorer() {
                   name="dateOfReturn"
                   id="dateOfReturn"
                 />
-                <Button variant="primary" type="submit">
+                <Button
+                  css={{ marginLeft: '10px' }}
+                  variant="primary"
+                  type="submit"
+                >
                   <MagnifyingGlassIcon /> Search
                 </Button>
               </InputContainers>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const routesAPI = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BYT_URL}/api`,
+  baseURL: `http://localhost:3000/api`,
 });
 
 export default routesAPI;

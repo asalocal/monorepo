@@ -1,7 +1,7 @@
 import Flex from 'components/Flex';
 import Input, { InputProps } from 'components/Input';
-import Overlay from 'components/Overlay';
-import Portal from 'components/Portal';
+import useClickOuside from 'hooks/useClickOutside';
+import useHandleScroll from 'hooks/useHandleScroll';
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import AutocompleteOption, {
   AutocompleteOptionProps,
@@ -28,6 +28,12 @@ function InputAutocomplete({
   const [positions, setPositions] = useState<any>({} as any);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  useClickOuside({
+    component: inputRef.current as HTMLInputElement,
+    callback: () => setShowOptions(false),
+    event: 'click',
+  });
+
   const allOptions = useMemo(() => {
     return children.map((child) => child.props.value);
   }, [children]);
@@ -40,23 +46,15 @@ function InputAutocomplete({
     setInputValue(event.target.value);
   };
 
-  useEffect(() => {
-    document.addEventListener('scroll', () => {
-      setShowOptions(false);
-    });
-
-    return () => {
-      document.removeEventListener('scroll', () => {
-        setShowOptions(false);
-      });
-    };
-  }, []);
+  useHandleScroll(() => {
+    setShowOptions(false);
+  });
 
   useEffect(() => {
     if (inputRef.current) {
-      const { x, y, width } = inputRef.current.getBoundingClientRect();
+      const { width } = inputRef.current.getBoundingClientRect();
 
-      setPositions({ x, y, width });
+      setPositions({ width });
     }
   }, [inputRef.current, showOptions]);
 
@@ -67,43 +65,39 @@ function InputAutocomplete({
   }, [inputValue, children]);
 
   return (
-    <>
+    <Flex direction="column" css={{ position: 'relative', width: '100%' }}>
       <Input
         ref={inputRef}
-        {...props}
         onFocus={() => setShowOptions(true)}
         onChange={onChange}
         value={inputValue}
         label={label}
+        {...props}
       />
       {showOptions && (
-        <Portal>
-          <Overlay onClick={() => setShowOptions(false)}>
-            <OptionsContainer
-              direction="column"
-              css={{
-                minWidth: `${positions.width}px`,
-                transform: `translate(${positions.x}px, ${positions.y + 50}px)`,
-              }}
-            >
-              {inputOptions &&
-                inputOptions.map((child) => (
-                  <AutocompleteOption
-                    key={child}
-                    value={child}
-                    onClick={() => {
-                      setInputValue(child);
-                      setShowOptions(false);
-                    }}
-                  >
-                    {child}
-                  </AutocompleteOption>
-                ))}
-            </OptionsContainer>
-          </Overlay>
-        </Portal>
+        <OptionsContainer
+          direction="column"
+          css={{
+            minWidth: `${positions.width}px`,
+            transform: 'translateY(60px)',
+          }}
+        >
+          {inputOptions &&
+            inputOptions.map((child, i) => (
+              <AutocompleteOption
+                key={child}
+                value={child}
+                onClick={() => {
+                  setInputValue(child);
+                  setShowOptions(false);
+                }}
+              >
+                {child}
+              </AutocompleteOption>
+            ))}
+        </OptionsContainer>
       )}
-    </>
+    </Flex>
   );
 }
 

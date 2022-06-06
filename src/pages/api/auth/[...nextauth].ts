@@ -1,69 +1,68 @@
-import api from 'api/api';
-import NextAuth, { Awaitable, User } from 'next-auth';
-import { decode, JwtPayload, sign, verify } from 'jsonwebtoken';
-import { JWT, JWTDecodeParams } from 'next-auth/jwt';
+import NextAuth from 'next-auth';
+import GitHubProvider from 'next-auth/providers/github';
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import BuildYourTrip from 'auth/BuildYourTrip';
 
-export default NextAuth({
-  providers: [
-    {
-      id: 'default',
-      name: 'Default',
-      type: 'credentials',
-      credentials: {
-        email: {
-          label: 'Email',
-          type: 'email',
-          placeholder: 'Email',
-        },
-        password: {
-          label: 'Password',
-          type: 'password',
-        },
-      },
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  return await NextAuth(req, res, {
+    providers: [
+      BuildYourTrip(async (credentials) => {
+        try {
+          const data = await fetch('http://localhost:3333/users/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+          });
 
-      async authorize(credentials): Promise<Omit<User, 'id'> | null> {
-        const res = await api.post('/users/login', credentials);
+          const user = await data.json();
 
-        if (res.status === 200) {
-          const { user } = res.data;
-
-          return user;
+          if (data.ok) {
+            return user;
+          }
+        } catch (err) {
+          console.error(err);
         }
 
         return null;
+      }),
+      GitHubProvider({
+        clientId: process.env.NEXTAUTH_GITHUB_CLIENT_ID,
+        clientSecret: process.env.NEXTAUTH_GITHUB_CLIENT_SECRET,
+      }),
+    ],
+
+    secret: process.env.NEXT_PUBLIC_SECRET,
+
+    jwt: {
+      encode: async ({ secret, token }) => {
+        if (token?.token) return token?.token as string;
+
+        return req.cookies['next-auth.session-token'];
+      },
+      decode: async ({ token, secret }) => {
+        if (!token) {
+          return null;
+        }
+
+        return verify(token, secret) as JwtPayload;
       },
     },
-  ],
 
-  secret: '9909a8c25150df1947166b5aa5d1e8bd409a06af5354b6bd2b803394cb94f16c',
+    callbacks: {
+      async jwt({ token, user, account }: any) {
+        return { ...token, ...user, ...account };
+      },
 
-  jwt: {
-    encode: async ({ secret, token }) => {
-      const tokenEncoded = sign(token || '', secret, {
-        algorithm: 'HS256',
-      });
+      async session({ session, token }: any) {
+        if (!session.user) return token;
 
-      return tokenEncoded;
+        session = { ...session, ...token };
+
+        return session;
+      },
     },
-    decode: async ({ token, secret }) => {
-      return verify(token as string, secret, {
-        algorithms: ['HS256'],
-      }) as JWT;
-    },
-  },
-
-  callbacks: {
-    async jwt({ token, user, account }: any) {
-      return { ...token, ...user };
-    },
-
-    async session({ session, token }: any) {
-      if (!session.user) return session;
-
-      return {
-        session,
-        token,
-      };
-    },
-  },
-});
+  });
+};

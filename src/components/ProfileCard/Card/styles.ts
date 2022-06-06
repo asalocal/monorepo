@@ -14,9 +14,14 @@ export const CardContainer = styled(Flex, {
   backgroundColor: '$gray1',
   borderRadius: '5px',
   minWidth: '300px',
+  position: 'absolute',
   maxWidth: '400px',
   boxShadow: '0 0 5px 1px rgba(0, 0, 0, 0.2)',
   animation: `${entry} 0.3s ease-in-out`,
+  top: '30px',
+  transform: 'translateX(-30%)',
+  width: '100%',
+  zIndex: '9999',
 
   '&::before': {
     content: '',

@@ -88,35 +88,38 @@ function HardRegistration() {
 
   return (
     <Form ref={formRef} onSubmit={handleSubmit}>
-      <Input
-        onChange={handleChange}
-        name="fullname"
-        theme="light"
-        type="text"
-        label="Full Name"
-      />
-      <Input
-        onChange={handleChange}
-        name="cellphone"
-        theme="light"
-        type="tel"
-        label="Cellphone"
-      />
-      <Input
-        onChange={handleChange}
-        name="email"
-        theme="light"
-        type="email"
-        label="Email"
-      />
-      <Input
-        onChange={handleChange}
-        name="password"
-        theme="light"
-        type="password"
-        verifyPassword
-        label="Password"
-      />
+      <Flex direction="column" css={{ marginTop: '20px', gap: '15px' }}>
+        <Input
+          onChange={handleChange}
+          name="fullname"
+          theme="light"
+          type="text"
+          label="Full Name"
+        />
+        <Input
+          onChange={handleChange}
+          name="cellphone"
+          theme="light"
+          type="tel"
+          label="Cellphone"
+        />
+        <Input
+          onChange={handleChange}
+          name="email"
+          theme="light"
+          type="email"
+          label="Email"
+        />
+        <Input
+          onChange={handleChange}
+          name="password"
+          theme="light"
+          type="password"
+          verifyPassword
+          label="Password"
+        />
+      </Flex>
+
       <Flex
         css={{
           [`button + button`]: {

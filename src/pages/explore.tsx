@@ -19,6 +19,7 @@ import CitySkeleton from 'components/Explore/CitySkeleton';
 import { ViewButton } from 'styles/Explore.styles';
 import SchedulePop from 'components/Schedule/Pop';
 import { MagnifyingGlassIcon } from '@modulz/radix-icons';
+import HeadSEO from 'components/HeadSEO';
 interface ExploreProps {
   filter: {
     goingTo: string;
@@ -77,9 +78,8 @@ function Explore({
 
   return (
     <>
-      <Head>
-        <title>{goingTo} - Explore</title>
-      </Head>
+      <HeadSEO title={`${goingTo} - Explore`} />
+
       <Container fullWidth>
         <Row>
           <Navbar staticMenu />
@@ -175,7 +175,7 @@ function Explore({
                             <City
                               view={view}
                               goingTo={goingTo}
-                              key={trip.id}
+                              key={Math.random()}
                               trip={trip}
                             />
                           );

@@ -4,6 +4,7 @@ import Flex from 'components/Flex';
 import Modal from 'components/Modal';
 import Text from 'components/Text';
 import { ICity, useSchedule } from 'context/ScheduleContext';
+import useOpenModal from 'hooks/useOpenModal';
 import { trips } from 'mocks/trips';
 import { useEffect, useState } from 'react';
 import { FiMapPin } from 'react-icons/fi';
@@ -39,7 +40,8 @@ function ModalTitle({ name }: { name: string }) {
 }
 
 function ScheduleListModal({ open, onCloseModal }: IScheduleListModalProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useOpenModal();
+  const [deleteModal, setDeleteModal] = useOpenModal();
 
   const { schedule, removeCity, deleteSchedule } = useSchedule();
 
@@ -58,11 +60,7 @@ function ScheduleListModal({ open, onCloseModal }: IScheduleListModalProps) {
   };
 
   const handleCleanSchedule = () => {
-    if (onCloseModal) {
-      onCloseModal();
-    }
-
-    deleteSchedule();
+    setDeleteModal(true);
   };
 
   useEffect(() => {
@@ -97,6 +95,41 @@ function ScheduleListModal({ open, onCloseModal }: IScheduleListModalProps) {
           >
             Clean Schedule
           </Button>
+        </Flex>
+      </Modal>
+
+      <Modal
+        title="Delete schedule"
+        onCloseModal={() => setDeleteModal(false)}
+        isOpen={deleteModal}
+      >
+        <Flex
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          css={{ width: '100%', height: '100%' }}
+        >
+          <Text>Are you sure you want to delete this schedule?</Text>
+          <Flex
+            css={{
+              marginTop: '20px',
+
+              button: {
+                width: '100%',
+              },
+
+              'button + button': {
+                marginLeft: '10px',
+              },
+            }}
+          >
+            <Button onClick={() => setDeleteModal(false)} variant="alternative">
+              <Text>Cancel</Text>
+            </Button>
+            <Button onClick={() => deleteSchedule()}>
+              <Text>Delete</Text>
+            </Button>
+          </Flex>
         </Flex>
       </Modal>
     </>

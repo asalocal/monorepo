@@ -3,7 +3,6 @@ import { styled } from 'styles/Theme.provider';
 export const InputContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
   position: 'relative',
   width: '100%',
 });

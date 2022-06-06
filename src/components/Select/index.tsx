@@ -15,6 +15,7 @@ import Flex from 'components/Flex';
 import Option from './Option';
 import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
 import { SelectProvider, useSelect } from './SelectContext';
+import useClickOuside from 'hooks/useClickOutside';
 
 interface IOption {
   children: React.ReactNode | string;
@@ -28,8 +29,6 @@ interface SelectProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 interface IPositions {
-  x: number;
-  y: number;
   width: number;
 }
 
@@ -54,7 +53,6 @@ function SelectComponent({
   variant = 'default',
   ...props
 }: SelectProps) {
-  const [positions, setPositions] = useState<IPositions>({} as IPositions);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -66,11 +64,18 @@ function SelectComponent({
     isOpen,
     option,
     selected,
+    setIsOpen,
   } = useSelect();
 
   const { fieldName, registerField } = useField(name);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useClickOuside({
+    component: triggerRef.current as HTMLButtonElement,
+    event: 'click',
+    callback: () => setIsOpen(false),
+  });
 
   useEffect(() => {
     if (children) {
@@ -78,16 +83,6 @@ function SelectComponent({
       handleOption(children[0].props.value);
     }
   }, []);
-
-  useLayoutEffectSSR(() => {
-    if (triggerRef.current) {
-      setPositions({
-        x: triggerRef.current.getBoundingClientRect().x,
-        y: triggerRef.current.getBoundingClientRect().y,
-        width: triggerRef.current.getBoundingClientRect().width,
-      });
-    }
-  }, [triggerRef.current, isOpen]);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -105,47 +100,34 @@ function SelectComponent({
   }, [fieldName, registerField]);
 
   return (
-    <Flex direction="column">
+    <Flex direction="column" css={{ position: 'relative' }}>
       <SelectWrapper
         variant={variant}
         type="button"
         ref={triggerRef}
         active={active}
-        onClick={handleOpen}
+        onClick={() => handleOpen()}
       >
         {selected}
         <OpenIcon isOpen={isOpen}>
           <TriangleDownIcon />
         </OpenIcon>
       </SelectWrapper>
-      <Portal>
-        {isOpen && (
-          <Overlay onClick={handleOpen}>
-            <OptionsContainer
-              css={{
-                transform: `translate(${positions.x}px, ${positions.y}px)`,
-                minWidth: positions.width,
-              }}
-              isSelecting={isOpen}
-            >
-              {children &&
-                children.map(({ props }) => (
-                  <Option
-                    data-value={props.value}
-                    key={props.value}
-                    value={props.value}
-                    onClick={() => handleSelect(props.value)}
-                    css={{
-                      minWidth: positions.width,
-                    }}
-                  >
-                    {props.children}
-                  </Option>
-                ))}
-            </OptionsContainer>
-          </Overlay>
-        )}
-      </Portal>
+      {isOpen && (
+        <OptionsContainer isSelecting={isOpen}>
+          {children &&
+            children.map(({ props }) => (
+              <Option
+                data-value={props.value}
+                key={props.value}
+                value={props.value}
+                onClick={() => handleSelect(props.value)}
+              >
+                {props.children}
+              </Option>
+            ))}
+        </OptionsContainer>
+      )}
       <input type="hidden" ref={inputRef} value={option} {...props} />
     </Flex>
   );

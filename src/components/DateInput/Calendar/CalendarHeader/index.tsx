@@ -12,6 +12,7 @@ function CalendarHeader() {
     <Flex alignItems="center" justifyContent="center">
       <Button
         variant="ghost"
+        type="button"
         disabled={new Date().getMonth() === monthVisualization}
         onClick={handlePrevMonth}
         css={{ width: 'fit-content' }}
@@ -33,6 +34,7 @@ function CalendarHeader() {
       </Text>
 
       <Button
+        type="button"
         variant="ghost"
         onClick={handleNextMonth}
         css={{ width: 'fit-content' }}

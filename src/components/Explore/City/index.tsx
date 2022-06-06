@@ -6,14 +6,13 @@ import { ITrips } from 'types/Trips';
 import Gallery from 'components/Gallery';
 import TripUser from './TripUser';
 import { useSchedule } from 'context/ScheduleContext';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Tooltip from 'components/Tooltip';
-import Modal from 'components/Modal';
-import Input from 'components/Input';
 import { Form } from '@unform/web';
 import { useToast } from 'context/ToastContext';
 import CreateModalSchedule from 'components/Schedule/CreateModalSchedule';
+import { useAuth } from 'context/AuthContext';
+import useOpenModal from 'hooks/useOpenModal';
 
 interface CityProps {
   trip: ITrips;
@@ -22,8 +21,9 @@ interface CityProps {
 }
 
 function City({ trip, goingTo, view = 'list' }: CityProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
+  const [open, setOpen] = useOpenModal();
+  const { user } = useAuth();
+  const { addToast } = useToast();
   const {
     addCity,
     schedule: { id },
@@ -32,7 +32,18 @@ function City({ trip, goingTo, view = 'list' }: CityProps) {
 
   const handleOpenModal = useCallback(() => {
     if (!id) {
-      setIsOpen(true);
+      if (!user.id) {
+        addToast({
+          type: 'error',
+          title: 'You need to be signed in',
+          message: 'Please sign in to create a schedule',
+        });
+
+        window.location.href = `/signin?url=/explore${window.location.search}`;
+        return;
+      }
+
+      setOpen(true);
 
       return;
     } else {
@@ -43,7 +54,7 @@ function City({ trip, goingTo, view = 'list' }: CityProps) {
         },
       });
     }
-  }, [id]);
+  }, [id, user.id]);
 
   return (
     <>
@@ -149,8 +160,8 @@ function City({ trip, goingTo, view = 'list' }: CityProps) {
       </Flex>
 
       <CreateModalSchedule
-        open={isOpen}
-        closeModal={() => setIsOpen(false)}
+        open={open}
+        closeModal={() => setOpen(false)}
         goingTo={goingTo}
         dateOfReturn={String(query.dateOfReturn)}
         departure={String(query.departure)}
