@@ -22,16 +22,28 @@ export const CardContainer = styled(Flex, {
   transform: 'translateX(-30%)',
   width: '100%',
   zIndex: '9999',
+  opacity: 0,
+  pointerEvents: 'none',
+  transition: 'all 0.2s ease',
 
   '&::before': {
     content: '',
-    borderStyle: 'solid',
-    borderColor: '#ffff transparent',
-    borderWidth: '6px 6px 0 6px',
+    background: 'transparent',
+    height: '10px',
     bottom: '20px',
+    width: '100%',
     top: '0',
     position: 'absolute',
     left: '50%',
     transform: 'translateX(-50%) translateY(-100%) rotateZ(180deg)',
+  },
+
+  variants: {
+    isActive: {
+      true: {
+        pointerEvents: 'all',
+        opacity: 1,
+      },
+    },
   },
 });

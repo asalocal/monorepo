@@ -5,11 +5,12 @@ import { CardContainer } from './styles';
 
 interface ICardProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  isActive: boolean;
 }
 
-const Card = forwardRef(({ children, ...props }: ICardProps, ref) => {
+const Card = forwardRef(({ children, isActive, ...props }: ICardProps, ref) => {
   return (
-    <CardContainer direction="column" ref={ref} {...props}>
+    <CardContainer direction="column" isActive={isActive} ref={ref} {...props}>
       <Flex
         css={{
           width: '100%',

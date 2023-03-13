@@ -61,7 +61,7 @@ function HardRegistration() {
           { abortEarly: false }
         );
 
-        const data = await api.post('/users/create', {
+        const data = await api.post('/users', {
           name: fullname,
           cellphone,
           email,

@@ -42,15 +42,15 @@ function ProfileCard({ children, label }: IProfileCardProps) {
         }}
       >
         {label}
-        {isProfileHovered && (
-          <Card
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            ref={cardRef}
-          >
-            {children}
-          </Card>
-        )}
+
+        <Card
+          isActive={isProfileHovered}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          ref={cardRef}
+        >
+          {children}
+        </Card>
       </Flex>
     </>
   );

@@ -89,7 +89,7 @@ function SignUp({
           return;
         }
 
-        await api.post('/users/create/soft', { email, password });
+        await api.post('/users', { email, password });
 
         signin({
           credentials: {
