@@ -34,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }),
     ],
 
-    secret: process.env.NEXT_PUBLIC_SECRET,
+    secret: '9909a8c25150df1947166b5aa5d1e8bd409a06af5354b6bd2b803394cb94f16c',
 
     jwt: {
       encode: async ({ secret, token }) => {

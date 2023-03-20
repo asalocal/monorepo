@@ -1,4 +1,3 @@
-import api from 'api/api';
 import routesAPI from 'api/routesAPI';
 import { AxiosResponse } from 'axios';
 import { signIn, SignInOptions, signOut, useSession } from 'next-auth/react';
@@ -64,7 +63,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
   const signin = useCallback(async (data: ISignInData) => {
     try {
       const result = await signIn(data.provider, data.credentials);
-      console.log(result);
+
       return result;
     } catch {
       throw new Error('Error');
@@ -88,13 +87,9 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
   }, [getData]);
 
   return (
-    <>
-      <AuthContext.Provider
-        value={{ signin, signout, user: userData, getData }}
-      >
-        {children}
-      </AuthContext.Provider>
-    </>
+    <AuthContext.Provider value={{ signin, signout, user: userData, getData }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

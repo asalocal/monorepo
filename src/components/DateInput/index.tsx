@@ -166,15 +166,18 @@ function DateInputWrapper({
     <>
       <InputContainer ref={divContainerRef}>
         <Input
+          {...props}
           label={label}
           ref={inputRef}
           onFocus={setFocus}
+          onBlur={(ev) => {
+            ev.preventDefault();
+          }}
           onChange={handleChange}
           name={name}
           id={name}
           maxLength={10}
           value={inputValue}
-          {...props}
         />
 
         {calendarOpen && <Calendar onDateChange={onDateChange} />}

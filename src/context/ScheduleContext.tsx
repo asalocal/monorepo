@@ -1,6 +1,3 @@
-import Text from 'components/Text';
-import Flex from 'components/Flex';
-import { FiMapPin } from 'react-icons/fi';
 import {
   createContext,
   useCallback,
@@ -10,12 +7,8 @@ import {
 } from 'react';
 import generateHash from 'utils/generateHash';
 import { useToast } from './ToastContext';
-import { setCookie, parseCookies } from 'nookies';
-import SchedulePop from 'components/Schedule/Pop';
 import routesAPI from '../api/routesAPI';
 import { ITrips } from 'types/Trips';
-import { createObjectStore, updateDataObject } from 'database/indexdb';
-import { useAuth } from './AuthContext';
 export interface ICity {
   id: string;
   name: string;
@@ -84,17 +77,6 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         cities: newCities,
       };
 
-      updateDataObject({
-        database: {
-          name: 'schedule',
-          version: 2,
-        },
-        data: newSchedule,
-        objectStore: {
-          name: 'schedule',
-        },
-      });
-
       localStorage.setItem('schedule', JSON.stringify(newSchedule));
 
       setSchedule(newSchedule);
@@ -130,45 +112,6 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         cities: [city],
       };
 
-      createObjectStore({
-        database: {
-          name: 'schedule',
-          version: 2,
-        },
-        store: [
-          {
-            name: 'cities',
-            keyPath: 'cities',
-            isUnique: false,
-          },
-          {
-            name: 'dateOfReturn',
-            keyPath: 'dateOfReturn',
-            isUnique: false,
-          },
-          {
-            name: 'departure',
-            keyPath: 'departure',
-            isUnique: false,
-          },
-          {
-            name: 'name',
-            keyPath: 'name',
-            isUnique: false,
-          },
-          {
-            name: 'id',
-            keyPath: 'id',
-            isUnique: true,
-          },
-        ],
-        objectStore: {
-          name: 'schedule',
-          keyPath: 'id',
-        },
-        data: newSchedule,
-      });
-
       localStorage.setItem('schedule', JSON.stringify(newSchedule));
 
       addToast({
@@ -199,17 +142,6 @@ export const ScheduleProvider = ({ children }: ScheduleProviderProps) => {
         ...schedule,
         cities: [...schedule.cities, { ...city, id: generateHash() }],
       };
-
-      updateDataObject({
-        database: {
-          name: 'schedule',
-          version: 2,
-        },
-        data: addingCity,
-        objectStore: {
-          name: 'schedule',
-        },
-      });
 
       localStorage.setItem('schedule', JSON.stringify(addingCity));
 

@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface IUseClickOutside {
   component: HTMLElement;
