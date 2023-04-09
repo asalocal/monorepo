@@ -126,7 +126,7 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
 
   useEffect(() => {
     if (defaultValue) {
-      setIsFilled((prevState) => !prevState);
+      setIsFilled(!!defaultValue);
     }
   }, [defaultValue]);
 

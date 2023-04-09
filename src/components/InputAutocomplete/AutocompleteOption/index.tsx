@@ -2,8 +2,6 @@ import {
   ButtonHTMLAttributes,
   ForwardedRef,
   forwardRef,
-  MutableRefObject,
-  OptionHTMLAttributes,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -52,9 +50,7 @@ const AutocompleteOption = forwardRef(
         value={value}
         type="button"
         ref={buttonRef}
-        css={{
-          ...css,
-        }}
+        css={css}
         onClick={() => {
           setValue(value);
           setShowOptions(false);

@@ -5,7 +5,15 @@ function useSignUpReferences(
   setState: React.Dispatch<React.SetStateAction<HTMLElement[]>>
 ) {
   useEffect(() => {
-    if (component) setState((prevState) => [...prevState, component]);
+    if (component) {
+      setState((prevState) => {
+        const findComponent = prevState.find((el) => component === el);
+
+        if (findComponent) return prevState;
+
+        return [...prevState, component];
+      });
+    }
   }, [component]);
 
   return;

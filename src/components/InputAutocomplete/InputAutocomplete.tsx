@@ -8,6 +8,7 @@ import AutocompleteOption, {
 } from './AutocompleteOption';
 import { OptionsContainer } from './styles';
 import { AutocompleteProvider, useAutocomplete } from './AutocompleteContext';
+import useSignUpReferences from 'hooks/useSignUpReferences';
 
 interface InputAutocompleteProps extends InputProps {
   label: string | React.ReactNode;
@@ -30,6 +31,7 @@ function InputAutocompleteComponent({
   children,
   onAutocomplete = undefined,
   onChange: handleChange,
+  defaultValue,
   ...props
 }: InputAutocompleteProps) {
   const {
@@ -43,9 +45,11 @@ function InputAutocompleteComponent({
   } = useAutocomplete();
 
   const [positions, setPositions] = useState<any>({} as any);
+  const [debouncerTimer, setDebouncerTimer] = useState<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    clearTimeout(debouncerTimer);
     setShowOptions(true);
 
     if (!onAutocomplete) {
@@ -71,8 +75,31 @@ function InputAutocompleteComponent({
     handleChange && handleChange(event);
   };
 
-  useHandleScroll(() => {
-    setShowOptions(false);
+  useEffect(() => {
+    if (defaultValue && typeof defaultValue === 'string') {
+      setDisplayedOptions(
+        allOptions.filter(
+          (option) =>
+            option.toLowerCase().search(defaultValue.toLowerCase()) >= 0
+        )
+      );
+    }
+  }, [allOptions]);
+
+  useEffect(() => {
+    if (value && inputRef.current) {
+      inputRef.current.value = value;
+    }
+  }, [value, inputRef.current]);
+
+  useClickOuside({
+    component: inputRef.current as HTMLInputElement,
+    callback: (ev) => {
+      const findElement = elements.find((el) => el === ev.target);
+
+      if (!findElement) setShowOptions(false);
+    },
+    event: 'click',
   });
 
   useEffect(() => {

@@ -33,8 +33,6 @@ export const AutocompleteProvider = ({
   const [displayedOptions, setDisplayedOptions] = useState<string[]>([]);
   const [elements, setElements] = useReferences();
 
-  console.log(showOptions);
-
   const handleOptions = (value: string) => {
     setOptions((prevState) => [...prevState, value]);
     setAllOptions((prevState) => [...prevState, value]);
