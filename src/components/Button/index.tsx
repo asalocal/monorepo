@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, ForwardedRef, forwardRef } from 'react';
 import { BYTCSS } from 'styles/Theme.provider';
 import { ButtonVariants, Container } from './styles';
 
@@ -9,25 +9,31 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   css?: BYTCSS;
 } & ButtonVariants;
 
-function Button({
-  children,
-  loading = false,
-  disabled = false,
-  variant = 'primary',
-  css,
-  ...rest
-}: ButtonProps) {
-  return (
-    <Container
-      disabled={loading || disabled}
-      loading={loading}
-      variant={variant}
-      css={css}
-      {...rest}
-    >
-      {loading ? 'Loading...' : children}
-    </Container>
-  );
-}
+const Button = forwardRef(
+  (
+    {
+      children,
+      loading = false,
+      disabled = false,
+      variant = 'primary',
+      css,
+      ...rest
+    }: ButtonProps,
+    ref: ForwardedRef<HTMLButtonElement>
+  ) => {
+    return (
+      <Container
+        ref={ref}
+        disabled={loading || disabled}
+        loading={loading}
+        variant={variant}
+        css={css}
+        {...rest}
+      >
+        {loading ? 'Loading...' : children}
+      </Container>
+    );
+  }
+);
 
 export default Button;

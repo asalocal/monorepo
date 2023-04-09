@@ -24,7 +24,8 @@ export const LogoContainer = styled('div', {
   alignItems: 'center',
 
   a: {
-    img: {
+    height: '33px',
+    svg: {
       transition: 'all 0.2s ease-in-out',
       '&:hover': {
         transform: 'scale(1.1)',
@@ -55,12 +56,26 @@ export const Container = styled('div', {
   transition: 'all 0.2s ease',
   backgroundColor: 'transparent',
   zIndex: '99999',
+  borderBottom: '0.5px solid $background',
 
   variants: {
     scrolled: {
       true: {
         height: '60px',
-        backgroundColor: '$primary',
+        backgroundColor: '$background',
+        borderColor: '$background',
+
+        svg: {
+          path: {
+            fill: '$primary',
+          },
+        },
+
+        nav: {
+          a: {
+            color: '$primary',
+          },
+        },
       },
     },
     staticMenu: {
@@ -85,17 +100,10 @@ export const WrapperContainer = styled('div', {
     cursor: 'pointer',
   },
 
-  img: {
-    width: '30%',
-  },
-
   variants: {
     hidden: {
       true: {
         width: '100px',
-        img: {
-          width: '20px',
-        },
       },
     },
     orientation: {

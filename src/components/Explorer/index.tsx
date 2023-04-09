@@ -1,56 +1,30 @@
-import {
-  RocketIcon,
-  MagnifyingGlassIcon,
-  WidthIcon,
-} from '@modulz/radix-icons';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { MagnifyingGlassIcon } from '@modulz/radix-icons';
+import { useCallback, useRef, useState } from 'react';
 import Button from 'components/Button';
-import Select from 'components/Select';
-import Option from 'components/Select/Option';
-import { BiBuildingHouse } from 'react-icons/bi';
 import {
   ContentContainer,
-  DiscoverButton,
-  ExplorerButton,
   ExplorerContainer,
   ExplorerWrapper,
   InputContainers,
-  TripOptionsContainer,
 } from './styles';
-import DiscoverContent from './DiscoverContent';
 import Flex from 'components/Flex';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
-import Input from 'components/Input';
 import DateInput from 'components/DateInput';
 import InputAutocomplete, {
   AutocompleteOption,
 } from 'components/InputAutocomplete';
 import searchOptions from 'mocks/searchOptions';
-
-const passengersOptions = [
-  { value: 'One passanger', label: 'One passanger' },
-  { value: 'Two Passangers', label: 'Two passangers' },
-  { value: 'Three Passangers', label: 'Three passangers' },
-];
-
-const kidsOptions = [
-  { value: 'No kids', label: 'No kids' },
-  { value: 'One kid', label: 'One kid' },
-  { value: 'More than 2 kids', label: 'More than 2 kids' },
-];
+import { FiMapPin } from 'react-icons/fi';
+import Text from 'components/Text';
 
 interface ExploreFormData {
-  leavingFrom: string;
-  goingTo: string;
+  itinerary: string;
   departure: string;
   dateOfReturn: string;
-  numberOfKids: string;
-  numberOfPassengers: string;
 }
 
 function Explorer() {
-  const [wrapperContent, setWrapperContent] = useState(0);
   const [departureValue, setDepartureValue] = useState('');
   const formRef = useRef<FormHandles>(null);
 
@@ -63,116 +37,73 @@ function Explorer() {
   }, []);
 
   const handleExploreSubmit = useCallback(
-    ({
-      leavingFrom,
-      departure,
-      goingTo,
-      numberOfKids,
-      numberOfPassengers,
-      dateOfReturn,
-    }: ExploreFormData) => {
-      if (!leavingFrom || !departure || !goingTo || !dateOfReturn) {
-        formRef.current?.setErrors({
-          leavingFrom: 'Please fill in the leaving from field',
-          departure: 'Please fill in the departure field',
-          goingTo: 'Please fill in the going to field',
-          dateOfReturn: 'Please fill in the date of return field',
-        });
-        return;
-      }
+    ({ itinerary, departure, dateOfReturn }: ExploreFormData) => {
+      const url = `/explore?leavingFrom=${itinerary}&departure=${departure}&dateOfReturn=${dateOfReturn}`;
 
-      const url = `/explore?leavingFrom=${leavingFrom}&departure=${departure}&goingTo=${goingTo}&numberOfKids=${numberOfKids}&numberOfPassengers=${numberOfPassengers}&dateOfReturn=${dateOfReturn}`;
-
-      window.location.href = url;
+      console.log({
+        itinerary,
+        departure,
+        dateOfReturn,
+      });
     },
     [formRef]
   );
 
   return (
     <ExplorerContainer>
-      <Flex>
-        <ExplorerButton
-          selected={wrapperContent === 0}
-          onClick={() => setWrapperContent(0)}
-        >
-          <RocketIcon /> Explore
-        </ExplorerButton>
-        <DiscoverButton
-          selected={wrapperContent === 1}
-          onClick={() => setWrapperContent(1)}
-        >
-          <BiBuildingHouse /> Discover
-        </DiscoverButton>
-      </Flex>
       <ExplorerWrapper>
-        <ContentContainer selected={wrapperContent === 0}>
-          <Flex css={{ padding: '20px' }}>
+        <ContentContainer>
+          <Flex alignItems="center">
             <Form ref={formRef} onSubmit={handleExploreSubmit}>
-              <TripOptionsContainer>
-                <Select name="numberOfPassengers">
-                  {passengersOptions.map((option) => (
-                    <Option key={option.value} value={option.value}>
-                      {option.label}
-                    </Option>
-                  ))}
-                </Select>
-
-                <Select name="numberOfKids">
-                  {kidsOptions.map((option) => (
-                    <Option key={option.value} value={option.value}>
-                      {option.label}
-                    </Option>
-                  ))}
-                </Select>
-              </TripOptionsContainer>
               <InputContainers>
                 <InputAutocomplete
                   type="text"
-                  label="Leaving from"
-                  name="leavingFrom"
-                  onAutocomplete={(inputValue, options) => {
-                    const filteredOptions = options.filter(
-                      (option) =>
-                        option.toLowerCase().search(inputValue.toLowerCase()) >=
-                        0
-                    );
-
-                    return filteredOptions;
-                  }}
+                  label="Itinerary"
+                  name="itinerary"
                   onChange={handleInputChange}
-                  id="leavingFrom"
+                  id="itinerary"
                 >
                   {searchOptions.map((option) => (
-                    <AutocompleteOption key={option.value} value={option.value}>
-                      {option.value}
+                    <AutocompleteOption
+                      key={option.value}
+                      css={{
+                        width: '200px',
+                      }}
+                      value={option.value}
+                    >
+                      <Flex
+                        alignItems="center"
+                        direction="row"
+                        css={{
+                          padding: '10px',
+                          borderBottom: '1px solid $primary',
+                          width: '100%',
+                          h6: {
+                            fontSize: '15px',
+                            fontWeight: '500',
+                          },
+
+                          p: {
+                            color: '$textAlternative',
+                            width: 'fit-content',
+                          },
+
+                          svg: {
+                            marginRight: '10px',
+                            color: '$primary',
+                            fontSize: '24px',
+                          },
+                        }}
+                      >
+                        <FiMapPin />{' '}
+                        <Flex direction="column">
+                          <Text as="h6">{option.value}</Text>
+                          <Text as="p">{option.value}</Text>
+                        </Flex>
+                      </Flex>
                     </AutocompleteOption>
                   ))}
                 </InputAutocomplete>
-
-                <WidthIcon width="120px" />
-                <InputAutocomplete
-                  type="text"
-                  label="Going To"
-                  name="goingTo"
-                  onAutocomplete={(inputValue, options) => {
-                    const filteredOptions = options.filter(
-                      (option) =>
-                        option.toLowerCase().search(inputValue.toLowerCase()) >=
-                        0
-                    );
-
-                    return filteredOptions;
-                  }}
-                  onChange={handleInputChange}
-                  id="goingTo"
-                >
-                  {searchOptions.map((option) => (
-                    <AutocompleteOption key={option.value} value={option.value}>
-                      {option.value}
-                    </AutocompleteOption>
-                  ))}
-                </InputAutocomplete>
-                <WidthIcon width="120px" />
 
                 <DateInput
                   onChange={(ev) => {
@@ -185,8 +116,6 @@ function Explorer() {
                   id="departure"
                 />
 
-                <WidthIcon width="120px" />
-
                 <DateInput
                   type="text"
                   onChange={handleInputChange}
@@ -196,7 +125,7 @@ function Explorer() {
                   id="dateOfReturn"
                 />
                 <Button
-                  css={{ marginLeft: '10px' }}
+                  css={{ maxWidth: '150px' }}
                   variant="primary"
                   type="submit"
                 >
@@ -205,9 +134,6 @@ function Explorer() {
               </InputContainers>
             </Form>
           </Flex>
-        </ContentContainer>
-        <ContentContainer selected={wrapperContent === 1}>
-          <DiscoverContent />
         </ContentContainer>
       </ExplorerWrapper>
     </ExplorerContainer>

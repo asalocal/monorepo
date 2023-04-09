@@ -1,3 +1,4 @@
+import useReferences from 'hooks/useButtonReferences';
 import React, {
   createContext,
   useCallback,
@@ -31,6 +32,8 @@ interface IDateInputContext {
   calendarOpen: boolean;
   handleDay: (day: number, month?: number) => void;
   optionDay: number;
+  elements: HTMLElement[];
+  setElements: React.Dispatch<React.SetStateAction<any[]>>;
   days: IDays[];
   year: string;
   months: string[];
@@ -80,6 +83,7 @@ const DateInputContext = createContext<IDateInputContext>(
 
 export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const [elements, setElements] = useReferences();
   const [optionDay, setOptionDay] = useState(1);
   const [value, setValue] = useState<DateInputValue>({} as DateInputValue);
   const [monthVisualization, setMonthVisualization] = useState(0);
@@ -272,6 +276,8 @@ export const DateInputProvider = ({ children }: DateInputProviderProps) => {
   return (
     <DateInputContext.Provider
       value={{
+        elements,
+        setElements,
         validationDate,
         handleNextMonth,
         handlePrevMonth,

@@ -12,7 +12,6 @@ import {
   useImperativeHandle,
   useState,
   forwardRef,
-  ForwardRefExoticComponent,
 } from 'react';
 import { BYTCSS } from 'styles/Theme.provider';
 
@@ -48,6 +47,7 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
     theme = 'primary',
     onChange,
     onFocus,
+    onBlur,
     ...props
   } = inputProps;
 
@@ -63,6 +63,16 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useImperativeHandle(ref, () => inputRef.current);
+
+  const handleInputBlur = (ev: any) => {
+    setIsFilled(!!ev.target.value);
+
+    setIsFocus(false);
+
+    if (onBlur) {
+      onBlur(ev);
+    }
+  };
 
   const handleInputFocus = useCallback(
     (ev): void => {
@@ -96,6 +106,12 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
     },
     [onChange, placeholder]
   );
+
+  const handleIsFilledOnReference = useMemo(() => {
+    if (!inputRef.current) return isFilled;
+
+    return isFilled || inputRef?.current?.value.length > 0;
+  }, [isFilled, inputRef.current]);
 
   const passwordType = useMemo(
     () => (type === 'password' && isShowingMessage ? 'text' : type),
@@ -143,7 +159,7 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
             disabled={disabled}
             isFocused={isFocus}
             htmlFor={name}
-            isFilled={isFilled}
+            isFilled={handleIsFilledOnReference}
             theme={theme}
           >
             {label}
@@ -151,7 +167,7 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
           <InputWrapper
             ref={inputRef}
             onFocus={handleInputFocus}
-            onBlur={handleInputFocus}
+            onBlur={handleInputBlur}
             onChange={handleInputChange}
             defaultValue={defaultValue}
             type={passwordType}

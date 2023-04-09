@@ -2,11 +2,14 @@ import Flex from 'components/Flex';
 import Text from 'components/Text';
 import { useDateInputContext } from '../DateInputContext';
 import { CalendarContainer } from './styles';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Day from './Day';
 import Weekdays from './Weekdays';
 import CalendarHeader from './CalendarHeader';
 import generateHash from 'utils/generateHash';
+import useClickOutside from 'hooks/useClickOutside';
+import { log } from 'console';
+import useSignUpReferences from 'hooks/useSignUpReferences';
 
 interface CalendarProps {
   onDateChange?: (date: string) => void;
@@ -25,6 +28,9 @@ function Calendar({ onDateChange }: CalendarProps) {
     days,
     monthVisualization,
     validationDate,
+    handleCalendar,
+    elements,
+    setElements,
     year,
   } = useDateInputContext();
 
@@ -33,6 +39,18 @@ function Calendar({ onDateChange }: CalendarProps) {
   const handleDayClick = ({ day, month }: DayProps) => {
     handleMonthValue({ month, day });
   };
+
+  useSignUpReferences(calendarRef.current, setElements);
+
+  useClickOutside({
+    component: calendarRef.current as HTMLElement,
+    callback: (ev) => {
+      const findElement = elements.find((el) => el === ev.target);
+
+      if (!findElement) handleCalendar();
+    },
+    event: 'click',
+  });
 
   return (
     <CalendarContainer
@@ -106,31 +124,30 @@ function Calendar({ onDateChange }: CalendarProps) {
             };
 
             return (
-              <React.Fragment key={`${day}-${generateHash()}`}>
-                <Day
-                  validation={isValidatingDate()}
-                  disabled={
-                    (validationDate.day > day &&
-                      new Date().getMonth() === monthVisualization) ||
-                    (day < new Date().getDate() &&
-                      new Date().getMonth() === monthVisualization)
-                  }
-                  onClick={() => {
-                    handleDayClick({ day, month: dayMonth });
+              <Day
+                key={`${day}-${generateHash()}`}
+                validation={isValidatingDate()}
+                disabled={
+                  (validationDate.day > day &&
+                    new Date().getMonth() === monthVisualization) ||
+                  (day < new Date().getDate() &&
+                    new Date().getMonth() === monthVisualization)
+                }
+                onClick={() => {
+                  handleDayClick({ day, month: dayMonth });
 
-                    if (onDateChange) {
-                      onDateChange(value.formatted);
-                    }
-                  }}
-                  active={
-                    (value.day === day && value.month === dayMonth + 1) ||
-                    (validationDate.day === day &&
-                      validationDate.month === dayMonth + 1)
+                  if (onDateChange) {
+                    onDateChange(value.formatted);
                   }
-                >
-                  {day}
-                </Day>
-              </React.Fragment>
+                }}
+                active={
+                  (value.day === day && value.month === dayMonth + 1) ||
+                  (validationDate.day === day &&
+                    validationDate.month === dayMonth + 1)
+                }
+              >
+                {day}
+              </Day>
             );
           })}
         </Flex>

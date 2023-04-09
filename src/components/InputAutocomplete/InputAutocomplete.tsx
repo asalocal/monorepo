@@ -7,47 +7,88 @@ import AutocompleteOption, {
   AutocompleteOptionProps,
 } from './AutocompleteOption';
 import { OptionsContainer } from './styles';
+import { AutocompleteProvider, useAutocomplete } from './AutocompleteContext';
 
 interface InputAutocompleteProps extends InputProps {
   label: string | React.ReactNode;
   children: React.ReactElement<AutocompleteOptionProps>[];
-  onAutocomplete: (inputValue: string, inputOptions: any[]) => any[];
+  onAutocomplete?: (inputValue: string, inputOptions: any[]) => any[];
 }
 
-function InputAutocomplete({
+function InputAutocomplete({ children, ...props }: InputAutocompleteProps) {
+  return (
+    <AutocompleteProvider>
+      <InputAutocompleteComponent {...props}>
+        {children}
+      </InputAutocompleteComponent>
+    </AutocompleteProvider>
+  );
+}
+
+function InputAutocompleteComponent({
   label,
   children,
-  onAutocomplete,
+  onAutocomplete = undefined,
+  onChange: handleChange,
   ...props
 }: InputAutocompleteProps) {
-  const [inputOptions, setInputOptions] = useState<string[]>(
-    children.map((child) => child.props.value)
-  );
-  const [inputValue, setInputValue] = useState('');
-  const [showOptions, setShowOptions] = useState<boolean>(false);
+  const {
+    value,
+    setValue,
+    setShowOptions,
+    setDisplayedOptions,
+    elements,
+    showOptions,
+    allOptions,
+  } = useAutocomplete();
+
   const [positions, setPositions] = useState<any>({} as any);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useClickOuside({
-    component: inputRef.current as HTMLInputElement,
-    callback: () => setShowOptions(false),
-    event: 'click',
-  });
-
-  const allOptions = useMemo(() => {
-    return children.map((child) => child.props.value);
-  }, [children]);
-
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setShowOptions(true);
+
+    if (!onAutocomplete) {
+      const filteredOptions = allOptions.filter(
+        (option) =>
+          option.toLowerCase().search(event.target.value.toLowerCase()) >= 0
+      );
+
+      setDisplayedOptions(filteredOptions);
+
+      setValue(event.target.value);
+
+      handleChange && handleChange(event);
+      return;
+    }
+
     const options = onAutocomplete(event.target.value, allOptions);
 
-    setInputOptions(options);
-    setInputValue(event.target.value);
+    setDisplayedOptions(options);
+
+    setValue(event.target.value);
+
+    handleChange && handleChange(event);
   };
 
   useHandleScroll(() => {
     setShowOptions(false);
+  });
+
+  useEffect(() => {
+    if (value && inputRef.current) {
+      inputRef.current.value = value;
+    }
+  }, [value, inputRef.current]);
+
+  useClickOuside({
+    component: inputRef.current as HTMLInputElement,
+    callback: (ev) => {
+      const findElement = elements.find((el) => el === ev.target);
+
+      if (!findElement) setShowOptions(false);
+    },
+    event: 'click',
   });
 
   useEffect(() => {
@@ -58,19 +99,14 @@ function InputAutocomplete({
     }
   }, [inputRef.current, showOptions]);
 
-  useEffect(() => {
-    if (inputValue.length === 0) {
-      setInputOptions(children.map((child) => child.props.value));
-    }
-  }, [inputValue, children]);
-
   return (
     <Flex direction="column" css={{ position: 'relative', width: '100%' }}>
       <Input
         ref={inputRef}
         onFocus={() => setShowOptions(true)}
+        onBlur={() => {}}
         onChange={onChange}
-        value={inputValue}
+        defaultValue={value}
         label={label}
         {...props}
       />
@@ -82,19 +118,7 @@ function InputAutocomplete({
             transform: 'translateY(60px)',
           }}
         >
-          {inputOptions &&
-            inputOptions.map((child, i) => (
-              <AutocompleteOption
-                key={child}
-                value={child}
-                onClick={() => {
-                  setInputValue(child);
-                  setShowOptions(false);
-                }}
-              >
-                {child}
-              </AutocompleteOption>
-            ))}
+          {children}
         </OptionsContainer>
       )}
     </Flex>

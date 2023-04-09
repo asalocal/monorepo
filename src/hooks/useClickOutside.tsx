@@ -3,14 +3,14 @@ import { useEffect } from 'react';
 interface IUseClickOutside {
   component: HTMLElement;
   event: string;
-  callback: () => void;
+  callback: (event: MouseEvent) => void;
 }
 
-function useClickOuside({ component, event, callback }: IUseClickOutside) {
+function useClickOutside({ component, event, callback }: IUseClickOutside) {
   useEffect(() => {
     const listener = (ev: any) => {
-      if (!component.contains(ev.target)) {
-        callback();
+      if (!component?.contains(ev.target)) {
+        callback(ev);
       }
     };
 
@@ -22,4 +22,4 @@ function useClickOuside({ component, event, callback }: IUseClickOutside) {
   }, [component]);
 }
 
-export default useClickOuside;
+export default useClickOutside;

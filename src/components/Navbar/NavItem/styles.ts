@@ -55,10 +55,11 @@ export const NavLinkContainer = styled('a', {
         backgroundColor: '$primary',
       },
       primary: {
-        borderBottom: '2px solid $primary',
+        border: '1px solid $background',
 
         '&:hover': {
-          backgroundColor: '$primaryHover',
+          color: `$primary`,
+          backgroundColor: '$background',
         },
       },
     },

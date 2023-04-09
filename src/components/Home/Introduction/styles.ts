@@ -7,7 +7,7 @@ export const IntroductionContainer = styled('div', {
   height: '700px',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
-  backgroundImage: `url('/assets/introbackground.svg')`,
+  backgroundImage: `url('/assets/home-image.png')`,
 });
 
 export const IntroductionContent = styled('div', {
@@ -16,7 +16,7 @@ export const IntroductionContent = styled('div', {
   maxWidth: '1240px',
   width: '100%',
   height: '100%',
-  margin: '0 auto',
+  margin: '60px auto auto auto',
 });
 
 export const TitleContainer = styled('div', {

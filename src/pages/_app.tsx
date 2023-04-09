@@ -1,4 +1,3 @@
-import '../config/wdyr';
 import BYTGlobalCSS from 'styles/BYT.global';
 import { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
@@ -7,10 +6,13 @@ import { NavbarProvider } from 'context/NavbarContext';
 import { ToastProvider } from 'context/ToastContext';
 import { ScheduleProvider } from 'context/ScheduleContext';
 import ErrorBoundary from 'components/ErrorBoundary';
+import { Inter } from '@next/font/google';
 
 interface MyAppProps extends AppProps {
   Component: AppProps['Component'] & { Layout: React.ComponentType };
 }
+
+const inter = Inter({ subsets: ['latin'] });
 
 function MyApp({
   Component,
@@ -18,7 +20,7 @@ function MyApp({
 }: MyAppProps) {
   BYTGlobalCSS();
   return (
-    <>
+    <main className={inter.className}>
       <ErrorBoundary>
         <SessionProvider session={session}>
           <ToastProvider>
@@ -38,7 +40,7 @@ function MyApp({
           </ToastProvider>
         </SessionProvider>
       </ErrorBoundary>
-    </>
+    </main>
   );
 }
 

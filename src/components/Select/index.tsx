@@ -15,7 +15,7 @@ import Flex from 'components/Flex';
 import Option from './Option';
 import { useLayoutEffectSSR } from 'components/system/useLayoutEffect';
 import { SelectProvider, useSelect } from './SelectContext';
-import useClickOuside from 'hooks/useClickOutside';
+import useClickOutside from 'hooks/useClickOutside';
 
 interface IOption {
   children: React.ReactNode | string;
@@ -71,7 +71,7 @@ function SelectComponent({
 
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  useClickOuside({
+  useClickOutside({
     component: triggerRef.current as HTMLButtonElement,
     event: 'click',
     callback: () => setIsOpen(false),

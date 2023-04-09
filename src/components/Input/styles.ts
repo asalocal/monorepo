@@ -97,7 +97,6 @@ export const InputWrapper = styled('input', {
   padding: 10,
   color: 'white',
   outline: 'none',
-
   '&:disabled': {
     opacity: 0.3,
   },

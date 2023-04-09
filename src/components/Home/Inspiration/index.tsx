@@ -1,6 +1,5 @@
 import Button from 'components/Button';
 import Flex from 'components/Flex';
-import { Col, Container, Row } from 'components/layout';
 import Text from 'components/Text';
 import Grid, { GridItem } from 'components/Grid';
 
@@ -9,7 +8,7 @@ function Inspiration() {
     <>
       <Grid
         css={{
-          marginTop: '3rem',
+          marginTop: '7rem',
           marginBottom: '3rem',
         }}
         columnGap="30px"

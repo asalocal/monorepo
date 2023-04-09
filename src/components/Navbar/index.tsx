@@ -1,6 +1,6 @@
 import { ChevronRightIcon, ChevronLeftIcon } from '@modulz/radix-icons';
 import Icon from 'components/Icon';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import NavItem from './NavItem';
 import {
   Container,
@@ -13,8 +13,8 @@ import { useNavbar } from 'context/NavbarContext';
 import { useAuth } from 'context/AuthContext';
 import UserDropdown from './UserDropdown';
 import HamburguerMenu from './HamburguerMenu';
-import { useSession } from 'next-auth/react';
 import Text from 'components/Text';
+import Logo from 'components/Logo';
 
 interface NavbarProps {
   orientation?: 'horizontal' | 'vertical';
@@ -30,14 +30,19 @@ function Navbar({
   const [scrolled, setScrolled] = useState(false);
   const { handleNavbarVisibility, navbarVisibility } = useNavbar();
   const { user } = useAuth();
+
   const showNavbarVisibility = useMemo(
     () => (navbarVisibility ? ChevronRightIcon : ChevronLeftIcon),
     [navbarVisibility]
   );
 
   useEffect(() => {
+    if (window && window.scrollY > 320) return setScrolled(true);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
+      if (window.scrollY > 320) {
         setScrolled(true);
         return;
       }
@@ -62,53 +67,45 @@ function Navbar({
         )}
         <LogoContainer orientation={orientation}>
           <a href="/">
-            <img
-              src={navbarVisibility ? '/assets/icon.svg' : '/assets/logo.svg'}
-              alt="Logo Build Your Trip"
-            />
+            <Logo />
           </a>
         </LogoContainer>
 
-        {scrolled ? (
-          <HamburguerMenu />
-        ) : (
-          <NavContainer orientation="horizontal">
-            <NavItem orientation="horizontal" type="link" to="/beaguide">
-              Be a guide
-            </NavItem>
-            <NavItem orientation="horizontal" type="link" to="/support">
-              Support
-            </NavItem>
-            <NavItem orientation="horizontal" type="link" to="/faq">
-              FAQ
-            </NavItem>
+        <NavContainer orientation="horizontal">
+          <NavItem orientation="horizontal" type="link" to="/beaguide">
+            Be a guide
+          </NavItem>
+          <NavItem orientation="horizontal" type="link" to="/support">
+            Support
+          </NavItem>
+          <NavItem orientation="horizontal" type="link" to="/faq">
+            FAQ
+          </NavItem>
 
-            {user.id ? (
-              <UserDropdown />
-            ) : (
-              <>
-                <NavItem
-                  orientation="horizontal"
-                  type="primary"
-                  to="/signup?soft=true"
-                >
-                  Sign Up
-                </NavItem>
+          {user.id ? (
+            <UserDropdown />
+          ) : (
+            <NavItem
+              orientation="horizontal"
+              type="primary"
+              to="/signup?soft=true"
+              css={
+                scrolled
+                  ? {
+                      border: '1px solid $primary',
 
-                <Text css={{ margin: '0 15px', fontSize: '12px' }}>or</Text>
-
-                <NavItem
-                  orientation="horizontal"
-                  type="link"
-                  css={{ backgroundColor: 'transparent' }}
-                  to="/signin"
-                >
-                  Sign In
-                </NavItem>
-              </>
-            )}
-          </NavContainer>
-        )}
+                      '&:hover': {
+                        backgroundColor: '$primary',
+                        color: '$background',
+                      },
+                    }
+                  : {}
+              }
+            >
+              Sign Up
+            </NavItem>
+          )}
+        </NavContainer>
       </WrapperContainer>
     </Container>
   );

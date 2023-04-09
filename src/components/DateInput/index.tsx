@@ -13,6 +13,7 @@ import { DateInputProvider, useDateInputContext } from './DateInputContext';
 import maskCreation from 'utils/inputMaskCreation';
 import { useField } from '@unform/core';
 import Input from 'components/Input';
+import useSignUpReferences from 'hooks/useSignUpReferences';
 interface DateInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
@@ -66,6 +67,7 @@ function DateInputWrapper({
     handleCalendar,
     handleValidationDate,
     value,
+    setElements,
   } = useDateInputContext();
 
   const { fieldName, registerField, error } = useField(name);
@@ -73,6 +75,8 @@ function DateInputWrapper({
   const divContainerRef = useRef<HTMLDivElement>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useSignUpReferences(inputRef.current, setElements);
 
   const valueDateRegex = /(?=[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4})/gm;
 

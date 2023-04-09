@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, useRef } from 'react';
 import { DayButtonContainer } from './styles';
 
 interface DayProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -8,21 +8,22 @@ interface DayProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 function Day({ children, active, validation, ...props }: DayProps) {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   return (
-    <>
-      <DayButtonContainer
-        variant="ghost"
-        active={active}
-        dayValidation={validation}
-        css={{
-          maxWidth: '37px',
-          width: '100%',
-        }}
-        {...props}
-      >
-        {children}
-      </DayButtonContainer>
-    </>
+    <DayButtonContainer
+      ref={buttonRef}
+      variant="ghost"
+      active={active}
+      dayValidation={validation}
+      css={{
+        maxWidth: '37px',
+        width: '100%',
+      }}
+      {...props}
+    >
+      {children}
+    </DayButtonContainer>
   );
 }
 

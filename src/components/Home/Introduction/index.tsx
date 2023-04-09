@@ -13,11 +13,11 @@ function Introduction() {
       <IntroductionContent>
         <TitleContainer>
           <Text as="h1" css={{ color: '$text' }}>
-            It’s your time to build <br />
-            <strong>your dreams</strong>
+            Your <strong>fulfilled dream</strong> <br />
+            is 2 clicks away.
           </Text>
           <h5>
-            We give you the possibility to build your dream in a few minutes
+            Find the place that you wanna go, build your trip and have fun
           </h5>
         </TitleContainer>
         <Explorer />
