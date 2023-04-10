@@ -7,27 +7,6 @@ import BuildYourTrip from 'auth/BuildYourTrip';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   return await NextAuth(req, res, {
     providers: [
-      BuildYourTrip(async (credentials) => {
-        try {
-          const data = await fetch('http://localhost:3333/users/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(credentials),
-          });
-
-          const user = await data.json();
-
-          if (data.ok) {
-            return user;
-          }
-        } catch (err) {
-          console.error(err);
-        }
-
-        return null;
-      }),
       GitHubProvider({
         clientId: process.env.NEXTAUTH_GITHUB_CLIENT_ID,
         clientSecret: process.env.NEXTAUTH_GITHUB_CLIENT_SECRET,
