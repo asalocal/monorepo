@@ -5,42 +5,38 @@ import { AuthProvider } from 'context/AuthContext';
 import { NavbarProvider } from 'context/NavbarContext';
 import { ToastProvider } from 'context/ToastContext';
 import { ScheduleProvider } from 'context/ScheduleContext';
-import ErrorBoundary from 'components/ErrorBoundary';
-import { Inter } from '@next/font/google';
+import { useLayoutEffect } from 'react';
 
-interface MyAppProps extends AppProps {
-  Component: AppProps['Component'] & { Layout: React.ComponentType };
+export interface MyAppProps extends AppProps {
+  Component: any;
 }
-
-const inter = Inter({ subsets: ['latin'] });
 
 function MyApp({
   Component,
   pageProps: { session, ...pageProps },
 }: MyAppProps) {
-  BYTGlobalCSS();
+  useLayoutEffect(() => {
+    BYTGlobalCSS();
+  }, []);
+
   return (
-    <main className={inter.className}>
-      <ErrorBoundary>
-        <SessionProvider session={session}>
-          <ToastProvider>
-            <AuthProvider>
-              <NavbarProvider>
-                <ScheduleProvider>
-                  {Component.Layout ? (
-                    <Component.Layout>
-                      <Component {...pageProps} />
-                    </Component.Layout>
-                  ) : (
-                    <Component {...pageProps} />
-                  )}
-                </ScheduleProvider>
-              </NavbarProvider>
-            </AuthProvider>
-          </ToastProvider>
-        </SessionProvider>
-      </ErrorBoundary>
-    </main>
+    <SessionProvider session={session}>
+      <ToastProvider>
+        <AuthProvider>
+          <NavbarProvider>
+            <ScheduleProvider>
+              {Component.Layout ? (
+                <Component.Layout>
+                  <Component {...pageProps} />
+                </Component.Layout>
+              ) : (
+                <Component {...pageProps} />
+              )}
+            </ScheduleProvider>
+          </NavbarProvider>
+        </AuthProvider>
+      </ToastProvider>
+    </SessionProvider>
   );
 }
 

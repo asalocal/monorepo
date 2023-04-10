@@ -1,3 +1,4 @@
+import React from 'react';
 import Head from 'next/head';
 
 interface HeadSEOProps {
@@ -5,7 +6,7 @@ interface HeadSEOProps {
   children?: React.ReactNode;
 }
 
-function HeadSEO({ title, children }: HeadSEOProps) {
+function HeadSEO({ title = '', children }: HeadSEOProps) {
   return (
     <>
       <Head>

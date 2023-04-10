@@ -1,20 +1,19 @@
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
-const Introduction = dynamic(() => import('components/Home/Introduction'));
-const Inspiration = dynamic(() => import('components/Home/Inspiration'));
 import { HomeContainer } from '../styles/Home.styles';
-import Page from 'components/Page';
-import HeadSEO from 'components/HeadSEO';
+import Page from '../components/Page';
+import HeadSEO from '../components/HeadSEO';
+import Introduction from '../components/Home/Introduction';
+import Inspiration from '../components/Home/Inspiration';
+import React from 'react';
 
-const Home = (): JSX.Element => (
-  <>
-    <HeadSEO title="Home" />
+export default function Home() {
+  return (
     <HomeContainer>
+      <HeadSEO title="Home" />
       <Introduction />
       <Inspiration />
     </HomeContainer>
-  </>
-);
+  );
+}
 
 Home.Layout = Page;
-export default Home;

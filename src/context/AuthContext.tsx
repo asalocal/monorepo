@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     const response: AxiosResponse<User> = await routesAPI.get(`/user`);
 
     return response.data;
-  }, [session?.id]);
+  }, []);
 
   const signin = useCallback(async (data: ISignInData) => {
     try {
@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
   useEffect(() => {
     (async () => {
-      if (session?.id) {
+      if (session?.user?.name) {
         const user = await getData();
 
         setUserData(user);

@@ -7,10 +7,10 @@ import BuildYourTrip from 'auth/BuildYourTrip';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   return await NextAuth(req, res, {
     providers: [
-      GitHubProvider({
-        clientId: process.env.NEXTAUTH_GITHUB_CLIENT_ID,
-        clientSecret: process.env.NEXTAUTH_GITHUB_CLIENT_SECRET,
-      }),
+      // GitHubProvider({
+      //   clientId: process.env.NEXTAUTH_GITHUB_CLIENT_ID,
+      //   clientSecret: process.env.NEXTAUTH_GITHUB_CLIENT_SECRET,
+      // }),
     ],
 
     secret: '9909a8c25150df1947166b5aa5d1e8bd409a06af5354b6bd2b803394cb94f16c',
