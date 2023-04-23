@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "export": "turbo run export",
     "commit": "git-cz",
     "check": "eslint --print-config path/to/main.js | eslint-config-prettier-check",
     "lint": "prettier --check .",

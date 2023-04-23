@@ -1,5 +1,5 @@
 [build]
-  command = "cd ../.. && yarn && yarn build"
+  command = "cd ../.. && yarn && yarn build && yarn export"
   publish = ".next"
 
 [[redirects]]
