@@ -9,8 +9,17 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "commit": "git-cz",
+    "check": "eslint --print-config path/to/main.js | eslint-config-prettier-check",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
   },
   "packageManager": "yarn@1.22.19",
   "workspaces": [
@@ -21,6 +30,15 @@
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "prettier": "^2.5.1",
-    "turbo": "latest"
+    "husky": "^7.0.0",
+    "turbo": "latest",
+    "commitizen": "^4.2.4",
+    "commitlint": "^13.2.1",
+    "cz-conventional-changelog": "3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

@@ -38,10 +38,6 @@
     "dev": "next dev",
     "start": "next start",
     "build": "next build",
-    "check": "eslint --print-config path/to/main.js | eslint-config-prettier-check",
-    "lint": "prettier --check .",
-    "format": "prettier --write .",
-    "prepare": "husky install",
     "export": "next export"
   },
   "eslintConfig": {
@@ -60,12 +56,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
-    }
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^4.33.0",
@@ -93,14 +83,8 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
     "eslint-plugin-testing-library": "^3.9.0",
-    "husky": "^7.0.0",
     "install-peerdeps": "^3.0.3",
     "lint-staged": ">=10",
     "prettier": "^2.5.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }
