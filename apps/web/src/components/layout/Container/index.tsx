@@ -11,11 +11,23 @@ export type ContainerProps = {
 
 const Container = forwardRef(
   (
-    { children, fullWidth = false, css, ...props }: ContainerProps,
+    {
+      children,
+      fullWidth = false,
+      fullHeight = false,
+      css,
+      ...props
+    }: ContainerProps,
     ref: ForwardedRef<HTMLDivElement>
   ) => (
     <>
-      <Wrapper fullWidth={fullWidth} css={css} ref={ref} {...props}>
+      <Wrapper
+        fullWidth={fullWidth}
+        fullHeight={fullHeight}
+        css={css}
+        ref={ref}
+        {...props}
+      >
         {children}
       </Wrapper>
     </>

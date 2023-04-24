@@ -70,8 +70,6 @@ function DateInputWrapper({
     setElements,
   } = useDateInputContext();
 
-  const { fieldName, registerField, error } = useField(name);
-
   const divContainerRef = useRef<HTMLDivElement>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -150,21 +148,6 @@ function DateInputWrapper({
       setInputValue(defaultValue);
     }
   }, [defaultValue]);
-
-  useEffect(() => {
-    if (inputRef.current) {
-      registerField({
-        name: fieldName,
-        ref: inputRef,
-        getValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? ref.current.value : '',
-        setValue: (ref: RefObject<HTMLInputElement>, value: string) =>
-          ref.current ? (ref.current.value = value) : value,
-        clearValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? (ref.current.value = '') : '',
-      });
-    }
-  }, [fieldName, registerField]);
 
   return (
     <>

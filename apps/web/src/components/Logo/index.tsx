@@ -1,8 +1,26 @@
-function Logo() {
+import { useEffect, useMemo, useState } from 'react';
+
+interface ISizes {
+  width: number;
+  height: number;
+}
+interface ILogoProps {
+  sizes?: ISizes;
+  scale?: number;
+}
+
+function Logo({ sizes = { width: 90, height: 33 }, scale }: ILogoProps) {
+  const scales = useMemo(() => {
+    return {
+      width: !scale ? sizes.width : sizes.width * scale,
+      height: !scale ? sizes.height : sizes.height * scale,
+    };
+  }, [scale, sizes]);
+
   return (
     <svg
-      width="90"
-      height="33"
+      width={scales.width}
+      height={scales.height}
       viewBox="0 0 90 33"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

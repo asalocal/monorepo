@@ -14,7 +14,7 @@ export const InputContainer = styled('div', {
   width: '100%',
   alignItems: 'center',
 
-  'svg:last-child': {
+  svg: {
     color: '$gray1',
     margin: '0 10px',
     width: 20,
@@ -24,14 +24,14 @@ export const InputContainer = styled('div', {
   variants: {
     hasError: {
       true: {
-        borderBottom: '3px solid red',
+        borderBottom: '1px solid red',
       },
     },
     theme: {
       light: {},
       primary: {
         svg: {
-          color: '$primary !important',
+          fill: '$background',
         },
         borderBottom: '1px solid $primary',
       },

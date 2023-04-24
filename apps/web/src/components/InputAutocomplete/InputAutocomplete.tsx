@@ -45,11 +45,9 @@ function InputAutocompleteComponent({
   } = useAutocomplete();
 
   const [positions, setPositions] = useState<any>({} as any);
-  const [debouncerTimer, setDebouncerTimer] = useState<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    clearTimeout(debouncerTimer);
     setShowOptions(true);
 
     if (!onAutocomplete) {

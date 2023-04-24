@@ -3,7 +3,7 @@ import { BYTCSS } from '@kaiju-ui/theme';
 import { Wrapper, WrapperVariants } from './styles';
 
 export type ColProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   css?: BYTCSS;
 } & WrapperVariants &
   HTMLAttributes<HTMLDivElement>;

@@ -21,6 +21,11 @@ export const Wrapper = styled('div', {
   },
 
   variants: {
+    fullHeight: {
+      true: {
+        height: '100vh',
+      },
+    },
     fullWidth: {
       true: {
         '@sm': {

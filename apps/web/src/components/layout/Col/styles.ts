@@ -5,8 +5,20 @@ export const Wrapper = styled('div', {
   width: '100%',
   position: 'relative',
   padding: '0 12px',
+  display: 'flex',
+  flexDirection: 'column',
 
   variants: {
+    alignItems: {
+      center: {
+        alignItems: 'center',
+      },
+    },
+    justifyContent: {
+      center: {
+        justifyContent: 'center',
+      },
+    },
     sm: {
       12: {
         '@sm': {
@@ -66,6 +78,11 @@ export const Wrapper = styled('div', {
       1: {
         '@sm': {
           width: 'calc(12 / 12)',
+        },
+      },
+      0: {
+        '@sm': {
+          width: '0%',
         },
       },
     },

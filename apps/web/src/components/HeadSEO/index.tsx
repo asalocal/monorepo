@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Head from 'next/head';
 
 interface HeadSEOProps {
@@ -7,13 +7,15 @@ interface HeadSEOProps {
 }
 
 function HeadSEO({ title = '', children }: HeadSEOProps) {
+  const message = useMemo(() => {
+    return `${title} - As A Local`;
+  }, [title]);
+
   return (
-    <>
-      <Head>
-        <title>{title} - Build Your Trip</title>
-        {children}
-      </Head>
-    </>
+    <Head>
+      <title>{message}</title>
+      {children}
+    </Head>
   );
 }
 

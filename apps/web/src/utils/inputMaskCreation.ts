@@ -4,12 +4,15 @@ interface InputMaskCreation {
 }
 
 function cellphoneMask(value: string) {
-  const cellphoneFormatted = value
-    .replace(/^(\d{2})(\d)/g, '($1) $2')
-    .replace(/^(\d{5})/, '$1-')
-    .replace(/(\d)(\d{4})$/, '$1-$2');
+  const removedCharacters = value.replace(/\D/g, '');
 
-  return cellphoneFormatted;
+  const phoneWithDDD = removedCharacters.replace(
+    /^(\d{2})(\d{  5})/g,
+    '($1) $2'
+  );
+  const valueFormatted = phoneWithDDD.replace(/(\d)(\d{4})$/, '$1-$2');
+
+  return valueFormatted;
 }
 
 function dateMask(value: string) {

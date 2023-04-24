@@ -1,6 +1,11 @@
-import { EyeClosedIcon, EyeOpenIcon } from '@modulz/radix-icons';
-import { useField } from '@unform/core';
+import {
+  EyeClosedIcon,
+  EyeOpenIcon,
+  ExclamationTriangleIcon,
+} from '@modulz/radix-icons';
 import Flex from 'components/Flex';
+import Text from 'components/Text';
+import { useField } from '@unform/core';
 import {
   ChangeEvent,
   InputHTMLAttributes,
@@ -32,6 +37,9 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string | React.ReactNode;
   theme?: 'light' | 'primary';
   css?: BYTCSS;
+  validationPattern?: RegExp;
+  validationMessage?: string;
+  maskValue?: (value: string) => string;
 }
 
 const Input = forwardRef((inputProps: InputProps, ref) => {
@@ -48,6 +56,10 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
     onChange,
     onFocus,
     onBlur,
+    validationPattern,
+    validationMessage,
+    disabled,
+    maskValue,
     ...props
   } = inputProps;
 
@@ -55,24 +67,30 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
   const [isShowingMessage, setIsShowingMessage] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
-
-  const { fieldName, registerField, error } = useField(name);
-
-  const { disabled } = props;
+  const [error, setError] = useState(false);
+  const [timer, setTimer] = useState<any>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   useImperativeHandle(ref, () => inputRef.current);
 
-  const handleInputBlur = (ev: any) => {
-    setIsFilled(!!ev.target.value);
+  const handleInputBlur = useCallback(
+    (ev: any) => {
+      clearTimeout(timer);
+      setIsFilled(!!ev.target.value);
 
-    setIsFocus(false);
+      setIsFocus(false);
 
-    if (onBlur) {
-      onBlur(ev);
-    }
-  };
+      if (onBlur) {
+        onBlur(ev);
+      }
+
+      if (validationPattern && ev.target.value.length > 0) {
+        return setError(!validationPattern.test(ev.target.value));
+      }
+    },
+    [validationPattern, onBlur, timer]
+  );
 
   const handleInputFocus = useCallback(
     (ev): void => {
@@ -97,14 +115,30 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
+      clearTimeout(timer);
       setValue(e.target.value);
 
       placeholder ? setIsFilled(true) : setIsFilled(!!e.target.value);
+
+      if (maskValue && inputRef.current) {
+        const valueFormatted = maskValue(e.target.value);
+
+        inputRef.current.value = valueFormatted;
+      }
+
       if (onChange) {
         onChange(e);
       }
+
+      if (validationPattern && e.target.value.length > 0) {
+        const timer = setTimeout(() => {
+          setError(!validationPattern.test(e.target.value));
+        }, 1000);
+
+        return setTimer(timer);
+      }
     },
-    [onChange, placeholder]
+    [onChange, placeholder, maskValue, timer]
   );
 
   const handleIsFilledOnReference = useMemo(() => {
@@ -136,31 +170,23 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
     }
   }, [controlledValue]);
 
-  useEffect(() => {
-    if (registerField && fieldName) {
-      registerField({
-        name: fieldName,
-        ref: inputRef,
-        getValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? ref.current.value : '',
-        setValue: (ref: RefObject<HTMLInputElement>, value: string) =>
-          ref.current ? (ref.current.value = value) : value,
-        clearValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? (ref.current.value = '') : '',
-      });
-    }
-  }, [fieldName, registerField]);
-
   return (
     <Flex direction="column" css={{ width: '100%' }}>
       <InputContent>
-        <InputContainer hasError={!!false} css={css} theme={theme}>
+        <InputContainer hasError={error} css={css} theme={theme}>
           <Label
             disabled={disabled}
             isFocused={isFocus}
             htmlFor={name}
             isFilled={handleIsFilledOnReference}
             theme={theme}
+            css={
+              error
+                ? {
+                    color: 'red',
+                  }
+                : {}
+            }
           >
             {label}
           </Label>
@@ -185,9 +211,28 @@ const Input = forwardRef((inputProps: InputProps, ref) => {
             />
           )}
         </InputContainer>
-        {error && <ErrorMessage theme={theme}>{error}</ErrorMessage>}
       </InputContent>
-
+      {error && (
+        <Flex
+          alignItems="center"
+          css={{
+            marginTop: '5px',
+            svg: {
+              color: 'red',
+              marginRight: '10px',
+            },
+          }}
+        >
+          <ExclamationTriangleIcon />
+          <Text
+            css={{
+              color: 'red',
+            }}
+          >
+            {validationMessage}
+          </Text>
+        </Flex>
+      )}
       {type === 'password' && verifyPassword && (
         <StrenghtPassword password={value} />
       )}

@@ -1,13 +1,15 @@
 import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { CheckboxBox, CheckboxContainer, CheckboxLabel } from './styles';
 import { CheckIcon } from '@modulz/radix-icons';
-import { useField } from '@unform/core';
+import { BYTCSS } from '@kaiju-ui/theme';
+
 interface CheckboxProps {
   children: React.ReactNode;
   name: string;
+  css?: BYTCSS;
 }
 
-function Checkbox({ children, name, ...props }: CheckboxProps) {
+function Checkbox({ children, name, css, ...props }: CheckboxProps) {
   const [isChecked, setIsChecked] = useState(false);
 
   const checkboxRef = useRef<HTMLInputElement>(null);
@@ -21,26 +23,9 @@ function Checkbox({ children, name, ...props }: CheckboxProps) {
     }
   }, [isChecked, checkboxRef]);
 
-  const { fieldName, registerField } = useField(name);
-
-  useEffect(() => {
-    if (checkboxRef.current) {
-      registerField({
-        name: fieldName,
-        ref: checkboxRef,
-        getValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? ref.current.checked : false,
-        setValue: (ref: RefObject<HTMLInputElement>, value: boolean) =>
-          ref.current ? (ref.current.checked = value) : value,
-        clearValue: (ref: RefObject<HTMLInputElement>) =>
-          ref.current ? (ref.current.checked = false) : false,
-      });
-    }
-  }, [fieldName, registerField]);
-
   return (
     <>
-      <CheckboxContainer type="button" onClick={handleCheck}>
+      <CheckboxContainer css={css} type="button" onClick={handleCheck}>
         <CheckboxBox isChecked={isChecked}>
           {isChecked && <CheckIcon />}
         </CheckboxBox>
