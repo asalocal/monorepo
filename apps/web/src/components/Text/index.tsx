@@ -35,7 +35,7 @@ const Text = forwardRef(
   (
     {
       as = 'span',
-      color = '#000',
+      color = 'inherit',
       css,
       fontWeight,
       children,
@@ -45,6 +45,7 @@ const Text = forwardRef(
   ) => {
     const textCSS = {
       fontWeight: fontWeight || 'regular',
+      color,
       ...css,
     };
     return (

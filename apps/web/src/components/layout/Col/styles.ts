@@ -13,10 +13,16 @@ export const Wrapper = styled('div', {
       center: {
         alignItems: 'center',
       },
+      end: {
+        alignItems: 'end',
+      },
     },
     justifyContent: {
       center: {
         justifyContent: 'center',
+      },
+      end: {
+        justifyContent: 'end',
       },
     },
     sm: {
