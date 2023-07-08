@@ -1,9 +1,10 @@
-import Image from "next/image";
+import { Button } from "button";
+import { Maintanence } from "components/Maintanence";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
-      <h1>Teste</h1>
+      <Maintanence />
     </>
   );
 }

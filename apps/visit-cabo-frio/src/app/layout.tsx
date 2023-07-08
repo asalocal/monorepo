@@ -1,4 +1,5 @@
-import "./globals.scss";
+import { RegistryStyles } from "@kaiju-ui/theme";
+import "@kaiju-ui/theme/global.scss";
 import { Montserrat } from "next/font/google";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -14,7 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>{children}</body>
+      <body className={montserrat.className}>
+        <RegistryStyles>{children}</RegistryStyles>
+      </body>
     </html>
   );
 }

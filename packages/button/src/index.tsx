@@ -1,39 +1,20 @@
-import { ButtonHTMLAttributes, ForwardedRef, forwardRef } from "react";
-import { BYTCSS } from "@kaiju-ui/theme";
-import { ButtonVariants, Container } from "./styles";
+"use client";
+import React, { ButtonHTMLAttributes } from "react";
+import { ButtonContainer } from "./styles";
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  loading?: boolean;
-  disabled?: boolean;
-  variant?: "primary" | "secondary" | "alternative" | "ghost";
-  css?: BYTCSS;
-} & ButtonVariants;
+export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary";
+}
 
-const Button = forwardRef(
-  (
-    {
-      children,
-      loading = false,
-      disabled = false,
-      variant = "primary",
-      css,
-      ...rest
-    }: ButtonProps,
-    ref: ForwardedRef<HTMLButtonElement>
-  ) => {
-    return (
-      <Container
-        ref={ref}
-        disabled={loading || disabled}
-        loading={loading}
-        variant={variant}
-        css={css}
-        {...rest}
-      >
-        {loading ? "Loading..." : children}
-      </Container>
-    );
-  }
-);
-
-export default Button;
+export function Button({
+  children,
+  variant = "primary",
+  ...props
+}: IButtonProps) {
+  return (
+    <ButtonContainer variant={variant} {...props}>
+      {children}
+    </ButtonContainer>
+  );
+}

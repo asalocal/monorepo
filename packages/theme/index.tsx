@@ -1,4 +1,4 @@
-export * from "./src/Theme.provider";
-import AALGlobalCSS from "./src/styles/AAL.global";
+import { KaijuColors } from "./src/constants";
+import RegistryStyles from "./src/registry";
 
-export { AALGlobalCSS };
+export { KaijuColors, RegistryStyles };

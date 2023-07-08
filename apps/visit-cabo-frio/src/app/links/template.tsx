@@ -1,6 +1,7 @@
+import { Button } from "button";
 import styles from "./styles.module.scss";
-import { SingleLink } from "components/Links/SingleLink";
 import Image from "next/image";
+import { Link } from "components/Links/Link";
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -25,10 +26,12 @@ export default function DashboardLayout({
         <div className={styles.experiences}>
           <h3>Experiências</h3>
           <span>Parque Natural</span>
-          <SingleLink>Parque Natural do Mico Leão Dourado</SingleLink>
+          <Button>Parque Natural do Mico Leão Dourado</Button>
           <span>Parque Estadual da Costa do Sol</span>
-          <SingleLink>Gruta do Vigia</SingleLink>
-          <SingleLink>Ilha do Japonês </SingleLink>
+          <Link url="/trilha-da-gruta-do-vigia.pdf">Gruta do Vigia</Link>
+          <Link url="/trilha-do-farol-e-ilha-do-japones.pdf">
+            Ilha do Japonês
+          </Link>
         </div>
       </div>
     </main>

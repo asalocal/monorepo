@@ -1,5 +1,5 @@
 {
-  "name": "@kaiju-ui/button",
+  "name": "button",
   "version": "0.0.0",
   "main": "./index.tsx",
   "types": "./index.tsx",
@@ -8,13 +8,15 @@
     "lint": "eslint \"**/*.ts*\""
   },
   "devDependencies": {
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
+    "@kaiju-ui/theme": "*",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/styled-components": "^5.1.26",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
-    "react": "^17.0.2",
+    "react": "^18.0.0",
+    "styled-components": "^6.0.2",
     "tsconfig": "*",
-    "@kaiju-ui/theme": "*",
     "typescript": "^4.5.2"
   }
 }
