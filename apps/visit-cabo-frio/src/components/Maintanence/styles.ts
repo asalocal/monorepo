@@ -1,3 +1,4 @@
+"use client";
 import { KaijuColors } from "@kaiju-ui/theme";
 import styled from "styled-components";
 

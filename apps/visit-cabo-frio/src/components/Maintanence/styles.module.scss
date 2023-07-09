@@ -1,0 +1,60 @@
+.maintanenceContainer {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("/background-maintanence.png");
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.textContainer {
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    margin-top: 20px;
+  }
+
+  span {
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: #fff;
+  }
+}
+
+.iconsList {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  margin-top: 15px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    color: #fff;
+    border-color: #fff;
+    width: 100%;
+
+    svg {
+      margin-right: 15px;
+    }
+
+    & + button {
+      margin-left: 20px;
+    }
+
+    &:hover {
+      color: #eeeeee;
+      border-color: #eeeeee;
+    }
+  }
+}
