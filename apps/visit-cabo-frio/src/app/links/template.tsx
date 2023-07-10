@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import Image from "next/image";
 import { Link } from "components/Links/Link";
 
-export default function DashboardLayout({
+export default function LinkLayout({
   children, // will be a page or nested layout
 }: {
   children: React.ReactNode;
@@ -26,7 +26,9 @@ export default function DashboardLayout({
         <div className={styles.experiences}>
           <h3>Experiências</h3>
           <span>Parque Natural</span>
-          <Button>Parque Natural do Mico Leão Dourado</Button>
+          <Link url="/parque-mico-leao-dourado.pdf">
+            Parque Natural do Mico Leão Dourado
+          </Link>
           <span>Parque Estadual da Costa do Sol</span>
           <Link url="/trilha-da-gruta-do-vigia.pdf">Gruta do Vigia</Link>
           <Link url="/trilha-do-farol-e-ilha-do-japones.pdf">

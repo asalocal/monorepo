@@ -28,14 +28,15 @@
     "packages/*"
   ],
   "devDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "*",
-    "prettier": "^2.5.1",
-    "husky": "^7.0.0",
-    "turbo": "latest",
+    "@commitlint/config-conventional": "^17.6.6",
     "commitizen": "^4.2.4",
     "commitlint": "^13.2.1",
-    "cz-conventional-changelog": "3.3.0"
+    "cz-conventional-changelog": "3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "husky": "^7.0.0",
+    "prettier": "^2.5.1",
+    "turbo": "latest"
   },
   "config": {
     "commitizen": {
