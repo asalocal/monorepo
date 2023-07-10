@@ -13,7 +13,7 @@ export function Button({
   ...props
 }: IButtonProps) {
   return (
-    <ButtonContainer variant={variant} {...props}>
+    <ButtonContainer {...props} variant={variant}>
       {children}
     </ButtonContainer>
   );

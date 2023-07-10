@@ -1,4 +1,3 @@
-import { Button } from "button";
 import styles from "./styles.module.scss";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -19,7 +18,7 @@ export default async function Links() {
           priority
           width={100}
           height={100}
-          alt=""
+          alt="Thumb Visit Cabo Frio"
         />
         <h2>Visit Cabo Frio</h2>
         <span>@visit.cabofrio</span>
